@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.DS.mapper.LogisticsChannelMapper">
+    
+    <resultMap type="LogisticsChannel" id="LogisticsChannelResult">
+        <result property="id"    column="id"    />
+        <result property="logisticsName"    column="logistics_name"    />
+        <result property="logisticsCode"    column="logistics_code"    />
+        <result property="logisticsProviderName"    column="logistics_provider_name"    />
+        <result property="logisticsProviderCode"    column="logistics_provider_code"    />
+        <result property="minWeight"    column="min_weight"    />
+        <result property="maxWeight"    column="max_weight"    />
+        <result property="volumeWeight"    column="volume_weight"    />
+        <result property="sensitiveType"    column="sensitive_type"    />
+        <result property="priority"    column="priority"    />
+        <result property="isRegistration"    column="is_registration"    />
+        <result property="senderAddress"    column="Sender_address"    />
+        <result property="lanshouAddress"    column="LanShou_address"    />
+        <result property="isStop"    column="is_stop"    />
+        <result property="onlineSettlement"    column="online_settlement"    />
+        <result property="logisticsCompany"    column="logistics_company"    />
+        <result property="logisticsCompanyCode"    column="logistics_company_code"    />
+        <result property="warehouse"    column="warehouse"    />
+    </resultMap>
+
+    <sql id="selectLogisticsChannelVo">
+        select id, logistics_name, logistics_code, logistics_provider_name, logistics_provider_code, min_weight, max_weight, volume_weight, sensitive_type, priority, is_registration, Sender_address, LanShou_address, is_stop, online_settlement, logistics_company, logistics_company_code, warehouse from logistics_channel
+    </sql>
+
+    <select id="selectLogisticsChannelList" parameterType="LogisticsChannel" resultMap="LogisticsChannelResult">
+        <include refid="selectLogisticsChannelVo"/>
+        <where>  
+            <if test="logisticsName != null  and logisticsName != ''"> and logistics_name like concat('%', #{logisticsName}, '%')</if>
+            <if test="logisticsCode != null  and logisticsCode != ''"> and logistics_code = #{logisticsCode}</if>
+            <if test="logisticsProviderName != null  and logisticsProviderName != ''"> and logistics_provider_name like concat('%', #{logisticsProviderName}, '%')</if>
+            <if test="logisticsProviderCode != null  and logisticsProviderCode != ''"> and logistics_provider_code = #{logisticsProviderCode}</if>
+            <if test="minWeight != null "> and min_weight = #{minWeight}</if>
+            <if test="maxWeight != null "> and max_weight = #{maxWeight}</if>
+            <if test="volumeWeight != null "> and volume_weight = #{volumeWeight}</if>
+            <if test="sensitiveType != null  and sensitiveType != ''"> and sensitive_type = #{sensitiveType}</if>
+            <if test="priority != null  and priority != ''"> and priority = #{priority}</if>
+            <if test="isRegistration != null "> and is_registration = #{isRegistration}</if>
+            <if test="senderAddress != null  and senderAddress != ''"> and Sender_address = #{senderAddress}</if>
+            <if test="lanshouAddress != null  and lanshouAddress != ''"> and LanShou_address = #{lanshouAddress}</if>
+            <if test="isStop != null "> and is_stop = #{isStop}</if>
+            <if test="onlineSettlement != null "> and online_settlement = #{onlineSettlement}</if>
+            <if test="logisticsCompany != null  and logisticsCompany != ''"> and logistics_company = #{logisticsCompany}</if>
+            <if test="logisticsCompanyCode != null  and logisticsCompanyCode != ''"> and logistics_company_code = #{logisticsCompanyCode}</if>
+            <if test="warehouse != null  and warehouse != ''"> and warehouse = #{warehouse}</if>
+        </where>
+    </select>
+    
+    <select id="selectLogisticsChannelById" parameterType="Long" resultMap="LogisticsChannelResult">
+        <include refid="selectLogisticsChannelVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertLogisticsChannel" parameterType="LogisticsChannel" useGeneratedKeys="true" keyProperty="id">
+        insert into logistics_channel
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="logisticsName != null  and logisticsName != ''">logistics_name,</if>
+            <if test="logisticsCode != null  and logisticsCode != ''">logistics_code,</if>
+            <if test="logisticsProviderName != null  and logisticsProviderName != ''">logistics_provider_name,</if>
+            <if test="logisticsProviderCode != null  and logisticsProviderCode != ''">logistics_provider_code,</if>
+            <if test="minWeight != null ">min_weight,</if>
+            <if test="maxWeight != null ">max_weight,</if>
+            <if test="volumeWeight != null ">volume_weight,</if>
+            <if test="sensitiveType != null  and sensitiveType != ''">sensitive_type,</if>
+            <if test="priority != null  and priority != ''">priority,</if>
+            <if test="isRegistration != null ">is_registration,</if>
+            <if test="senderAddress != null  and senderAddress != ''">Sender_address,</if>
+            <if test="lanshouAddress != null  and lanshouAddress != ''">LanShou_address,</if>
+            <if test="isStop != null ">is_stop,</if>
+            <if test="onlineSettlement != null ">online_settlement,</if>
+            <if test="logisticsCompany != null  and logisticsCompany != ''">logistics_company,</if>
+            <if test="logisticsCompanyCode != null  and logisticsCompanyCode != ''">logistics_company_code,</if>
+            <if test="warehouse != null  and warehouse != ''">warehouse,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="logisticsName != null  and logisticsName != ''">#{logisticsName},</if>
+            <if test="logisticsCode != null  and logisticsCode != ''">#{logisticsCode},</if>
+            <if test="logisticsProviderName != null  and logisticsProviderName != ''">#{logisticsProviderName},</if>
+            <if test="logisticsProviderCode != null  and logisticsProviderCode != ''">#{logisticsProviderCode},</if>
+            <if test="minWeight != null ">#{minWeight},</if>
+            <if test="maxWeight != null ">#{maxWeight},</if>
+            <if test="volumeWeight != null ">#{volumeWeight},</if>
+            <if test="sensitiveType != null  and sensitiveType != ''">#{sensitiveType},</if>
+            <if test="priority != null  and priority != ''">#{priority},</if>
+            <if test="isRegistration != null ">#{isRegistration},</if>
+            <if test="senderAddress != null  and senderAddress != ''">#{senderAddress},</if>
+            <if test="lanshouAddress != null  and lanshouAddress != ''">#{lanshouAddress},</if>
+            <if test="isStop != null ">#{isStop},</if>
+            <if test="onlineSettlement != null ">#{onlineSettlement},</if>
+            <if test="logisticsCompany != null  and logisticsCompany != ''">#{logisticsCompany},</if>
+            <if test="logisticsCompanyCode != null  and logisticsCompanyCode != ''">#{logisticsCompanyCode},</if>
+            <if test="warehouse != null  and warehouse != ''">#{warehouse},</if>
+         </trim>
+    </insert>
+
+    <update id="updateLogisticsChannel" parameterType="LogisticsChannel">
+        update logistics_channel
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="logisticsName != null  and logisticsName != ''">logistics_name = #{logisticsName},</if>
+            <if test="logisticsCode != null  and logisticsCode != ''">logistics_code = #{logisticsCode},</if>
+            <if test="logisticsProviderName != null  and logisticsProviderName != ''">logistics_provider_name = #{logisticsProviderName},</if>
+            <if test="logisticsProviderCode != null  and logisticsProviderCode != ''">logistics_provider_code = #{logisticsProviderCode},</if>
+            <if test="minWeight != null ">min_weight = #{minWeight},</if>
+            <if test="maxWeight != null ">max_weight = #{maxWeight},</if>
+            <if test="volumeWeight != null ">volume_weight = #{volumeWeight},</if>
+            <if test="sensitiveType != null  and sensitiveType != ''">sensitive_type = #{sensitiveType},</if>
+            <if test="priority != null  and priority != ''">priority = #{priority},</if>
+            is_registration = #{isRegistration},
+            <if test="senderAddress != null  and senderAddress != ''">Sender_address = #{senderAddress},</if>
+            <if test="lanshouAddress != null  and lanshouAddress != ''">LanShou_address = #{lanshouAddress},</if>
+            is_stop = #{isStop},
+            online_settlement = #{onlineSettlement},
+            <if test="logisticsCompany != null  and logisticsCompany != ''">logistics_company = #{logisticsCompany},</if>
+            <if test="logisticsCompanyCode != null  and logisticsCompanyCode != ''">logistics_company_code = #{logisticsCompanyCode},</if>
+            <if test="warehouse != null  and warehouse != ''">warehouse = #{warehouse},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteLogisticsChannelById" parameterType="Long">
+        delete from logistics_channel where id = #{id}
+    </delete>
+
+    <delete id="deleteLogisticsChannelByIds" parameterType="String">
+        delete from logistics_channel where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

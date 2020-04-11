@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.DS.mapper.InventoryMapper">
+    
+    <resultMap type="Inventory" id="InventoryResult">
+        <result property="id"    column="id"    />
+        <result property="sku"    column="SKU"    />
+        <result property="allocation"    column="allocation"    />
+        <result property="warehouse"    column="wareHouse"    />
+        <result property="tqol"    column="tqol"    />
+        <result property="allocated"    column="allocated"    />
+        <result property="aoa"    column="aoa"    />
+        <result property="pit"    column="pit"    />
+        <result property="createBy"    column="createBy"    />
+        <result property="createTime"    column="createTime"    />
+        <result property="checktime"    column="checkTime"    />
+        <result property="ihtime"    column="ihTime"    />
+        <result property="updateBy"    column="updateBy"    />
+        <result property="oversold"    column="oversold"    />
+        <result property="oosq"    column="oosq"    />
+    </resultMap>
+
+    <sql id="selectInventoryVo">
+        select id, SKU, allocation, wareHouse, tqol, allocated, aoa, pit, createBy, createTime, checkTime, ihTime, updateBy, oversold, oosq from inventory
+    </sql>
+
+    <select id="selectInventoryList" parameterType="Inventory" resultMap="InventoryResult">
+        <include refid="selectInventoryVo"/>
+        <where>  
+            <if test="sku != null  and sku != ''"> and SKU = #{sku}</if>
+            <if test="allocation != null  and allocation != ''"> and allocation = #{allocation}</if>
+            <if test="warehouse != null  and warehouse != ''"> and wareHouse = #{warehouse}</if>
+            <if test="createBy != null  and createBy != ''"> and createBy = #{createBy}</if>
+            <if test="createTime != null "> and createTime = #{createTime}</if>
+            <if test="checktime != null "> and checkTime = #{checktime}</if>
+            <if test="ihtime != null "> and ihTime = #{ihtime}</if>
+            <if test="updateBy != null  and updateBy != ''"> and updateBy = #{updateBy}</if>
+        </where>
+    </select>
+    
+    <select id="selectInventoryById" parameterType="Long" resultMap="InventoryResult">
+        <include refid="selectInventoryVo"/>
+        where id = #{id}
+    </select>
+
+
+    <select id="selectInventoryBySKU" parameterType="String" resultMap="InventoryResult">
+        <include refid="selectInventoryVo"/>
+        where sku = #{sku}
+    </select>
+        
+    <insert id="insertInventory" parameterType="Inventory" useGeneratedKeys="true" keyProperty="id">
+        insert into inventory
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="sku != null  and sku != ''">SKU,</if>
+            <if test="allocation != null  and allocation != ''">allocation,</if>
+            <if test="warehouse != null  and warehouse != ''">wareHouse,</if>
+            <if test="tqol != null  and tqol != ''">tqol,</if>
+            <if test="allocated != null  and allocated != ''">allocated,</if>
+            <if test="aoa != null  and aoa != ''">aoa,</if>
+            <if test="pit != null  and pit != ''">pit,</if>
+            <if test="createBy != null  and createBy != ''">createBy,</if>
+            <if test="createTime != null ">createTime,</if>
+            <if test="checktime != null ">checkTime,</if>
+            <if test="ihtime != null ">ihTime,</if>
+            <if test="updateBy != null  and updateBy != ''">updateBy,</if>
+            <if test="oversold != null  and oversold != ''">oversold,</if>
+            <if test="oosq != null  and oosq != ''">oosq,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="sku != null  and sku != ''">#{sku},</if>
+            <if test="allocation != null  and allocation != ''">#{allocation},</if>
+            <if test="warehouse != null  and warehouse != ''">#{warehouse},</if>
+            <if test="tqol != null  and tqol != ''">#{tqol},</if>
+            <if test="allocated != null  and allocated != ''">#{allocated},</if>
+            <if test="aoa != null  and aoa != ''">#{aoa},</if>
+            <if test="pit != null  and pit != ''">#{pit},</if>
+            <if test="createBy != null  and createBy != ''">#{createBy},</if>
+            <if test="createTime != null ">#{createTime},</if>
+            <if test="checktime != null ">#{checktime},</if>
+            <if test="ihtime != null ">#{ihtime},</if>
+            <if test="updateBy != null  and updateBy != ''">#{updateBy},</if>
+            <if test="oversold != null  and oversold != ''">#{oversold},</if>
+            <if test="oosq != null  and oosq != ''">#{oosq},</if>
+         </trim>
+    </insert>
+
+    <update id="updateInventory" parameterType="Inventory">
+        update inventory
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="sku != null  and sku != ''">SKU = #{sku},</if>
+            <if test="allocation != null  and allocation != ''">allocation = #{allocation},</if>
+            <if test="warehouse != null ">wareHouse = #{warehouse},</if>
+            <if test="tqol != null  and tqol != ''">tqol = #{tqol},</if>
+            <if test="allocated != null  and allocated != ''">allocated = #{allocated},</if>
+            <if test="aoa != null  and aoa != ''">aoa = #{aoa},</if>
+            <if test="pit != null  and pit != ''">pit = #{pit},</if>
+            <if test="createBy != null  and createBy != ''">createBy = #{createBy},</if>
+            <if test="createTime != null ">createTime = #{createTime},</if>
+            <if test="checktime != null ">checkTime = #{checktime},</if>
+            <if test="ihtime != null ">ihTime = #{ihtime},</if>
+            <if test="updateBy != null  and updateBy != ''">updateBy = #{updateBy},</if>
+            <if test="oversold != null  and oversold != ''">oversold = #{oversold},</if>
+            <if test="oosq != null  and oosq != ''">oosq = #{oosq},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteInventoryById" parameterType="Long">
+        delete from inventory where id = #{id}
+    </delete>
+
+    <delete id="deleteInventoryByIds" parameterType="String">
+        delete from inventory where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <th:block th:include="include :: header('修改SKU单品')" />
+    <th:block th:include="include :: datetimepicker-css" />
+</head>
+<body class="white-bg">
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+        <form class="form-horizontal m" id="form-skuproduct-edit" th:object="${skuproduct}">
+            <input name="id" id="id" th:field="*{id}" type="hidden">
+            <div class="form-group">    
+                <label class="col-sm-3 control-label"><span style="color: red; ">*</span>SKU编码：</label>
+                <div class="col-sm-8">
+                    <input name="skucode" id="skucode" th:placeholder="*{skucode}" class="form-control" type="text" readonly>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">SKU外部码：</label>
+                <div class="col-sm-8">
+                    <input name="skuocode" id="skuocode" th:placeholder="*{skuocode}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">size：</label>
+                <div class="col-sm-8">
+                    <input name="size" id="size" th:placeholder="*{size}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">颜色：</label>
+                <div class="col-sm-8">
+                    <input name="color" id="color" th:placeholder="*{color}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">净重：</label>
+                <div class="col-sm-8">
+                    <input name="suttle" id="suttle" th:placeholder="*{suttle}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label"><span style="color: red; ">*</span>毛重：</label>
+                <div class="col-sm-8">
+                    <input name="rw" id="rw" th:placeholder="*{rw}" class="form-control" type="text" >
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label"><span style="color: red; ">*</span>成本价(RMB)：</label>
+                <div class="col-sm-8">
+                    <input name="costprice" id="costprice" th:placeholder="*{costprice}" class="form-control" type="text" >
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">售价：</label>
+                <div class="col-sm-8">
+                    <input name="sellprice" id="sellprice" th:placeholder="*{sellprice}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label"><span style="color: red; ">*</span>状态：</label>
+                <div class="col-sm-8">
+                    <select name="state" id="state" class="form-control m-b">
+                        <option value="" th:if="*{state == 1}">激活</option>
+                        <option value="" th:if="*{state == 0}">非激活</option>
+                        <option value="" th:if="*{state == 2}">售完即止</option>
+                        <option value="1">激活</option>
+                        <option value="0">非激活</option>
+                        <option value="2">售完即止</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">排序：</label>
+                <div class="col-sm-8">
+                    <input name="rank" id="rank" th:placeholder="*{rank}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">七天销量：</label>
+                <div class="col-sm-8">
+                    <input name="ssq" id="ssq" th:placeholder="*{ssq}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">七天销量天数：</label>
+                <div class="col-sm-8">
+                    <input name="ssqd" id="ssqd" th:placeholder="*{ssqd}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">三十天销量：</label>
+                <div class="col-sm-8">
+                    <input name="tsq" id="tsq" th:placeholder="*{tsq}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">三十天销量天数：</label>
+                <div class="col-sm-8">
+                    <input name="tsqd" id="tsqd" th:placeholder="*{tsqd}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">待采购量：</label>
+                <div class="col-sm-8">
+                    <input name="tpq" id="tpq" th:placeholder="*{tpq}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">采购天数：</label>
+                <div class="col-sm-8">
+                    <input name="pod" id="pod" th:placeholder="*{pod}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">采购交期：</label>
+                <div class="col-sm-8">
+                    <input name="pd" id="pd" th:placeholder="*{pd}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">统计时间：</label>
+                <div class="col-sm-8">
+                    <div class="input-group date">
+                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                        <input name="stt"  id="stt" th:value="${#dates.format(skuproduct.stt, 'yyyy-MM-dd')}" class="form-control" placeholder="yyyy-MM-dd" type="text" data-format="yyyy-MM">
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label"><span style="color: red; ">*</span>库存刊登策略：</label>
+                <div class="col-sm-8">
+                    <select name="ips" id="ips" class="form-control m-b" th:with="type=${@dict.getType('DS_IPS')}" >
+                        <option value="" th:if="*{state == 1}">默认</option>
+                        <option value="" th:if="*{state == 2}">按可售量</option>
+                        <option value="1">默认</option>
+                        <option value="2">按可售量</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label"><span style="color: red; ">*</span>商品：</label>
+                <div class="col-sm-8">
+                    <select name="product" id="product" class="form-control m-b" >
+                    </select>
+                </div>
+                <a class="btn btn-primary" onclick="layerOpenProduct()" ><i class="fa fa-plus"></i>商品</a>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">图片路径：</label>
+                <div class="col-sm-8">
+                    <input name="filePath" id="filePath" class="form-control" type="file"><br>
+                    <img src="" id="img" th:src="*{filepath}" height="200" alt="Image preview area..." title="preview-img">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">长：</label>
+                <div class="col-sm-8">
+                    <input name="length" id="length" th:placeholder="*{length}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">宽：</label>
+                <div class="col-sm-8">
+                    <input name="width" id="width" th:placeholder="*{width}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">高：</label>
+                <div class="col-sm-8">
+                    <input name="height" id="height" th:placeholder="*{height}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">SKU映射：</label>
+                <div class="col-sm-8">
+                    <input name="skumap" id="skumap" th:placeholder="*{skumap}" class="form-control" type="text">
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="btn-group clearfix show-xs save-group col-xs-12" style="position: fixed; margin-left: -10px; right: 10px;  bottom: 10px; width: 20% ">
+        <div class="col-sm-offset-5 col-sm-10">
+            <button type="button" class="default btn btn-primary hide-xs" onclick="submitHandler()"><i class="fa fa-check"></i>保 存</button>&nbsp;
+            <button type="button" class="btn btn-default" onclick="closeItem()"><i class="fa fa-reply-all"></i>关 闭 </button>
+        </div>
+    </div>
+    <th:block th:include="include :: footer" />
+    <th:block th:include="include :: datetimepicker-js" />
+    <script type="text/javascript">
+        $().ready(function () {
+                $("#product").one("click", refresh());
+            }
+        )
+
+
+        //图片预览
+        var fileInput = document.querySelector('input[type=file]'),
+            previewImg = document.querySelector('img');
+        fileInput.addEventListener('change', function () {
+            var file = this.files[0];
+            var reader = new FileReader();
+            // 监听reader对象的的onload事件，当图片加载完成时，把base64编码賦值给预览图片
+            reader.addEventListener("load", function () {
+                previewImg.src = reader.result;
+            }, false);
+            // 调用reader.readAsDataURL()方法，把图片转成base64
+            reader.readAsDataURL(file);
+        }, false);
+
+
+        var prefix = ctx + "DS/skuproduct";
+        $("#form-skuproduct-edit").validate({
+            focusCleanup: true
+        });
+
+        function submitHandler() {
+            if ($.validate.form()) {
+                uploadFile();
+            }
+        }
+
+        function uploadFile() {
+            var formData = new FormData();
+            formData.append('id', $("#id").val());
+            formData.append('skucode', $("#skucode").val());
+            formData.append('skuocode', $("#skuocode").val());
+            formData.append('size', $("#size").val());
+            formData.append('color', $("#color").val());
+            formData.append('suttle', $("#suttle").val());
+            formData.append('rw', $("#rw").val());
+            formData.append('costprice', $("#costprice").val());
+            formData.append('sellprice', $("#sellprice").val());
+            formData.append('state', $("#state").val());
+            formData.append('rank', $("#rank").val());
+            formData.append('ssq', $("#ssq").val());
+            formData.append('tsq', $("#tsq").val());
+            formData.append('ssqd', $("#ssqd").val());
+            formData.append('tsqd', $("#tsqd").val());
+            formData.append('tpq', $("#tpq").val());
+            formData.append('pod', $("#pod").val());
+            formData.append('pd', $("#pd").val());
+            formData.append('sst', $("#sst").val());
+            formData.append('ips', $("#ips").val());
+            formData.append('product', $("#product").val());
+            formData.append('length', $("#length").val());
+            formData.append('width', $("#width").val());
+            formData.append('height', $("#height").val());
+            formData.append('skumap', $("#skumap").val());
+            formData.append('file', $('#filePath')[0].files[0]);
+            $.ajax({
+                url: prefix + "/edit",
+                type: 'post',
+                cache: false,
+                data: formData,
+                processData: false,
+                contentType: false,
+                dataType: "json",
+                success: function(result) {
+                    $.operate.successTabCallback(result);
+                }
+            });
+        }
+
+        $("input[name='stt']").datetimepicker({
+            format: 'yyyy-mm-dd hh:ii:ss',
+            autoclose: true,
+            minView: 0,
+            minuteStep:1
+        });
+
+
+        //select数据获取（ajax）
+        function refresh(){
+            $.get(prefix + "/refresh",function (result) {
+                $.each(result,function (i, product) {
+                    $("#product").append("<option value="+i+">"+i+":"+product+"</option>");
+                })
+            });
+        }
+        /*
+       layer.open打开第三方添加界面
+       */
+        function layerOpenProduct() {
+            layer.open({
+                    type: 2,
+                    title: "添加商品",
+                    content: "/DS/product/add",
+                    area: ['80%','80%']
+                }
+            )
+        }
+    </script>
+</body>
+</html>

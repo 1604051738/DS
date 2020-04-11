@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.DS.mapper.WarehouseMapper">
+    
+    <resultMap type="Warehouse" id="WarehouseResult">
+        <result property="id"    column="id"    />
+        <result property="chinesename"    column="chineseName"    />
+        <result property="englishname"    column="englishName"    />
+        <result property="coding"    column="coding"    />
+        <result property="createBy"    column="createBy"    />
+        <result property="updateBy"    column="updateBy"    />
+        <result property="createTime"    column="createTime"    />
+        <result property="updateTime"    column="updateTime"    />
+    </resultMap>
+
+    <sql id="selectWarehouseVo">
+        select id, chineseName, englishName, coding, createBy, updateBy, createTime, updateTime from warehouse
+    </sql>
+
+    <select id="selectWarehouseList" parameterType="Warehouse" resultMap="WarehouseResult">
+        <include refid="selectWarehouseVo"/>
+        <where>  
+            <if test="chinesename != null  and chinesename != ''"> and chineseName like concat('%', #{chinesename}, '%')</if>
+            <if test="englishname != null  and englishname != ''"> and englishName like concat('%', #{englishname}, '%')</if>
+            <if test="coding != null  and coding != ''"> and coding = #{coding}</if>
+            <if test="createBy != null  and createBy != ''"> and createBy = #{createBy}</if>
+            <if test="updateBy != null  and updateBy != ''"> and updateBy = #{updateBy}</if>
+            <if test="createTime != null "> and createTime = #{createTime}</if>
+            <if test="updateTime != null "> and updateTime = #{updateTime}</if>
+        </where>
+    </select>
+    
+    <select id="selectWarehouseById" parameterType="Long" resultMap="WarehouseResult">
+        <include refid="selectWarehouseVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertWarehouse" parameterType="Warehouse" useGeneratedKeys="true" keyProperty="id">
+        insert into warehouse
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="chinesename != null  and chinesename != ''">chineseName,</if>
+            <if test="englishname != null  and englishname != ''">englishName,</if>
+            <if test="coding != null  and coding != ''">coding,</if>
+            <if test="createBy != null  and createBy != ''">createBy,</if>
+            <if test="updateBy != null  and updateBy != ''">updateBy,</if>
+            <if test="createTime != null ">createTime,</if>
+            <if test="updateTime != null ">updateTime,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="chinesename != null  and chinesename != ''">#{chinesename},</if>
+            <if test="englishname != null  and englishname != ''">#{englishname},</if>
+            <if test="coding != null  and coding != ''">#{coding},</if>
+            <if test="createBy != null  and createBy != ''">#{createBy},</if>
+            <if test="updateBy != null  and updateBy != ''">#{updateBy},</if>
+            <if test="createTime != null ">#{createTime},</if>
+            <if test="updateTime != null ">#{updateTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateWarehouse" parameterType="Warehouse">
+        update warehouse
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="chinesename != null  and chinesename != ''">chineseName = #{chinesename},</if>
+            <if test="englishname != null  and englishname != ''">englishName = #{englishname},</if>
+            <if test="coding != null  and coding != ''">coding = #{coding},</if>
+            <if test="createBy != null  and createBy != ''">createBy = #{createBy},</if>
+            <if test="updateBy != null  and updateBy != ''">updateBy = #{updateBy},</if>
+            <if test="createTime != null ">createTime = #{createTime},</if>
+            <if test="updateTime != null ">updateTime = #{updateTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteWarehouseById" parameterType="Long">
+        delete from warehouse where id = #{id}
+    </delete>
+
+    <delete id="deleteWarehouseByIds" parameterType="String">
+        delete from warehouse where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

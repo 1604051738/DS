@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <th:block th:include="include :: header('修改供应商')" />
+    <th:block th:include="include :: datetimepicker-css" />
+    <th:block th:include="include :: select2-css" />
+    <th:block th:include="include :: bootstrap-select-css" />
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <style type="text/css">
+        .show-grid{
+            margin: 0px 0;
+        }
+    </style>
+</head>
+<body class="white-bg">
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+    <div class="col-sm-12">
+        <div class="ibox float-e-margins border-0">
+            <div class="ibox-title">
+                <h5>供应商基本信息</h5>
+                <div class="ibox-tools">
+                    <a class="collapse-link">
+                        <i class="fa fa-chevron-up" id="fa" onclick="COWindow()"></i>
+                    </a>
+                    <a class="close-link">
+                        <i class="fa fa-times"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="ibox-content text-center h-200" id="CO">
+                    <span id="sparkline7">
+                        <form class="form-horizontal m" id="form-supplier-edit" th:object="${supplier}">
+            <input name="id" th:field="*{id}" type="hidden">
+            <div class="form-group">    
+                <label class="col-sm-3 control-label"><span style="color: red; ">*</span>供应商名称：</label>
+                <div class="col-sm-8">
+                    <input name="name" th:field="*{name}" class="form-control" type="text" >
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label"><span style="color: red; ">*</span>供应商编码：</label>
+                <div class="col-sm-8">
+                    <input name="sc" th:field="*{sc}" class="form-control" type="text" >
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">联系人：</label>
+                <div class="col-sm-8">
+                    <input name="lp" th:field="*{lp}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">联系方式：</label>
+                <div class="col-sm-8">
+                    <input name="phonenumber" th:field="*{phonenumber}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">邮箱：</label>
+                <div class="col-sm-8">
+                    <input name="email" th:field="*{email}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">地址：</label>
+                <div class="col-sm-8">
+                    <input name="address" th:field="*{address}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label"><span style="color: red; ">*</span>状态：</label>
+                <div class="col-sm-8">
+                    <select name="state" class="form-control m-b">
+                        <option value="*{state}" th:if="*{state == 1}">激活</option>
+                        <option value="*{state}" th:if="*{state == 0}">非激活</option>
+                        <option value="1" selected>激活</option>
+                        <option value="0">非激活</option>
+                    </select>
+                </div>
+            </div>
+        </form>
+                    </span>
+            </div>
+        </div>
+    </div>
+    </div>
+    <div class="btn-group clearfix show-xs save-group col-xs-12" style="position: fixed; margin-left: -10px; right: 10px;  bottom: 10px; width: 20% ">
+        <div class="col-sm-offset-5 col-sm-10">
+            <button type="button" class="default btn btn-primary hide-xs" onclick="submitHandler()"><i class="fa fa-check"></i>保 存</button>&nbsp;
+            <button type="button" class="btn btn-default" onclick="closeItem()"><i class="fa fa-reply-all"></i>关 闭 </button>
+        </div>
+    </div>
+    <th:block th:include="include :: footer" />
+    <th:block th:include="include :: datetimepicker-js" />
+    <script type="text/javascript">
+        var prefix = ctx + "DS/supplier";
+        $("#form-supplier-edit").validate({
+            focusCleanup: true
+        });
+
+        function submitHandler() {
+            if ($.validate.form()) {
+                $.operate.save(prefix + "/edit", $('#form-supplier-edit').serialize(),function(result) {
+                    $.operate.successTabCallback(result);
+                });
+            }
+        }
+
+    </script>
+</body>
+</html>

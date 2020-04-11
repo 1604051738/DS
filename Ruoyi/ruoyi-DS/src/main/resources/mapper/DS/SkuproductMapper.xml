@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.DS.mapper.SkuproductMapper">
+    
+    <resultMap type="Skuproduct" id="SkuproductResult">
+        <result property="id"    column="id"    />
+        <result property="skucode"    column="SKUCode"    />
+        <result property="skuocode"    column="SKUOCode"    />
+        <result property="size"    column="size"    />
+        <result property="color"    column="color"    />
+        <result property="suttle"    column="suttle"    />
+        <result property="rw"    column="rw"    />
+        <result property="costprice"    column="costPrice"    />
+        <result property="sellprice"    column="sellPrice"    />
+        <result property="state"    column="state"    />
+        <result property="rank"    column="rank"    />
+        <result property="ssq"    column="ssq"    />
+        <result property="ssqd"    column="ssqd"    />
+        <result property="tsq"    column="tsq"    />
+        <result property="tsqd"    column="tsqd"    />
+        <result property="tpq"    column="tpq"    />
+        <result property="pod"    column="pod"    />
+        <result property="pd"    column="pd"    />
+        <result property="stt"    column="stt"    />
+        <result property="ips"    column="IPS"    />
+        <result property="product"    column="product"    />
+        <result property="filepath"    column="filePath"    />
+        <result property="length"    column="length"    />
+        <result property="width"    column="width"    />
+        <result property="height"    column="height"    />
+        <result property="skumap"    column="SKUMap"    />
+    </resultMap>
+
+    <sql id="selectSkuproductVo">
+        select id, SKUCode, SKUOCode, size, color, suttle, rw, costPrice, sellPrice, state, rank, ssq, ssqd, tsq, tsqd, tpq, pod, pd, stt, IPS, product, filePath, length, width, height, SKUMap from skuproduct
+    </sql>
+
+    <select id="selectSkuproductList" parameterType="Skuproduct" resultMap="SkuproductResult">
+        <include refid="selectSkuproductVo"/>
+        <where>  
+            <if test="skucode != null  and skucode != ''"> and SKUCode like concat(#{skucode}, '%')</if>
+            <if test="skuocode != null  and skuocode != ''"> and SKUOCode like concat('%', #{skuocode}, '%')</if>
+            <if test="size != null  and size != ''"> and size = #{size}</if>
+            <if test="color != null  and color != ''"> and color = #{color}</if>
+            <if test="suttle != null  and suttle != ''"> and suttle = #{suttle}</if>
+            <if test="rw != null  and rw != ''"> and rw = #{rw}</if>
+            <if test="costprice != null  and costprice != ''"> and costPrice = #{costprice}</if>
+            <if test="sellprice != null  and sellprice != ''"> and sellPrice = #{sellprice}</if>
+            <if test="state != null "> and state = #{state}</if>
+            <if test="rank != null  and rank != ''"> and rank = #{rank}</if>
+            <if test="ssq != null  and ssq != ''"> and ssq = #{ssq}</if>
+            <if test="ssqd != null  and ssqd != ''"> and ssqd = #{ssqd}</if>
+            <if test="tsq != null  and tsq != ''"> and tsq = #{tsq}</if>
+            <if test="tsqd != null  and tsqd != ''"> and tsqd = #{tsqd}</if>
+            <if test="tpq != null  and tpq != ''"> and tpq = #{tpq}</if>
+            <if test="pod != null  and pod != ''"> and pod = #{pod}</if>
+            <if test="pd != null  and pd != ''"> and pd = #{pd}</if>
+            <if test="stt != null "> and stt = #{stt}</if>
+            <if test="ips != null  and ips != ''"> and IPS = #{ips}</if>
+            <if test="product != null  and product != ''"> and product = #{product}</if>
+            <if test="filepath != null  and filepath != ''"> and filePath = #{filepath}</if>
+            <if test="length != null "> and length = #{length}</if>
+            <if test="width != null "> and width = #{width}</if>
+            <if test="height != null "> and height = #{height}</if>
+            <if test="skumap != null  and skumap != ''"> and SKUMap = #{skumap}</if>
+        </where>
+    </select>
+    
+    <select id="selectSkuproductById" parameterType="Long" resultMap="SkuproductResult">
+        <include refid="selectSkuproductVo"/>
+        where id = #{id}
+    </select>
+
+
+
+    <insert id="insertSkuproduct" parameterType="Skuproduct" useGeneratedKeys="true" keyProperty="id">
+        insert into skuproduct
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="skucode != null  and skucode != ''">SKUCode,</if>
+            <if test="skuocode != null  and skuocode != ''">SKUOCode,</if>
+            <if test="size != null  and size != ''">size,</if>
+            <if test="color != null  and color != ''">color,</if>
+            <if test="suttle != null  and suttle != ''">suttle,</if>
+            <if test="rw != null  and rw != ''">rw,</if>
+            <if test="costprice != null  and costprice != ''">costPrice,</if>
+            <if test="sellprice != null  and sellprice != ''">sellPrice,</if>
+            <if test="state != null ">state,</if>
+            <if test="rank != null  and rank != ''">rank,</if>
+            <if test="ssq != null  and ssq != ''">ssq,</if>
+            <if test="ssqd != null  and ssqd != ''">ssqd,</if>
+            <if test="tsq != null  and tsq != ''">tsq,</if>
+            <if test="tsqd != null  and tsqd != ''">tsqd,</if>
+            <if test="tpq != null  and tpq != ''">tpq,</if>
+            <if test="pod != null  and pod != ''">pod,</if>
+            <if test="pd != null  and pd != ''">pd,</if>
+            <if test="stt != null ">stt,</if>
+            <if test="ips != null  and ips != ''">IPS,</if>
+            <if test="product != null  and product != ''">product,</if>
+            <if test="filepath != null  and filepath != ''">filePath,</if>
+            <if test="length != null ">length,</if>
+            <if test="width != null ">width,</if>
+            <if test="height != null ">height,</if>
+            <if test="skumap != null  and skumap != ''">SKUMap,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="skucode != null  and skucode != ''">#{skucode},</if>
+            <if test="skuocode != null  and skuocode != ''">#{skuocode},</if>
+            <if test="size != null  and size != ''">#{size},</if>
+            <if test="color != null  and color != ''">#{color},</if>
+            <if test="suttle != null  and suttle != ''">#{suttle},</if>
+            <if test="rw != null  and rw != ''">#{rw},</if>
+            <if test="costprice != null  and costprice != ''">#{costprice},</if>
+            <if test="sellprice != null  and sellprice != ''">#{sellprice},</if>
+            <if test="state != null ">#{state},</if>
+            <if test="rank != null  and rank != ''">#{rank},</if>
+            <if test="ssq != null  and ssq != ''">#{ssq},</if>
+            <if test="ssqd != null  and ssqd != ''">#{ssqd},</if>
+            <if test="tsq != null  and tsq != ''">#{tsq},</if>
+            <if test="tsqd != null  and tsqd != ''">#{tsqd},</if>
+            <if test="tpq != null  and tpq != ''">#{tpq},</if>
+            <if test="pod != null  and pod != ''">#{pod},</if>
+            <if test="pd != null  and pd != ''">#{pd},</if>
+            <if test="stt != null ">#{stt},</if>
+            <if test="ips != null  and ips != ''">#{ips},</if>
+            <if test="product != null  and product != ''">#{product},</if>
+            <if test="filepath != null  and filepath != ''">#{filepath},</if>
+            <if test="length != null ">#{length},</if>
+            <if test="width != null ">#{width},</if>
+            <if test="height != null ">#{height},</if>
+            <if test="skumap != null  and skumap != ''">#{skumap},</if>
+         </trim>
+    </insert>
+
+    <update id="updateSkuproduct" parameterType="Skuproduct">
+        update skuproduct
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="skucode != null  and skucode != ''">SKUCode = #{skucode},</if>
+            <if test="skuocode != null  and skuocode != ''">SKUOCode = #{skuocode},</if>
+            <if test="size != null  and size != ''">size = #{size},</if>
+            <if test="color != null  and color != ''">color = #{color},</if>
+            <if test="suttle != null  and suttle != ''">suttle = #{suttle},</if>
+            <if test="rw != null  and rw != ''">rw = #{rw},</if>
+            <if test="costprice != null  and costprice != ''">costPrice = #{costprice},</if>
+            <if test="sellprice != null  and sellprice != ''">sellPrice = #{sellprice},</if>
+            <if test="state != null ">state = #{state},</if>
+            <if test="rank != null  and rank != ''">rank = #{rank},</if>
+            <if test="ssq != null  and ssq != ''">ssq = #{ssq},</if>
+            <if test="ssqd != null  and ssqd != ''">ssqd = #{ssqd},</if>
+            <if test="tsq != null  and tsq != ''">tsq = #{tsq},</if>
+            <if test="tsqd != null  and tsqd != ''">tsqd = #{tsqd},</if>
+            <if test="tpq != null  and tpq != ''">tpq = #{tpq},</if>
+            <if test="pod != null  and pod != ''">pod = #{pod},</if>
+            <if test="pd != null  and pd != ''">pd = #{pd},</if>
+            <if test="stt != null ">stt = #{stt},</if>
+            <if test="ips != null  and ips != ''">IPS = #{ips},</if>
+            <if test="product != null  and product != ''">product = #{product},</if>
+            <if test="filepath != null  and filepath != ''">filePath = #{filepath},</if>
+            <if test="length != null ">length = #{length},</if>
+            <if test="width != null ">width = #{width},</if>
+            <if test="height != null ">height = #{height},</if>
+            <if test="skumap != null  and skumap != ''">SKUMap = #{skumap},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteSkuproductById" parameterType="Long">
+        delete from skuproduct where id = #{id}
+    </delete>
+
+    <delete id="deleteSkuproductByIds" parameterType="String">
+        delete from skuproduct where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

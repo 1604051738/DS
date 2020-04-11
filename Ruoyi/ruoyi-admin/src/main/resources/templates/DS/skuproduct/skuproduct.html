@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <th:block th:include="include :: header('SKU单品列表')" />
+</head>
+<body class="gray-bg">
+     <div class="container-div">
+        <div class="row">
+            <div class="col-sm-12 search-collapse">
+                <form id="formId">
+                    <div class="select-list">
+                        <ul>
+                            <li>
+                                <p>SKU编码：</p>
+                                <input type="text" name="skucode"/>
+                            </li>
+                            <li>
+                                <p>状态：</p>
+                                <select name="state" th:with="type=${@dict.getType('DS_SKUStatus')}">
+                                    <option value="">所有</option>
+                                    <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>
+                                </select>
+                            </li>
+                            <li class="select-time">
+                                <p>统计时间：</p>
+                                <input type="text" class="time-input" id="startTime" placeholder="开始时间" name="params[beginStt]"/>
+                                <span>-</span>
+                                <input type="text" class="time-input" id="endTime" placeholder="结束时间" name="params[endStt]"/>
+                            </li>
+                            <li>
+                                <p>SKU映射：</p>
+                                <input type="text" name="skumap"/>
+                            </li>
+                            <li>
+                                <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
+                                <a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i class="fa fa-refresh"></i>&nbsp;重置</a>
+                            </li>
+                        </ul>
+                    </div>
+                </form>
+            </div>
+
+            <div class="btn-group-sm" id="toolbar" role="group">
+                <a class="btn btn-success" onclick="$.operate.addTab()" shiro:hasPermission="DS:skuproduct:add">
+                    <i class="fa fa-plus"></i> 添加
+                </a>
+                <a class="btn btn-primary single disabled" onclick="$.operate.editTab()" shiro:hasPermission="DS:skuproduct:edit">
+                    <i class="fa fa-edit"></i> 修改
+                </a>
+                <a class="btn btn-danger multiple disabled" onclick="$.operate.removeAll()" shiro:hasPermission="DS:skuproduct:remove">
+                    <i class="fa fa-remove"></i> 删除
+                </a>
+                <a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="DS:skuproduct:export">
+                    <i class="fa fa-download"></i> 导出
+                 </a>
+            </div>
+            <div class="col-sm-12 select-table table-striped">
+                <table id="bootstrap-table"></table>
+            </div>
+        </div>
+    </div>
+    <th:block th:include="include :: footer" />
+    <script th:inline="javascript">
+        var editFlag = [[${@permission.hasPermi('DS:skuproduct:edit')}]];
+        var removeFlag = [[${@permission.hasPermi('DS:skuproduct:remove')}]];
+        var stateDatas = [[${@dict.getType('DS_SKUStatus')}]];
+        var ipsDatas = [[${@dict.getType('DS_IPS')}]];
+        var prefix = ctx + "DS/skuproduct";
+
+        $(function() {
+            var options = {
+                url: prefix + "/list",
+                createUrl: prefix + "/add",
+                updateUrl: prefix + "/edit/{id}",
+                removeUrl: prefix + "/remove",
+                exportUrl: prefix + "/export",
+                modalName: "SKU单品",
+                columns: [{
+                    checkbox: true
+                },
+                {
+                    field : 'id', 
+                    title : 'id',
+                    visible: false
+                },
+                {
+                    field : 'filepath',
+                    title: '图片预览',
+                    formatter: function(value, row, index) {
+                        return $.table.imageView(value,'auto','auto');
+                    }
+                },
+                {
+                    field : 'skucode', 
+                    title : 'SKU编码',
+                    sortable: true
+                },
+                {
+                    field : 'skuocode', 
+                    title : 'SKU外部码',
+                    sortable: true
+                },
+                {
+                    field : 'size', 
+                    title : 'size',
+                    sortable: true
+                },
+                {
+                    field : 'color', 
+                    title : '颜色'
+                },
+                {
+                    field : 'suttle', 
+                    title : '净重',
+                    visible: false
+                },
+                {
+                    field : 'rw', 
+                    title : '毛重'
+                },
+                {
+                    field : 'costprice', 
+                    title : '成本价(RMB)'
+                },
+                {
+                    field : 'sellprice', 
+                    title : '售价',
+                    visible: false
+                },
+                {
+                    field : 'state', 
+                    title : '状态',
+                    formatter: function(value, row, index) {
+                       return $.table.selectDictLabel(stateDatas, value);
+                    }
+                },
+                {
+                    field : 'rank', 
+                    title : '排序',
+                    visible: false,
+                    sortable: true
+                },
+                {
+                    field : 'ssq', 
+                    title : '七天销量',
+                    visible: false,
+                    sortable: true
+                },
+                {
+                    field : 'ssqd', 
+                    title : '七天销量天数',
+                    visible: false,
+                    sortable: true
+                },
+                {
+                    field : 'tsq',
+                    title : '三十天销量',
+                    visible: false,
+                    sortable: true
+                },
+                {
+                    field : 'tsqd', 
+                    title : '三十天销量天数',
+                    visible: false,
+                    sortable: true
+                },
+                {
+                    field : 'tpq', 
+                    title : '待采购量',
+                    visible: false
+                },
+                {
+                    field : 'pod', 
+                    title : '采购天数',
+                    visible: false
+                },
+                {
+                    field : 'pd', 
+                    title : '采购交期',
+                    visible: false
+                },
+                {
+                    field : 'stt', 
+                    title : '统计时间',
+                    visible: false,
+                    sortable: true
+                },
+                {
+                    field : 'ips', 
+                    title : '库存刊登策略',
+                    formatter: function(value, row, index) {
+                       return $.table.selectDictLabel(ipsDatas, value);
+                    },
+                    visible: false
+                },
+                {
+                    field : 'product', 
+                    title : '商品',
+                    visible: false
+                },
+                {
+                    field : 'length', 
+                    title : '长',
+                    visible: false
+                },
+                {
+                    field : 'width', 
+                    title : '宽',
+                    visible: false
+                },
+                {
+                    field : 'height',
+                    title : '高',
+                    visible: false
+                },
+                {
+                    field : 'skumap', 
+                    title : 'SKU映射',
+                    visible: false
+                },
+                {
+                    title: '操作',
+                    align: 'center',
+                    formatter: function(value, row, index) {
+                        var actions = [];
+                        actions.push('<a class="btn btn-success btn-xs ' + editFlag + '" href="javascript:void(0)" onclick="$.operate.editTab(\'' + row.id + '\')"><i class="fa fa-edit"></i>编辑</a> ');
+                        actions.push('<a class="btn btn-danger btn-xs ' + removeFlag + '" href="javascript:void(0)" onclick="$.operate.remove(\'' + row.id + '\')"><i class="fa fa-remove"></i>删除</a>');
+                        return actions.join('');
+                    }
+                }]
+            };
+            $.table.init(options);
+        });
+    </script>
+</body>
+</html>
