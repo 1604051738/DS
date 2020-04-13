@@ -6,10 +6,15 @@
     <th:block th:include="include :: header('新增商品')" />
     <th:block th:include="include :: select2-css" />
     <th:block th:include="include :: bootstrap-select-css" />
+    <th:block th:include="include :: summernote-css" />
     <style type="text/css">
         .show-grid{
             margin: 0px 0;
             border: 0px;
+        }
+        .modal{
+            position: absolute !important;
+            z-index: 0 !important;
         }
     </style>
 </head>
@@ -113,7 +118,7 @@
                         <div class="row show-grid">
                             <div class="col-md-12">
                             <label class="col-md-1 control-label">详细描述：</label>
-                            <div class="col-md-10" >
+                            <div class="col-md-10" id="message" >
                                 <textarea name="dd" id="dd" class="form-control" rows="10" style="border-radius:9px"></textarea>
                             </div>
                             </div>
@@ -174,7 +179,7 @@
                     <span id="sparkline9">
                         <h4 style="color: #2e2d3c">将以第一张作为商品预览图</h4>
                             <ul id="ul-img">
-                            <li class="row" id="hang1" name="block">
+                            <li class="row" id="hang1" name="none">
                                     <div class="col-md-5">
                                         <label class="col-sm-3 control-label" >图片路径：</label>
                                         <div class="col-sm-6">
@@ -348,14 +353,20 @@
     <th:block th:include="include :: select2-js" />
     <th:block th:include="include :: bootstrap-select-js" />
     <th:block th:include="include :: sparkline-js" />
+    <th:block th:include="include :: summernote-js" />
     <th:block th:include="include :: datetimepicker-js" />
 
     <script type="text/javascript" src="/js/plugins/Sortable.min.js"></script>
     <script type="text/javascript">
         $().ready(function () {
+                $('#dd').summernote({
+                    lang: 'zh-CN',
+                    height: 450
+                });
                 $("#category").one("click", refresh());
                 $("#sku-div select").select2("destroy");
             })
+
 
         function viewImage(liid) {
             // 获取FileList的第一个元素
@@ -366,6 +377,7 @@
             }
             src = window.URL.createObjectURL(f);
             $('#'+liid+' img').attr('src', src);
+            $('#'+liid).attr('name', 'block');
 
         }
 
@@ -379,14 +391,12 @@
 
         function submitHandler() {
             if ($.validate.form()) {
-                // skuformdatasubmit();
                 uploadFile();
             }
         }
 
         function uploadFile() {
             var formData = new FormData();
-            // var file = new File();
             var Uarry=$("#ul-img li[name = block]");
             if (Uarry.length == 0){
                 $.modal.alertWarning("最少上传一张商品图片");

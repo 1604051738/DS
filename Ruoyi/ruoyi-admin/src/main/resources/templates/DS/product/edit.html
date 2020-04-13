@@ -4,10 +4,15 @@
     <th:block th:include="include :: header('修改商品')" />
     <th:block th:include="include :: select2-css" />
     <th:block th:include="include :: bootstrap-select-css" />
+    <th:block th:include="include :: summernote-css" />
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <style type="text/css">
         .show-grid{
             margin: 0px 0;
+        }
+        .modal{
+            position: absolute !important;
+            z-index: 0 !important;
         }
     </style>
 </head>
@@ -350,12 +355,17 @@
 <th:block th:include="include :: select2-js" />
 <th:block th:include="include :: bootstrap-select-js" />
 <th:block th:include="include :: sparkline-js" />
+<th:block th:include="include :: summernote-js" />
 <th:block th:include="include :: datetimepicker-js" />
 
 <script type="text/javascript" src="/js/plugins/Sortable.min.js"></script>
 
 <script type="text/javascript">
     $().ready(function () {
+        $('#dd').summernote({
+            lang: 'zh-CN',
+            height: 450
+        });
         $("#category").one("click", refresh());
         $("#sku-div select").select2("destroy");
         $("#sku-div").one('click', getSkuList());
@@ -372,6 +382,7 @@
         }
         src = window.URL.createObjectURL(f);
         $('#'+liid+' img').attr('src', src);
+        $('#'+liid).attr('name', 'block');
 
     }
 
