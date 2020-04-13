@@ -10,8 +10,6 @@ import com.ruoyi.DS.service.*;
 import com.ruoyi.DS.utils.DSUtils;
 import com.ruoyi.DS.utils.JsonUtil;
 import com.ruoyi.DS.utils.SkuCodeBuilder;
-import com.ruoyi.common.config.Global;
-import com.ruoyi.common.utils.file.FileUploadUtils;
 import com.ruoyi.common.utils.security.PermissionUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +26,6 @@ import com.ruoyi.common.utils.poi.ExcelUtil;
 import com.ruoyi.common.core.page.TableDataInfo;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.servlet.http.HttpServletRequest;
 
 /**
  * 商品Controller
@@ -156,6 +153,7 @@ public class ProductController extends BaseController
         return prefix + "/edit";
     }
 
+
     /**
      * 修改保存商品
      */
@@ -168,8 +166,8 @@ public class ProductController extends BaseController
             for (int i = 1; i < skuMessages.length; i++) {
                 Skuproduct skuproduct =  JsonUtil.fromJson(skuMessages[i],  Skuproduct.class);
                 if (skuproduct.getSkucode().equals("")){
+                    // 上传文件路径
                     String code = SkuCodeBuilder.getSkuCode(skuproduct.getProduct(), skuproductService);
-                 // 上传文件路径
                     skuproduct.setSkucode(code);
                     skuproductService.insertSkuproduct(skuproduct);
                 }else {
