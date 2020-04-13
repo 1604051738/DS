@@ -385,7 +385,6 @@
 
     function submitHandler() {
         if ($.validate.form()) {
-            skuformdatasubmit();
             uploadFile();
         }
     }
@@ -517,71 +516,6 @@
         });
     }
 
-    /*
-        sku信息提交保存
-    */
-    function skuformdatasubmit() {
-        var i = $(".form-horizontal").length -2;
-        for (var j = 1; j < i+1 ; j++) {
-            var id = "form-productsku-edit"+j;
-            var formData = new FormData();
-            if ($("#"+id).css('display') == 'block'){
-                if ($('#'+id+' .h7').attr('value') != null){
-                    formData.append('id', $('#'+id+' .h7').attr('value'));
-                }
-                formData.append('size', $('#'+id+' input[name = size]').val());
-                formData.append('color', $('#'+id+' input[name = color]').val());
-                formData.append('suttle', $('#'+id+' input[name = suttle]').val());
-                formData.append('rw', $('#'+id+' input[name = rw]').val());
-                formData.append('costprice', $('#'+id+' input[name = costprice]').val());
-                formData.append('sellprice', $('#'+id+' input[name = sellprice]').val());
-                formData.append('state',  $('#'+id+' select[name = state]').select2('val'));
-                formData.append('rank', $('#'+id+' input[name = rank]').val());
-                formData.append('pd', $('#'+id+' input[name = pd]').val());
-                formData.append('stt', $('#'+id+' input[name = stt]').val());
-                formData.append('ips',  $('#'+id+' select[name = ips]').select2('val'));
-                formData.append('length', $('#'+id+' input[name = length]').val());
-                formData.append('width', $('#'+id+' input[name = width]').val());
-                formData.append('product', $("#code").attr('field'));
-                formData.append('height', $('#'+id+' input[name = height]').val());
-                formData.append('skumap', $('#'+id+' input[name = skumap]').val());
-                if ( $('#'+id+' input[name = filePath]')[0].files[0] != null){
-                    formData.append('file', $('#'+id+' input[name = filePath]')[0].files[0]);
-                }
-                if ($('#'+id+' input[name = filePath]')[0].files[0] == null){
-                    formData.append('file', $('#'+id).find('img').attr('src'));
-                }
-                //更新操作
-                if (formData.get('id') != null){
-                    $.ajax({
-                        url: '/DS/skuproduct' + '/edit',
-                        type: 'post',
-                        cache: false,
-                        data: formData,
-                        processData: false,
-                        contentType: false,
-                        dataType: "json",
-                        async: false
-                    })
-                }
-                //新增操作
-                if (formData.get('id') == null){
-                    $.ajax({
-                        url: '/DS/skuproduct' + '/add',
-                        type: 'post',
-                        cache: false,
-                        data: formData,
-                        processData: false,
-                        contentType: false,
-                        dataType: "json",
-                        async: false
-                    })
-                }
-
-            }
-
-        }
-    }
 
     //    ajax 获取option
     function refresh() {
