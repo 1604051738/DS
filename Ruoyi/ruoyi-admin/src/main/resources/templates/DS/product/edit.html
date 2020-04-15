@@ -10,10 +10,6 @@
         .show-grid{
             margin: 0px 0;
         }
-        .modal{
-            position: absolute !important;
-            z-index: 0 !important;
-        }
     </style>
 </head>
 <body class="white-bg" id="2">
@@ -118,7 +114,7 @@
                             <div class="col-md-12">
                             <label class="col-md-1 control-label">详细描述：</label>
                             <div class="col-md-10" >
-                               <textarea name="dd" id="dd"  th:field="*{dd}" class="form-control" rows="10" style="border-radius:9px"></textarea>
+                               <div name="dd" id="summernote" class="form-control" style="border-radius:9px"/>
                             </div>
                             </div>
                         </div>
@@ -345,8 +341,8 @@
 
 
 
-<div class="btn-group clearfix show-xs save-group col-xs-12" style="position: fixed; margin-left: -10px; right: 10px;  bottom: 10px; width: 20% ">
-    <div class="col-sm-offset-5 col-sm-10">
+<div class="btn-group clearfix show-xs save-group col-xs-12">
+    <div class="col-sm-offset-10 col-sm-10">
         <button type="button" class="default btn btn-primary hide-xs" onclick="submitHandler()"><i class="fa fa-check"></i>保 存</button>&nbsp;
         <button type="button" class="btn btn-default" onclick="closeItem()"><i class="fa fa-reply-all"></i>关 闭 </button>
     </div>
@@ -362,14 +358,15 @@
 
 <script type="text/javascript">
     $().ready(function () {
-        $('#dd').summernote({
+        $('#summernote').summernote({
             lang: 'zh-CN',
             height: 400
         });
         $("#category").one("click", refresh());
         $("#sku-div select").select2("destroy");
         $("#sku-div").one('click', getSkuList());
-        $("#ul-img").one('click', showpicture())
+        $("#ul-img").one('click', showpicture());
+        $("#summernote").one('click', getDistribute());
     })
 
 
@@ -504,7 +501,39 @@
         formData.append('code', $("#code").val());
         formData.append('ocode', $("#ocode").val());
         formData.append('keyword', $("#keyword").val());
-        formData.append('dd', $("#dd").val());
+
+
+            /*
+                详细描述信息
+             */
+
+        var formData1 = new FormData();
+        $.each($("#summernote").next().find("img"),function(i,result){
+            var dataUrl = $("#summernote").next().find("img")[i].src;
+            if (dataUrl.length > 200){
+                formData1.append("file", dataURLtoFile(dataUrl, i));
+            }
+        });
+        $.ajax({
+            url: prefix + "/getFileName",
+            type: 'post',
+            cache: false,
+            data: formData1,
+            processData: false,
+            contentType: false,
+            dataType: "json",
+            async: false,
+            success: function (result) {
+                $.each(result, function (i, filename) {
+                    if ($("#summernote").next().find("img")[i].src.length > 200){
+                        $("#summernote").next().find("img")[i].src = filename;
+                    }
+                })
+            }
+        });
+
+
+        formData.append('dd', $("#summernote").summernote("code"));
         formData.append('ordervalue', $("#ordervalue").val());
         $.ajax({
             url: prefix + "/edit",
@@ -527,6 +556,14 @@
         });
     }
 
+    //    ajax 获取详细描述
+    function getDistribute() {
+        var data1 = { "id": $("#id").attr('value') };
+            $.post(prefix+'/getDistribute', data1,function (result) {
+                    $("#summernote").summernote("code", result);
+            })
+
+    }
 
     //    ajax 获取option
     function refresh() {
@@ -802,6 +839,20 @@
             })
         })
 
+    }
+
+    //将base64转换为文件对象
+    function dataURLtoFile(dataurl, filename) {
+        var arr = dataurl.split(',');
+        var mime = arr[0].match(/:(.*?);/)[1];
+        var bstr = atob(arr[1]);
+        var n = bstr.length;
+        var u8arr = new Uint8Array(n);
+        while(n--){
+            u8arr[n] = bstr.charCodeAt(n);
+        }
+        //转换成file对象
+        return new File([u8arr], filename, {type:mime});
     }
 
 </script>

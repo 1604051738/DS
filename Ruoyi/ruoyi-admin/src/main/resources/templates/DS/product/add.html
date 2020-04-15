@@ -12,10 +12,6 @@
             margin: 0px 0;
             border: 0px;
         }
-        .modal{
-            position: absolute !important;
-            z-index: 0 !important;
-        }
     </style>
 </head>
 <body class="white-bg" id="2">
@@ -119,7 +115,7 @@
                             <div class="col-md-12">
                             <label class="col-md-1 control-label">详细描述：</label>
                             <div class="col-md-10" id="message" >
-                                <textarea name="dd" id="dd" class="form-control" rows="10" style="border-radius:9px"></textarea>
+                                <div name="dd" id="summernote" class="form-control" style="border-radius:9px"/>
                             </div>
                             </div>
                         </div>
@@ -183,7 +179,7 @@
                                     <div class="col-md-5">
                                         <label class="col-sm-3 control-label" >图片路径：</label>
                                         <div class="col-sm-6">
-                                            <input  name="filePath" class="form-control" type="file" onchange="viewImage('hang1')" style="border-radius:9px">
+                                            <input  name="filePath" class="form-control" type="file" onchange="viewImage('hang1')" style="border-radius:9px" accept="image/gif,image/jpeg,image/jpg,image/png,image/svg">
                                         </div>
                                     </div>
                                     <div class="col-md-5">
@@ -343,8 +339,8 @@
 
 
 
-    <div class="btn-group clearfix show-xs save-group col-xs-12" style="position: fixed; margin-left: -10px; right: 10px;  bottom: 10px; width: 20% ">
-        <div class="col-sm-offset-5 col-sm-10">
+    <div class="btn-group clearfix show-xs save-group col-xs-12">
+        <div class="col-sm-offset-10 col-sm-10">
             <button type="button" class="default btn btn-primary hide-xs" onclick="submitHandler()"><i class="fa fa-check"></i>保 存</button>&nbsp;
             <button type="button" class="btn btn-default" onclick="closeItem()"><i class="fa fa-reply-all"></i>关 闭 </button>
         </div>
@@ -359,7 +355,7 @@
     <script type="text/javascript" src="/js/plugins/Sortable.min.js"></script>
     <script type="text/javascript">
         $().ready(function () {
-                $('#dd').summernote({
+                $('#summernote').summernote({
                     lang: 'zh-CN',
                     height: 400
                 });
@@ -428,7 +424,9 @@
                 }
             });
 
-
+                /*
+                 SKU商品信息
+                 */
             formData.append("skuMessages", 0)
 
             var i = $("head").attr('id');
@@ -490,7 +488,33 @@
             formData.append('code', $("#code").val());
             formData.append('ocode', $("#ocode").val());
             formData.append('keyword', $("#keyword").val());
-            formData.append('dd', $("#dd").val());
+            /*
+                详细描述信息
+             */
+
+            var formData1 = new FormData();
+            $.each($("#summernote").next().find("img"),function(i,result){
+                var dataUrl = $("#summernote").next().find("img")[i].src;
+                formData1.append("file", dataURLtoFile(dataUrl, i));
+            });
+            $.ajax({
+                url: prefix + "/getFileName",
+                type: 'post',
+                cache: false,
+                data: formData1,
+                processData: false,
+                contentType: false,
+                dataType: "json",
+                async: false,
+                success: function (result) {
+                    $.each(result, function (i, filename) {
+                        $("#summernote").next().find("img")[i].src = filename;
+                    })
+                }
+            });
+
+
+            formData.append('dd', $("#summernote").summernote("code"));
             formData.append('ordervalue', $("#ordervalue").val());
             $.ajax({
                 url: prefix + "/add",
@@ -628,7 +652,7 @@
             var idname = 'form-productsku-add'+number;
             var obj = "<label class=\"col-sm-3 control-label\">SKU主图：</label>\n" +
                 "            <div class=\"col-sm-6\">\n" +
-                "                <input name=\"filePath\" class=\"form-control onfile\" type=\"file\" onchange='viewImage("+JSON.stringify(idname)+")'><br>\n" +
+                "                <input name=\"filePath\" class=\"form-control onfile\" type=\"file\" onchange='viewImage("+JSON.stringify(idname)+")' ><br>\n" +
                 "            </div>";
             skudivclone.find("form").attr('id', idname);
             var skudiv = skudivclone.html();
@@ -727,6 +751,22 @@
                 $("#"+data).attr('name', 'none');
                 $("#"+data).hide();
         }
+
+
+        //将base64转换为文件对象
+        function dataURLtoFile(dataurl, filename) {
+            var arr = dataurl.split(',');
+            var mime = arr[0].match(/:(.*?);/)[1];
+            var bstr = atob(arr[1]);
+            var n = bstr.length;
+            var u8arr = new Uint8Array(n);
+            while(n--){
+                u8arr[n] = bstr.charCodeAt(n);
+            }
+            //转换成file对象
+            return new File([u8arr], filename, {type:mime});
+        }
+
     </script>
 </body>
 </html>
