@@ -2,6 +2,7 @@
 <html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
 <head>
     <th:block th:include="include :: header('商品列表')" />
+    <th:block th:include="include :: bootstrap-editable-css" />
 </head>
 <body class="gray-bg">
      <div class="container-div">
@@ -65,6 +66,7 @@
         </div>
     </div>
     <th:block th:include="include :: footer" />
+     <th:block th:include="include :: bootstrap-table-editable-js" />
     <script th:inline="javascript">
         var editFlag = [[${@permission.hasPermi('DS:product:edit')}]];
         var removeFlag = [[${@permission.hasPermi('DS:product:remove')}]];
@@ -89,10 +91,10 @@
                 },
                 {
                     field : 'filepath',
-                    title: '图片预览',
+                    title: '中文名称',
                     formatter: function(value, row, index) {
-                        return $.table.imageView(value,'auto','auto');
-                    }
+                        return $.table.imageView(value,'700px','700px')+"<br><br><br>"+row.chinesename;
+                    },
                 },
                 {
                     field : 'category', 
@@ -107,13 +109,12 @@
                 {
                     field : 'ordervalue', 
                     title : '排序值',
-                    visible: false,
-                    sortable: true
+                    visible: false
                 },
                 {
-                    field : 'chinesename', 
+                    field : 'chinesename',
                     title : '中文名称',
-                    sortable: true
+                    visible: false
                 },
                 {
                     field : 'englishname', 
@@ -122,7 +123,8 @@
                 },
                 {
                     field : 'nocdc', 
-                    title : '报关名称中文'
+                    title : '报关名称中文',
+                    visible: false
                 },
                 {
                     field : 'nocde', 
@@ -133,7 +135,6 @@
                     field : 'code', 
                     title : '编码',
                     visible: false,
-                    sortable: true
                 },
                 {
                     field : 'ocode', 
@@ -157,9 +158,11 @@
                 },
                 {
                     field : 'createTime',
-                    title : '创建时间',
-                    visible: false,
-                    sortable: true
+                    title : '创建',
+                    sortable: true,
+                    formatter: function(value, row, index) {
+                        return  value + "<br>" + row.createBy ;
+                    }
                 },
                 {
                     field : 'updateTime',
