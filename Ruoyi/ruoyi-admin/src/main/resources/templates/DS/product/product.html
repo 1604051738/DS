@@ -93,7 +93,112 @@
                     field : 'filepath',
                     title: '中文名称',
                     formatter: function(value, row, index) {
-                        return $.table.imageView(value,'700px','700px')+"<br><br>"+row.chinesename;
+                        return $.table.imageView(value,'650px','700px')+"<br><br>"+row.chinesename;
+                    }
+                },
+
+
+                    /**
+                     * SKU信息显示
+                     */
+                {
+                    field: '',
+                    title: 'SKU编码',
+                    formatter: function(value, row, index) {
+                        $.ajaxSettings.async = false;
+                        var skuCode = "";
+                        data={
+                            id: row.id
+                        }
+                        $.post(prefix+"/getSkuList", data, function (result) {
+                           $.each(result, function (i, skuProduct) {
+                               skuProduct = jQuery.parseJSON(skuProduct);
+                               skuCode = skuCode + skuProduct.skucode + "<br/><br/>";
+                           })
+                        });
+                        return  skuCode;
+                    }
+                },
+                {
+                    field: '',
+                    title: '成本价/毛重',
+                    formatter: function(value, row, index) {
+                        $.ajaxSettings.async = false;
+                        var sku = "";
+                        data={
+                            id: row.id
+                        }
+                        $.post(prefix+"/getSkuList", data, function (result) {
+                            $.each(result, function (i, skuProduct) {
+                                skuProduct = jQuery.parseJSON(skuProduct);
+                                sku = sku + skuProduct.costprice + "/" + skuProduct.rw + "<br/><br/>";
+                            })
+                        });
+                        return  sku;
+                    }
+                },
+                {
+                    field: '',
+                    title: 'SKU状态',
+                    formatter: function(value, row, index) {
+                        $.ajaxSettings.async = false;
+                        var skuStatus = "";
+                        data={
+                            id: row.id
+                        }
+                        $.post(prefix+"/getSkuList", data, function (result) {
+                            $.each(result, function (i, skuProduct) {
+                                skuProduct = jQuery.parseJSON(skuProduct);
+                                if (skuProduct.state == 0){
+                                    skuStatus = skuStatus + "非激活<br/><br/>";
+                                }
+                                if(skuProduct.state == 1){
+                                    skuStatus = skuStatus +"激活<br/><br/>";
+                                }
+                                if(skuProduct.state == 2){
+                                    skuStatus = skuStatus + "售完为止<br/><br/>";
+                                }
+                            })
+                        });
+                        return  skuStatus;
+                    }
+                },
+                {
+                    field: '',
+                    title: '7/30天销量',
+                    formatter: function(value, row, index) {
+                        $.ajaxSettings.async = false;
+                        var sku = "";
+                        data={
+                            id: row.id
+                        }
+                        $.post(prefix+"/getSkuList", data, function (result) {
+                            $.each(result, function (i, skuProduct) {
+                                skuProduct = jQuery.parseJSON(skuProduct);
+                                sku = sku + skuProduct.ssq + "/" + skuProduct.tsq+ "<br/><br/>";                            })
+                        });
+                        return  sku;
+                    }
+                },
+                {
+                    field: '',
+                    title: '待采购量',
+                    formatter: function(value, row, index) {
+                        $.ajaxSettings.async = false;
+                        var sku = "";
+                        data={
+                            id: row.id
+                        }
+                        $.post(prefix+"/getSkuList", data, function (result) {
+                            $.each(result, function (i, skuProduct) {
+                                skuProduct = jQuery.parseJSON(skuProduct);
+                                if(skuProduct.tpq == null){
+                                    sku = sku + "" + "<br/><br/>";
+                                }else{
+                                sku = sku + skuProduct.tpq + "<br/><br/>";   }
+                            })
+                        });
+                        return  sku;
                     }
                 },
                 {

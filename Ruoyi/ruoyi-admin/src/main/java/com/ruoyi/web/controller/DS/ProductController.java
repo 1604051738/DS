@@ -253,8 +253,11 @@ public class ProductController extends BaseController
     }
 
 
-
-
+    /**
+     * 获取和商品关联的sku商品
+     * @param id
+     * @return
+     */
     @PostMapping("/getSkuList")
     @ResponseBody
     public List<String> getSkuList(@RequestParam("id") Long id){
@@ -275,6 +278,11 @@ public class ProductController extends BaseController
         return list;
     }
 
+    /**
+     * 获取商品图片列表
+     * @param id
+     * @return
+     */
     @PostMapping("/getImgList")
     @ResponseBody
     public List<String> getImgList(String id){
@@ -290,6 +298,13 @@ public class ProductController extends BaseController
     }
 
 
+
+    /**
+     * 保存文件 返回文件路径
+     * @param file
+     * @return
+     * @throws IOException
+     */
     @PostMapping("/getFileName")
     @ResponseBody
     public List<String> getFileName(@RequestParam("file") MultipartFile[] file) throws IOException {
@@ -301,12 +316,18 @@ public class ProductController extends BaseController
         return list;
     }
 
-    /*
-        保存sku与product信息
-     */
-    @Transactional(rollbackFor = Exception.class)
-    @PostMapping("/saveskuandproduct")
-    public void saveskuandproduct(){
 
+
+    /**
+     * 获取商品富文本描述信息
+     * @param id
+     * @return
+     */
+
+    @PostMapping("/getDistribute")
+    @ResponseBody
+    public String getDistribute(String id){
+        Product product = productService.selectProductById(Long.parseLong(id));
+        return product.getDd();
     }
 }
