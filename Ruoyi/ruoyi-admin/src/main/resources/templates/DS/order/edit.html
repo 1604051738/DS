@@ -3,6 +3,8 @@
 <head>
     <th:block th:include="include :: header('修改销售订单')" />
     <th:block th:include="include :: datetimepicker-css" />
+    <link th:href="@{/ajax/libs/select2/select2.min.css}" rel="stylesheet"/>
+    <link th:href="@{/ajax/libs/select2/select2-bootstrap.css}" rel="stylesheet"/>
 </head>
 <body class="white-bg">
     <div class="wrapper wrapper-content animated fadeInRight ibox-content">
@@ -58,7 +60,6 @@
                     </select>
                     <a class="btn btn-primary" onclick="layerOpenClient()" ><i class="fa fa-plus"></i>买家</a>
                 </div>
-                <a class="btn btn-primary" onclick="layerOpenClient()" ><i class="fa fa-plus"></i>买家</a>
             </div>
             <div class="form-group">    
                 <label class="col-sm-3 control-label">物流跟踪号：</label>
@@ -280,6 +281,7 @@
     </div>
     <th:block th:include="include :: footer" />
     <th:block th:include="include :: datetimepicker-js" />
+    <script th:src="@{/ajax/libs/select2/select2.min.js}"></script>
     <script type="text/javascript">
         $().ready(function () {
                 $("#client").one("click", refresh());
@@ -385,11 +387,11 @@ layer.open打开第三方添加界面
             ajax 获取select列表
         */
         function refresh() {
-            $.get(prefix + "/refreshClient",function (result) {
-                $.each(result,function (i, name) {
-                    $("#client").append("<option value="+i+">"+name+"</option>");
-                })
-            })
+            // $.get(prefix + "/refreshClient",function (result) {
+            //     $.each(result,function (i, name) {
+            //         $("#client").append("<option value="+i+">"+name+"</option>");
+            //     })
+            // })
 
             $.get(prefix + "/refreshWareHouse",function (result) {
                 $.each(result,function (i, name) {

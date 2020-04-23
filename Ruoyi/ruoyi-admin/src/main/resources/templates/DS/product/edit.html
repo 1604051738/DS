@@ -179,7 +179,7 @@
                 </div>
             </div>
             <div class="ibox-content text-center h-200" id="CO2">
-                <label class="font-noraml">拖动可为图片排序，第一张图将作为商品预览图</label>
+                <label class="font-noraml">第一张图将作为商品预览图</label>
                 <span id="sparkline9">
                     <div class="form-group" id="ul-img">
                             <input  id="filepath" type="file" multiple data-min-file-count="1" data-theme="fas">
@@ -350,11 +350,10 @@
 <th:block th:include="include :: sparkline-js" />
 <th:block th:include="include :: summernote-js" />
 <th:block th:include="include :: datetimepicker-js" />
-<th:block th:include="include :: bootstrap-fileinput-js" />
 <script th:src="@{/js/jquery-ui-1.10.4.min.js}"></script>
 
 <script type="text/javascript" src="/js/plugins/Sortable.min.js"></script>
-
+<th:block th:include="include :: bootstrap-fileinput-js" />
 <script type="text/javascript">
     $().ready(function () {
         $('#summernote').summernote({
@@ -757,7 +756,7 @@
         });
     }
 
-
+    $('#ul-img').sortable();
     
 
     //获取图片列表
