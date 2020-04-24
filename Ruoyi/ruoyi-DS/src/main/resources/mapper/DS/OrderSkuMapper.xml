@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.DS.mapper.OrderSkuMapper">
+    
+    <resultMap type="OrderSku" id="OrderSkuResult">
+        <result property="id"    column="id"    />
+        <result property="platformOrderItemId"    column="platform_order_item_id"    />
+        <result property="productName"    column="product_name"    />
+        <result property="skuCode"    column="sku_code"    />
+        <result property="size"    column="size"    />
+        <result property="color"    column="color"    />
+        <result property="quantity"    column="quantity"    />
+        <result property="allocated"    column="allocated"    />
+        <result property="released"    column="released"    />
+        <result property="price"    column="price"    />
+        <result property="shipping"    column="shipping"    />
+        <result property="weight"    column="weight"    />
+        <result property="purchaseCost"    column="purchase_cost"    />
+        <result property="productSkuId"    column="product_sku_id"    />
+        <result property="salesOrderId"    column="sales_order_id"    />
+    </resultMap>
+
+    <sql id="selectOrderSkuVo">
+        select id, platform_order_item_id, product_name, sku_code, size, color, quantity, allocated, released, price, shipping, weight, purchase_cost, product_sku_id, sales_order_id from order_sku
+    </sql>
+
+    <select id="selectOrderSkuList" parameterType="OrderSku" resultMap="OrderSkuResult">
+        <include refid="selectOrderSkuVo"/>
+        <where>  
+            <if test="platformOrderItemId != null  and platformOrderItemId != ''"> and platform_order_item_id = #{platformOrderItemId}</if>
+            <if test="productName != null  and productName != ''"> and product_name like concat('%', #{productName}, '%')</if>
+            <if test="skuCode != null  and skuCode != ''"> and sku_code = #{skuCode}</if>
+            <if test="size != null  and size != ''"> and size = #{size}</if>
+            <if test="color != null  and color != ''"> and color = #{color}</if>
+            <if test="quantity != null "> and quantity = #{quantity}</if>
+            <if test="allocated != null  and allocated != ''"> and allocated = #{allocated}</if>
+            <if test="released != null "> and released = #{released}</if>
+            <if test="price != null "> and price = #{price}</if>
+            <if test="shipping != null "> and shipping = #{shipping}</if>
+            <if test="weight != null "> and weight = #{weight}</if>
+            <if test="purchaseCost != null "> and purchase_cost = #{purchaseCost}</if>
+            <if test="productSkuId != null "> and product_sku_id = #{productSkuId}</if>
+            <if test="salesOrderId != null "> and sales_order_id = #{salesOrderId}</if>
+        </where>
+    </select>
+    
+    <select id="selectOrderSkuById" parameterType="Long" resultMap="OrderSkuResult">
+        <include refid="selectOrderSkuVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertOrderSku" parameterType="OrderSku" useGeneratedKeys="true" keyProperty="id">
+        insert into order_sku
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="platformOrderItemId != null  and platformOrderItemId != ''">platform_order_item_id,</if>
+            <if test="productName != null  and productName != ''">product_name,</if>
+            <if test="skuCode != null  and skuCode != ''">sku_code,</if>
+            <if test="size != null  and size != ''">size,</if>
+            <if test="color != null  and color != ''">color,</if>
+            <if test="quantity != null ">quantity,</if>
+            <if test="allocated != null  and allocated != ''">allocated,</if>
+            <if test="released != null ">released,</if>
+            <if test="price != null ">price,</if>
+            <if test="shipping != null ">shipping,</if>
+            <if test="weight != null ">weight,</if>
+            <if test="purchaseCost != null ">purchase_cost,</if>
+            <if test="productSkuId != null ">product_sku_id,</if>
+            <if test="salesOrderId != null ">sales_order_id,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="platformOrderItemId != null  and platformOrderItemId != ''">#{platformOrderItemId},</if>
+            <if test="productName != null  and productName != ''">#{productName},</if>
+            <if test="skuCode != null  and skuCode != ''">#{skuCode},</if>
+            <if test="size != null  and size != ''">#{size},</if>
+            <if test="color != null  and color != ''">#{color},</if>
+            <if test="quantity != null ">#{quantity},</if>
+            <if test="allocated != null  and allocated != ''">#{allocated},</if>
+            <if test="released != null ">#{released},</if>
+            <if test="price != null ">#{price},</if>
+            <if test="shipping != null ">#{shipping},</if>
+            <if test="weight != null ">#{weight},</if>
+            <if test="purchaseCost != null ">#{purchaseCost},</if>
+            <if test="productSkuId != null ">#{productSkuId},</if>
+            <if test="salesOrderId != null ">#{salesOrderId},</if>
+         </trim>
+    </insert>
+
+    <update id="updateOrderSku" parameterType="OrderSku">
+        update order_sku
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="platformOrderItemId != null  and platformOrderItemId != ''">platform_order_item_id = #{platformOrderItemId},</if>
+            <if test="productName != null  and productName != ''">product_name = #{productName},</if>
+            <if test="skuCode != null  and skuCode != ''">sku_code = #{skuCode},</if>
+            <if test="size != null  and size != ''">size = #{size},</if>
+            <if test="color != null  and color != ''">color = #{color},</if>
+            <if test="quantity != null ">quantity = #{quantity},</if>
+            <if test="allocated != null  and allocated != ''">allocated = #{allocated},</if>
+            <if test="released != null ">released = #{released},</if>
+            <if test="price != null ">price = #{price},</if>
+            <if test="shipping != null ">shipping = #{shipping},</if>
+            <if test="weight != null ">weight = #{weight},</if>
+            <if test="purchaseCost != null ">purchase_cost = #{purchaseCost},</if>
+            <if test="productSkuId != null ">product_sku_id = #{productSkuId},</if>
+            <if test="salesOrderId != null ">sales_order_id = #{salesOrderId},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteOrderSkuById" parameterType="Long">
+        delete from order_sku where id = #{id}
+    </delete>
+
+    <delete id="deleteOrderSkuByIds" parameterType="String">
+        delete from order_sku where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>
