@@ -121,7 +121,7 @@ public class SkuproductController extends BaseController
      * 修改SKU单品
      */
     @GetMapping("/edit/{id}")
-    public String edit(@PathVariable("id") Long id, ModelMap mmap,Model model)
+    public String edit(@PathVariable("id") Integer id, ModelMap mmap,Model model)
     {
         List<Product> list = productService.selectProductList(null);
         model.addAttribute("list", list);

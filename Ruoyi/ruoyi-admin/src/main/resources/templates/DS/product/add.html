@@ -133,7 +133,7 @@
         </div>
     </div>
 
-    <div class="wrapper wrapper-content animated fadeInRight ibox-content" id="skubody">
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
         <div class="col-sm-12">
             <div class="ibox float-e-margins">
                 <div class="ibox-title">
@@ -661,6 +661,10 @@
             $("#"+idname+" .onfile").on('onchange', viewImage(JSON.stringify(idname)));
         });
 
+
+        /**
+         * fileinput批量上传图片
+         */
         $(".file").fileinput({
             'theme': 'explorer-fas',
             'uploadUrl': '#',
@@ -672,11 +676,6 @@
         })
 
 
-        // var sortable = new Sortable(document.getElementById('ul-img'),{
-        //     sort: true,  // boolean 定义是否列表单元是否可以在列表容器内进行拖拽排序
-        //     delay: 0,  // number 定义鼠标选中列表单元可以开始拖动的延迟时间；
-        //     direction: 'horizontal'
-        // });
 
 
         //关闭单项sku单品添加表单

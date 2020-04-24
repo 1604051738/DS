@@ -186,14 +186,14 @@ public class InventoryController extends BaseController
 
     @PostMapping("/getSku")
     @ResponseBody
-    public Long getSku(@RequestParam(name = "value") String skucode){
+    public Integer getSku(@RequestParam(name = "value") String skucode){
         Skuproduct skuproduct = new Skuproduct();
         skuproduct.setSkucode(skucode);
         List<Skuproduct> skuproduct1 = skuproductService.selectSkuproductList(skuproduct);
         if (skuproduct1.size() == 0){
             throw new RuntimeException("查询的指定Sku不存在");
         }
-        Long id = skuproduct1.get(0).getId();
+        Integer id = skuproduct1.get(0).getId();
         return id;
     }
 }
