@@ -1,5 +1,8 @@
 package com.ruoyi.DS.domain;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import com.ruoyi.common.annotation.Excel;
@@ -12,6 +15,9 @@ import java.util.Date;
  * @author ruoyi
  * @date 2019-12-26
  */
+@NoArgsConstructor
+@AllArgsConstructor
+@Data
 public class Supplier extends BaseEntity
 {
     private static final long serialVersionUID = 1L;
@@ -48,78 +54,7 @@ public class Supplier extends BaseEntity
     private Long state;
 
 
-    public void setId(Long id) 
-    {
-        this.id = id;
-    }
 
-    public Long getId() 
-    {
-        return id;
-    }
-    public void setName(String name) 
-    {
-        this.name = name;
-    }
-
-    public String getName() 
-    {
-        return name;
-    }
-    public void setSc(String sc) 
-    {
-        this.sc = sc;
-    }
-
-    public String getSc() 
-    {
-        return sc;
-    }
-    public void setLp(String lp) 
-    {
-        this.lp = lp;
-    }
-
-    public String getLp() 
-    {
-        return lp;
-    }
-    public void setPhonenumber(String phonenumber) 
-    {
-        this.phonenumber = phonenumber;
-    }
-
-    public String getPhonenumber() 
-    {
-        return phonenumber;
-    }
-    public void setEmail(String email) 
-    {
-        this.email = email;
-    }
-
-    public String getEmail() 
-    {
-        return email;
-    }
-    public void setAddress(String address) 
-    {
-        this.address = address;
-    }
-
-    public String getAddress() 
-    {
-        return address;
-    }
-    public void setState(Long state) 
-    {
-        this.state = state;
-    }
-
-    public Long getState() 
-    {
-        return state;
-    }
 
     @Override
     public String toString() {
@@ -140,8 +75,4 @@ public class Supplier extends BaseEntity
             .toString();
     }
 
-    public Supplier(Long id){
-        this.id = id;
-    }
-    public Supplier(){}
 }

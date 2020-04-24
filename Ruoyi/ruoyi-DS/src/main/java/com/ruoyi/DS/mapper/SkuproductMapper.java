@@ -17,7 +17,7 @@ public interface SkuproductMapper
      * @param id SKU单品ID
      * @return SKU单品
      */
-    public Skuproduct selectSkuproductById(Long id);
+    public Skuproduct selectSkuproductById(Integer id);
 
 
     /**

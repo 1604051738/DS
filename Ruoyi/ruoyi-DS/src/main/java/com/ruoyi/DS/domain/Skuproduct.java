@@ -2,6 +2,9 @@ package com.ruoyi.DS.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import com.ruoyi.common.annotation.Excel;
@@ -14,12 +17,15 @@ import java.util.Date;
  * @author ruoyi
  * @date 2019-12-26
  */
+@AllArgsConstructor
+@NoArgsConstructor
+@Data
 public class Skuproduct extends BaseEntity
 {
     private static final long serialVersionUID = 1L;
 
     /** id */
-    private Long id;
+    private Integer id;
 
     /** SKU编码 */
     @Excel(name = "SKU编码")
@@ -120,245 +126,6 @@ public class Skuproduct extends BaseEntity
     /** SKU映射 */
     @Excel(name = "SKU映射")
     private String skumap;
-
-    public void setId(Long id) 
-    {
-        this.id = id;
-    }
-
-    public Long getId() 
-    {
-        return id;
-    }
-    public void setSkucode(String skucode) 
-    {
-        this.skucode = skucode;
-    }
-
-    public String getSkucode() 
-    {
-        return skucode;
-    }
-    public void setSkuocode(String skuocode) 
-    {
-        this.skuocode = skuocode;
-    }
-
-    public String getSkuocode() 
-    {
-        return skuocode;
-    }
-    public void setSize(String size) 
-    {
-        this.size = size;
-    }
-
-    public String getColor() {
-        return color;
-    }
-
-    public void setColor(String color) {
-        this.color = color;
-    }
-
-    public String getSize()
-    {
-        return size;
-    }
-
-    public void setSuttle(String suttle) 
-    {
-        this.suttle = suttle;
-    }
-
-    public String getSuttle() 
-    {
-        return suttle;
-    }
-    public void setRw(String rw) 
-    {
-        this.rw = rw;
-    }
-
-    public String getRw() 
-    {
-        return rw;
-    }
-    public void setCostprice(String costprice) 
-    {
-        this.costprice = costprice;
-    }
-
-    public String getCostprice() 
-    {
-        return costprice;
-    }
-    public void setSellprice(String sellprice) 
-    {
-        this.sellprice = sellprice;
-    }
-
-    public String getSellprice() 
-    {
-        return sellprice;
-    }
-    public void setState(Integer state) 
-    {
-        this.state = state;
-    }
-
-    public Integer getState() 
-    {
-        return state;
-    }
-    public void setRank(String rank) 
-    {
-        this.rank = rank;
-    }
-
-    public String getRank() 
-    {
-        return rank;
-    }
-    public void setSsq(String ssq) 
-    {
-        this.ssq = ssq;
-    }
-
-    public String getSsq() 
-    {
-        return ssq;
-    }
-    public void setSsqd(String ssqd) 
-    {
-        this.ssqd = ssqd;
-    }
-
-    public String getSsqd() 
-    {
-        return ssqd;
-    }
-    public void setTsq(String tsq) 
-    {
-        this.tsq = tsq;
-    }
-
-    public String getTsq() 
-    {
-        return tsq;
-    }
-    public void setTsqd(String tsqd) 
-    {
-        this.tsqd = tsqd;
-    }
-
-    public String getTsqd() 
-    {
-        return tsqd;
-    }
-    public void setTpq(String tpq) 
-    {
-        this.tpq = tpq;
-    }
-
-    public String getTpq() 
-    {
-        return tpq;
-    }
-    public void setPod(String pod) 
-    {
-        this.pod = pod;
-    }
-
-    public String getPod() 
-    {
-        return pod;
-    }
-    public void setPd(String pd) 
-    {
-        this.pd = pd;
-    }
-
-    public String getPd() 
-    {
-        return pd;
-    }
-    public void setStt(Date stt) 
-    {
-        this.stt = stt;
-    }
-
-    public Date getStt() 
-    {
-        return stt;
-    }
-    public void setIps(String ips) 
-    {
-        this.ips = ips;
-    }
-
-    public String getIps() 
-    {
-        return ips;
-    }
-    public void setProduct(Long product)
-    {
-        this.product = product;
-    }
-
-    public Long getProduct()
-    {
-        return product;
-    }
-    public void setFilepath(String filepath) 
-    {
-        this.filepath = filepath;
-    }
-
-    public String getFilepath() 
-    {
-        return filepath;
-    }
-    public void setLength(Long length) 
-    {
-        this.length = length;
-    }
-
-    public Long getLength() 
-    {
-        return length;
-    }
-    public void setWidth(Long width) 
-    {
-        this.width = width;
-    }
-
-
-    public Long getWidth()
-    {
-        return width;
-    }
-    public void setHeight(Long height)
-    {
-        this.height = height;
-    }
-
-    public Long getHeight()
-    {
-        return height;
-    }
-    public void setSkumap(String skumap) 
-    {
-        this.skumap = skumap;
-    }
-
-    public String getSkumap() 
-    {
-        return skumap;
-    }
-
-    public Skuproduct( ) {
-    }
 
     @Override
     public String toString() {

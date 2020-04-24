@@ -30,7 +30,7 @@ public class SkuproductServiceImpl implements ISkuproductService
 
 
     @Override
-    public Skuproduct selectSkuproductById(Long id)
+    public Skuproduct selectSkuproductById(Integer id)
     {
         return skuproductMapper.selectSkuproductById(id);
     }

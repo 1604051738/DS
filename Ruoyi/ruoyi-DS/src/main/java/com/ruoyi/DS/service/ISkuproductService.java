@@ -17,7 +17,7 @@ public interface ISkuproductService
      * @param id SKU单品ID
      * @return SKU单品
      */
-    public Skuproduct selectSkuproductById(Long id);
+    public Skuproduct selectSkuproductById(Integer id);
 
     /**
      * 查询SKU单品列表

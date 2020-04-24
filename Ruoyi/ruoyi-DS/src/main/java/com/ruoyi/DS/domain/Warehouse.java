@@ -1,5 +1,8 @@
 package com.ruoyi.DS.domain;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import com.ruoyi.common.annotation.Excel;
@@ -11,6 +14,9 @@ import com.ruoyi.common.core.domain.BaseEntity;
  * @author ruoyi
  * @date 2019-12-25
  */
+@AllArgsConstructor
+@NoArgsConstructor
+@Data
 public class Warehouse extends BaseEntity
 {
     private static final long serialVersionUID = 1L;
@@ -30,43 +36,6 @@ public class Warehouse extends BaseEntity
     @Excel(name = "编码")
     private String coding;
 
-    public void setId(Long id) 
-    {
-        this.id = id;
-    }
-
-    public Long getId() 
-    {
-        return id;
-    }
-    public void setChinesename(String chinesename) 
-    {
-        this.chinesename = chinesename;
-    }
-
-    public String getChinesename() 
-    {
-        return chinesename;
-    }
-    public void setEnglishname(String englishname) 
-    {
-        this.englishname = englishname;
-    }
-
-    public String getEnglishname() 
-    {
-        return englishname;
-    }
-    public void setCoding(String coding) 
-    {
-        this.coding = coding;
-    }
-
-    public String getCoding() 
-    {
-        return coding;
-    }
-
     @Override
     public String toString() {
         return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
@@ -80,10 +49,5 @@ public class Warehouse extends BaseEntity
             .append("updatetime", getUpdateTime())
             .toString();
     }
-
-    public Warehouse(Long id){
-        this.id = id;
-    }
-    public Warehouse(){}
 
 }

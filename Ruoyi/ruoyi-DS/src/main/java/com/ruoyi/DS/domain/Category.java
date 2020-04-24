@@ -1,5 +1,8 @@
 package com.ruoyi.DS.domain;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import com.ruoyi.common.annotation.Excel;
@@ -11,6 +14,9 @@ import com.ruoyi.common.core.domain.BaseEntity;
  * @author ruoyi
  * @date 2019-12-26
  */
+@NoArgsConstructor
+@AllArgsConstructor
+@Data
 public class Category extends BaseEntity
 {
     private static final long serialVersionUID = 1L;
@@ -46,78 +52,6 @@ public class Category extends BaseEntity
     @Excel(name = "排序路径")
     private String sp;
 
-    public void setId(Long id) 
-    {
-        this.id = id;
-    }
-
-    public Long getId() 
-    {
-        return id;
-    }
-    public void setName(String name) 
-    {
-        this.name = name;
-    }
-
-    public String getName() 
-    {
-        return name;
-    }
-    public void setChinesename(String chinesename) 
-    {
-        this.chinesename = chinesename;
-    }
-
-    public String getChinesename() 
-    {
-        return chinesename;
-    }
-    public void setRemark(String remark)
-    {
-        this.remark = remark;
-    }
-
-    public String getRemark()
-    {
-        return remark;
-    }
-    public void setState(Long state) 
-    {
-        this.state = state;
-    }
-
-    public Long getState() 
-    {
-        return state;
-    }
-    public void setOrdervalue(String ordervalue) 
-    {
-        this.ordervalue = ordervalue;
-    }
-
-    public String getOrdervalue() 
-    {
-        return ordervalue;
-    }
-    public void setParentdirectory(String parentdirectory) 
-    {
-        this.parentdirectory = parentdirectory;
-    }
-
-    public String getParentdirectory() 
-    {
-        return parentdirectory;
-    }
-    public void setSp(String sp) 
-    {
-        this.sp = sp;
-    }
-
-    public String getSp() 
-    {
-        return sp;
-    }
 
     @Override
     public String toString() {
@@ -136,8 +70,4 @@ public class Category extends BaseEntity
             .append("sp", getSp())
             .toString();
     }
-    public Category(Long id){
-        this.id = id;
-    }
-    public Category(){}
 }

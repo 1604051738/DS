@@ -1,9 +1,14 @@
 package com.ruoyi.DS.domain;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import com.ruoyi.common.annotation.Excel;
 import com.ruoyi.common.core.domain.BaseEntity;
+
+import javax.annotation.sql.DataSourceDefinitions;
 
 /**
  * 物流渠道对象 logistics_channel
@@ -11,6 +16,9 @@ import com.ruoyi.common.core.domain.BaseEntity;
  * @author ruoyi
  * @date 2020-01-04
  */
+@NoArgsConstructor
+@AllArgsConstructor
+@Data
 public class LogisticsChannel extends BaseEntity
 {
     private static final long serialVersionUID = 1L;
@@ -86,168 +94,6 @@ public class LogisticsChannel extends BaseEntity
     @Excel(name = "所属仓库")
     private String warehouse;
 
-    public void setId(Long id) 
-    {
-        this.id = id;
-    }
-
-    public Long getId() 
-    {
-        return id;
-    }
-    public void setLogisticsName(String logisticsName) 
-    {
-        this.logisticsName = logisticsName;
-    }
-
-    public String getLogisticsName() 
-    {
-        return logisticsName;
-    }
-    public void setLogisticsCode(String logisticsCode) 
-    {
-        this.logisticsCode = logisticsCode;
-    }
-
-    public String getLogisticsCode() 
-    {
-        return logisticsCode;
-    }
-    public void setLogisticsProviderName(String logisticsProviderName) 
-    {
-        this.logisticsProviderName = logisticsProviderName;
-    }
-
-    public String getLogisticsProviderName() 
-    {
-        return logisticsProviderName;
-    }
-    public void setLogisticsProviderCode(String logisticsProviderCode) 
-    {
-        this.logisticsProviderCode = logisticsProviderCode;
-    }
-
-    public String getLogisticsProviderCode() 
-    {
-        return logisticsProviderCode;
-    }
-    public void setMinWeight(Long minWeight) 
-    {
-        this.minWeight = minWeight;
-    }
-
-    public Long getMinWeight() 
-    {
-        return minWeight;
-    }
-    public void setMaxWeight(Long maxWeight) 
-    {
-        this.maxWeight = maxWeight;
-    }
-
-    public Long getMaxWeight() 
-    {
-        return maxWeight;
-    }
-    public void setVolumeWeight(Long volumeWeight) 
-    {
-        this.volumeWeight = volumeWeight;
-    }
-
-    public Long getVolumeWeight() 
-    {
-        return volumeWeight;
-    }
-    public void setSensitiveType(String sensitiveType) 
-    {
-        this.sensitiveType = sensitiveType;
-    }
-
-    public String getSensitiveType() 
-    {
-        return sensitiveType;
-    }
-    public void setPriority(String priority) 
-    {
-        this.priority = priority;
-    }
-
-    public String getPriority() 
-    {
-        return priority;
-    }
-    public void setIsRegistration(String isRegistration)
-    {
-        this.isRegistration = isRegistration;
-    }
-
-    public String getIsRegistration()
-    {
-        return isRegistration;
-    }
-    public void setSenderAddress(String senderAddress) 
-    {
-        this.senderAddress = senderAddress;
-    }
-
-    public String getSenderAddress() 
-    {
-        return senderAddress;
-    }
-    public void setLanshouAddress(String lanshouAddress) 
-    {
-        this.lanshouAddress = lanshouAddress;
-    }
-
-    public String getLanshouAddress() 
-    {
-        return lanshouAddress;
-    }
-    public void setIsStop(String isStop)
-    {
-        this.isStop = isStop;
-    }
-
-    public String getIsStop()
-    {
-        return isStop;
-    }
-    public void setOnlineSettlement(String onlineSettlement)
-    {
-        this.onlineSettlement = onlineSettlement;
-    }
-
-    public String getOnlineSettlement()
-    {
-        return onlineSettlement;
-    }
-    public void setLogisticsCompany(String logisticsCompany) 
-    {
-        this.logisticsCompany = logisticsCompany;
-    }
-
-    public String getLogisticsCompany() 
-    {
-        return logisticsCompany;
-    }
-    public void setLogisticsCompanyCode(String logisticsCompanyCode) 
-    {
-        this.logisticsCompanyCode = logisticsCompanyCode;
-    }
-
-    public String getLogisticsCompanyCode() 
-    {
-        return logisticsCompanyCode;
-    }
-    public void setWarehouse(String warehouse) 
-    {
-        this.warehouse = warehouse;
-    }
-
-    public String getWarehouse() 
-    {
-        return warehouse;
-    }
 
     @Override
     public String toString() {
