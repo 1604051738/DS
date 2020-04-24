@@ -1,22 +1,22 @@
 package com.ruoyi.web.controller.DS;
 
-import java.nio.channels.Channel;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import com.ruoyi.DS.domain.LogisticsChannel;
+import com.ruoyi.DS.domain.OrderSku;
 import com.ruoyi.DS.domain.Warehouse;
 import com.ruoyi.DS.service.ILogisticsChannelService;
+import com.ruoyi.DS.service.IOrderSkuService;
 import com.ruoyi.DS.service.IWarehouseService;
 import com.ruoyi.DS.service.impl.RandomImpl;
+import com.ruoyi.DS.utils.JsonUtil;
 import com.ruoyi.DS.utils.OrderNumberBuilder;
 import com.ruoyi.common.utils.security.PermissionUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import com.ruoyi.common.annotation.Log;
@@ -31,16 +31,14 @@ import com.ruoyi.common.core.page.TableDataInfo;
 /**
  * 销售订单Controller
  * 
- * @author ruoyi
- * @date 2019-12-30
+ * @author admin
+ * @date 2020-04-23
  */
 @Controller
-@Transactional(rollbackFor = Exception.class)
-
-@RequestMapping("/DS/order")
+@RequestMapping("/DS/sales_order")
 public class SalesOrderController extends BaseController
 {
-    private String prefix = "DS/order";
+    private String prefix = "DS/sales_order";
 
     @Autowired
     private ISalesOrderService salesOrderService;
@@ -54,18 +52,21 @@ public class SalesOrderController extends BaseController
     @Autowired
     private ILogisticsChannelService logisticsChannelService;
 
+    @Autowired
+    private IOrderSkuService iOrderSkuService;
 
-    @RequiresPermissions("DS:order:view")
+
+    @RequiresPermissions("DS:sales_order:view")
     @GetMapping()
-    public String order()
+    public String sales_order()
     {
-        return prefix + "/order";
+        return prefix + "/sales_order";
     }
 
     /**
      * 查询销售订单列表
      */
-    @RequiresPermissions("DS:order:list")
+    @RequiresPermissions("DS:sales_order:list")
     @PostMapping("/list")
     @ResponseBody
     public TableDataInfo list(SalesOrder salesOrder)
@@ -78,7 +79,7 @@ public class SalesOrderController extends BaseController
     /**
      * 导出销售订单列表
      */
-    @RequiresPermissions("DS:order:export")
+    @RequiresPermissions("DS:sales_order:export")
     @Log(title = "销售订单", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
     @ResponseBody
@@ -86,7 +87,7 @@ public class SalesOrderController extends BaseController
     {
         List<SalesOrder> list = salesOrderService.selectSalesOrderList(salesOrder);
         ExcelUtil<SalesOrder> util = new ExcelUtil<SalesOrder>(SalesOrder.class);
-        return util.exportExcel(list, "order");
+        return util.exportExcel(list, "sales_order");
     }
 
     /**
@@ -98,30 +99,43 @@ public class SalesOrderController extends BaseController
         return prefix + "/add";
     }
 
+
     /**
      * 新增保存销售订单
      */
-
-    @RequiresPermissions("DS:order:add")
+    @RequiresPermissions("DS:sales_order:add")
     @Log(title = "销售订单", businessType = BusinessType.INSERT)
     @PostMapping("/add")
     @ResponseBody
-    public AjaxResult addSave(SalesOrder salesOrder)
+    public AjaxResult addSave(@RequestParam("salesOrderMessage") String salesOrder, @RequestParam(value = "orderSkuMessage",required = false)String[] orderSku)
     {
+        //salesorder（销售订单），ordersku(单品项)    json转pojo
+        SalesOrder salesOrder1 = JsonUtil.fromJson(salesOrder, SalesOrder.class);
+        if (orderSku != null) {
+            for (int i = 1; i < orderSku.length; i++) {
+                OrderSku order = JsonUtil.fromJson(orderSku[i], OrderSku.class);
+                order.setSalesOrderId(salesOrder1.getId());
+                iOrderSkuService.insertOrderSku(order);
+            }
+        }
+
+        //salesorder订单保存
         String orderId = OrderNumberBuilder.getOrderNumber();
         OrderNumberBuilder.setRANDOMNUMER(OrderNumberBuilder.getRANDOMNUMER()+1);
+        //设置订单编号
         random.setNumber(OrderNumberBuilder.getRANDOMNUMER());
-        salesOrder.setSaleId(orderId);
+        salesOrder1.setSaleId(orderId);
+        //自动设置操作者用户名
         String userName = (String) PermissionUtils.getPrincipalProperty("userName");
-        salesOrder.setCreateBy(userName);
-        return toAjax(salesOrderService.insertSalesOrder(salesOrder));
+        salesOrder1.setCreateBy(userName);
+        return toAjax(salesOrderService.insertSalesOrder(salesOrder1));
     }
 
     /**
      * 修改销售订单
      */
     @GetMapping("/edit/{id}")
-    public String edit(@PathVariable("id") Long id, ModelMap mmap)
+    public String edit(@PathVariable("id") Integer id, ModelMap mmap)
     {
         SalesOrder salesOrder = salesOrderService.selectSalesOrderById(id);
         mmap.put("salesOrder", salesOrder);
@@ -131,7 +145,7 @@ public class SalesOrderController extends BaseController
     /**
      * 修改保存销售订单
      */
-    @RequiresPermissions("DS:order:edit")
+    @RequiresPermissions("DS:sales_order:edit")
     @Log(title = "销售订单", businessType = BusinessType.UPDATE)
     @PostMapping("/edit")
     @ResponseBody
@@ -143,7 +157,7 @@ public class SalesOrderController extends BaseController
     /**
      * 删除销售订单
      */
-    @RequiresPermissions("DS:order:remove")
+    @RequiresPermissions("DS:sales_order:remove")
     @Log(title = "销售订单", businessType = BusinessType.DELETE)
     @PostMapping( "/remove")
     @ResponseBody
@@ -153,19 +167,10 @@ public class SalesOrderController extends BaseController
     }
 
 
-//    @GetMapping("/refreshClient")
-//    @ResponseBody
-//    public Map<Long, String> refreshClient(){
-//        Map<Long, String> map = new HashMap<Long, String>();
-//        List<Client> clients = clientService.selectClientList(null);
-//        for (Client i:
-//             clients) {
-//            map.put(i.getId(), i.getName());
-//        }
-//
-//        return map;
-//    }
-
+    /**
+     * 获取仓库id， name
+     * @return
+     */
     @GetMapping("/refreshWareHouse")
     @ResponseBody
     public Map<Long, String> refreshWareHouse(){
@@ -179,6 +184,10 @@ public class SalesOrderController extends BaseController
         return map;
     }
 
+    /**
+     * 获取物流渠道id， name
+     * @return
+     */
     @GetMapping("/refreshChannel")
     @ResponseBody
     public Map<Long, String> refreshChannel(){

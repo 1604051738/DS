@@ -15,6 +15,10 @@
                                 <input type="text" name="saleId"/>
                             </li>
                             <li>
+                                <p>物流跟踪号：</p>
+                                <input type="text" name="salesOrdercol"/>
+                            </li>
+                            <li>
                                 <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
                                 <a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i class="fa fa-refresh"></i>&nbsp;重置</a>
                             </li>
@@ -24,16 +28,16 @@
             </div>
 
             <div class="btn-group-sm" id="toolbar" role="group">
-                <a class="btn btn-success" onclick="$.operate.addTab()" shiro:hasPermission="DS:order:add">
+                <a class="btn btn-success" onclick="$.operate.addTab()" shiro:hasPermission="DS:sales_order:add">
                     <i class="fa fa-plus"></i> 添加
                 </a>
-                <a class="btn btn-primary single disabled" onclick="$.operate.editTab()" shiro:hasPermission="DS:order:edit">
+                <a class="btn btn-primary single disabled" onclick="$.operate.editTab()" shiro:hasPermission="DS:sales_order:edit">
                     <i class="fa fa-edit"></i> 修改
                 </a>
-                <a class="btn btn-danger multiple disabled" onclick="$.operate.removeAll()" shiro:hasPermission="DS:order:remove">
+                <a class="btn btn-danger multiple disabled" onclick="$.operate.removeAll()" shiro:hasPermission="DS:sales_order:remove">
                     <i class="fa fa-remove"></i> 删除
                 </a>
-                <a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="DS:order:export">
+                <a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="DS:sales_order:export">
                     <i class="fa fa-download"></i> 导出
                  </a>
             </div>
@@ -44,9 +48,9 @@
     </div>
     <th:block th:include="include :: footer" />
     <script th:inline="javascript">
-        var editFlag = [[${@permission.hasPermi('DS:order:edit')}]];
-        var removeFlag = [[${@permission.hasPermi('DS:order:remove')}]];
-        var prefix = ctx + "DS/order";
+        var editFlag = [[${@permission.hasPermi('DS:sales_order:edit')}]];
+        var removeFlag = [[${@permission.hasPermi('DS:sales_order:remove')}]];
+        var prefix = ctx + "DS/sales_order";
 
         $(function() {
             var options = {
@@ -75,8 +79,10 @@
                 },
                 {
                     field : 'totalCost', 
-                    title : '总金额',
-                    visible: false
+                    title : '总金额/总重量',
+                    formatter: function(value, row, index) {
+                        return  value + "/" + row.totalWeight ;
+                    }
                 },
                 {
                     field : 'totalPurchase', 
@@ -95,7 +101,8 @@
                 },
                 {
                     field : 'address', 
-                    title : '收货地址'
+                    title : '收货地址',
+                    visible: false
                 },
                 {
                     field : 'salesOrdercol', 
@@ -128,7 +135,7 @@
                     visible: false
                 },
                 {
-                    field : 'refundedReason',
+                    field : 'refundedReason', 
                     title : '退款原因',
                     visible: false
                 },
@@ -144,7 +151,8 @@
                 },
                 {
                     field : 'warehouse', 
-                    title : '发货仓库'
+                    title : '发货仓库',
+                    visible: false
                 },
                 {
                     field : 'forwarderWeight', 
@@ -161,7 +169,7 @@
                     title : '物流渠道'
                 },
                 {
-                    field : 'refunded amount', 
+                    field : 'refundedAmount', 
                     title : '退款金额',
                     visible: false
                 },
@@ -177,8 +185,7 @@
                 },
                 {
                     field : 'customId', 
-                    title : '买家ID',
-                    visible: false
+                    title : '买家ID'
                 },
                 {
                     field : 'payStatus', 
@@ -187,7 +194,8 @@
                 },
                 {
                     field : 'logisticsStatus', 
-                    title : '物流跟踪状态'
+                    title : '物流跟踪状态',
+                    visible: false
                 },
                 {
                     field : 'isExchange', 
@@ -216,13 +224,7 @@
                 },
                 {
                     field : 'customBuyTime', 
-                    title : '客户购买时间',
-                    sortable: true
-                },
-                {
-                    field : 'createBy',
-                    title : '创建人',
-                    visible: false
+                    title : '购买时间'
                 },
                 {
                     title: '操作',

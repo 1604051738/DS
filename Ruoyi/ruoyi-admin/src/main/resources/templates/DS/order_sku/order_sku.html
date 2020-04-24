@@ -11,10 +11,6 @@
                     <div class="select-list">
                         <ul>
                             <li>
-                                <p>id：</p>
-                                <input type="text" name="id"/>
-                            </li>
-                            <li>
                                 <p>平台订单项ID：</p>
                                 <input type="text" name="platformOrderItemId"/>
                             </li>
@@ -33,6 +29,10 @@
                             <li>
                                 <p>颜色：</p>
                                 <input type="text" name="color"/>
+                            </li>
+                            <li>
+                                <p>数量：</p>
+                                <input type="text" name="quantity"/>
                             </li>
                             <li>
                                 <p>已分配：</p>
@@ -57,6 +57,14 @@
                             <li>
                                 <p>采购货本：</p>
                                 <input type="text" name="purchaseCost"/>
+                            </li>
+                            <li>
+                                <p>skuproduct外键：</p>
+                                <input type="text" name="productSkuId"/>
+                            </li>
+                            <li>
+                                <p>salesorder外键：</p>
+                                <input type="text" name="salesOrderId"/>
                             </li>
                             <li>
                                 <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
@@ -155,6 +163,14 @@
                 {
                     field : 'purchaseCost', 
                     title : '采购货本'
+                },
+                {
+                    field : 'productSkuId', 
+                    title : 'skuproduct外键'
+                },
+                {
+                    field : 'salesOrderId', 
+                    title : 'salesorder外键'
                 },
                 {
                     title: '操作',
