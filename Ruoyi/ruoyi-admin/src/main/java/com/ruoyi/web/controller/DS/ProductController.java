@@ -60,9 +60,9 @@ public class ProductController extends BaseController
     @GetMapping()
     public String product(Model model)
     {
-        List<Category> list1 = iCategoryService.selectCategoryList(null);
+//        List<Category> list1 = iCategoryService.selectCategoryList(null);
         List<Supplier> list2 = iSupplierService.selectSupplierList(null);
-        model.addAttribute("list1",list1);
+//        model.addAttribute("list1",list1);
         model.addAttribute("list2",list2);
         return prefix + "/product";
     }
@@ -116,13 +116,7 @@ public class ProductController extends BaseController
     @PostMapping("/add")
     @ResponseBody
     public AjaxResult addSave(@RequestParam("filepathes")String[] files, @RequestParam(value = "skuMessages", required = false) String[] skuMessages, Product product) throws ParseException {
-            for (int i = 1; i < skuMessages.length; i++) {
-                Skuproduct skuproduct =  JsonUtil.fromJson(skuMessages[i],  Skuproduct.class);
-                String code = SkuCodeBuilder.getSkuCode(skuproduct.getProduct(), skuproductService);
-                // 上传文件路径
-                skuproduct.setSkucode(code);
-                skuproductService.insertSkuproduct(skuproduct);
-            }
+             //商品保存
             String fileName = "";
             List<String> list = new ArrayList<String>();
             Collections.addAll(list, files);
@@ -137,7 +131,17 @@ public class ProductController extends BaseController
             String userName = (String) PermissionUtils.getPrincipalProperty("userName");
             product.setCreateBy(userName);
             product.setUpdateBy("暂未更新");
-            return toAjax(productService.insertProduct(product));
+            productService.insertProduct(product);
+            //sku单品保存
+            for (int i = 1; i < skuMessages.length; i++) {
+                Skuproduct skuproduct =  JsonUtil.fromJson(skuMessages[i],  Skuproduct.class);
+                String code = SkuCodeBuilder.getSkuCode(product.getCode(), skuproductService);
+                skuproduct.setCode(code);
+                skuproduct.setProduct(product.getId());
+                skuproductService.insertSkuproduct(skuproduct);
+            }
+
+            return toAjax(true);
     }
 
 
@@ -162,27 +166,14 @@ public class ProductController extends BaseController
     @PostMapping("/edit")
     @ResponseBody
     public AjaxResult editSave(@RequestParam("filepathes")String[] files, @RequestParam(value = "skuMessages", required = false) String[] skuMessages,Product product) throws IOException {
-        if (skuMessages != null){
-            for (int i = 1; i < skuMessages.length; i++) {
-                Skuproduct skuproduct =  JsonUtil.fromJson(skuMessages[i],  Skuproduct.class);
-                if (skuproduct.getSkucode().equals("")){
-                    // 上传文件路径
-                    String code = SkuCodeBuilder.getSkuCode(skuproduct.getProduct(), skuproductService);
-                    skuproduct.setSkucode(code);
-                    skuproductService.insertSkuproduct(skuproduct);
-                }else {
-                    skuproductService.updateSkuproduct(skuproduct);
-                }
-
-            }
-        }
+//        商品更新
         String fileName =new String();
         List<String> list = new ArrayList<String>();
         for (int i = 0; i < files.length ; i++) {
             list.add(files[i]);
         }
         for (String filename:list
-             ) {
+        ) {
             fileName = fileName + filename + '-';
         }
         product.setFilepath(fileName);
@@ -190,7 +181,25 @@ public class ProductController extends BaseController
         String userName = (String) PermissionUtils.getPrincipalProperty("userName");
         product.setUpdateBy(userName);
         product.setUpdateTime(date);
-        return toAjax(productService.updateProduct(product));
+        productService.updateProduct(product);
+        //sku单品判断是否存在进行添加/更新
+        if (skuMessages != null){
+            for (int i = 1; i < skuMessages.length; i++) {
+                Skuproduct skuproduct =  JsonUtil.fromJson(skuMessages[i],  Skuproduct.class);
+                if (skuproduct.getId() == null){
+                    // 上传文件路径
+                    String code = SkuCodeBuilder.getSkuCode(product.getCode(), skuproductService);
+                    skuproduct.setCode(code);
+                    skuproduct.setProduct(product.getId());
+                    skuproductService.insertSkuproduct(skuproduct);
+                }else {
+                    skuproductService.updateSkuproduct(skuproduct);
+                }
+
+            }
+        }
+
+        return toAjax(true);
     }
 
 
@@ -199,7 +208,7 @@ public class ProductController extends BaseController
      */
     @RequiresPermissions("DS:product:remove")
     @Log(title = "商品", businessType = BusinessType.DELETE)
-    @PostMapping( "/remove")
+    @PostMapping( value = "/remove")
     @ResponseBody
     public AjaxResult remove(String ids)
     {
@@ -208,21 +217,21 @@ public class ProductController extends BaseController
             for (int i = 0; i < args.length; i++) {
                 Product product = productService.selectProductById(Long.parseLong(args[i]));
                 Skuproduct skuproduct = new Skuproduct();
-                skuproduct.setSkucode(product.getCode().toString());
+                skuproduct.setCode(product.getCode().toString());
                 if (skuproductService.selectSkuproductList(skuproduct).size() == 0)
                     return toAjax(productService.deleteProductByIds(ids));
                 else
-                    return error("删除失败，所选的"+args[i]+"号商品存在关联的sku单品项");
+                    return error("fail to delete"+args[i]+"has 'sku'");
             }
             return toAjax(productService.deleteProductByIds(ids));
         }else {
             Product product = productService.selectProductById(Long.parseLong(ids));
             Skuproduct skuproduct = new Skuproduct();
-            skuproduct.setSkucode(product.getCode().toString());
+            skuproduct.setCode(product.getCode().toString());
             if (skuproductService.selectSkuproductList(skuproduct).size() == 0)
                 return toAjax(productService.deleteProductByIds(ids));
             else
-                return error("删除失败，该商品存在关联的sku单品项");
+                return error("fail to delete, it has 'sku'");
         }
         }
 
@@ -233,23 +242,10 @@ public class ProductController extends BaseController
   */
     @GetMapping("/refresh")
     @ResponseBody
-    public List<Map<Long, String>> add(){
-        List<Map<Long, String>> list = new ArrayList<Map<Long, String>>();
-        Map<Long, String> category =  new HashMap<Long, String>();
-        Map<Long, String> supplier =  new HashMap<Long, String>();
-        List<Category> categories = iCategoryService.selectCategoryList(null);
-        List<Supplier> suppliers = iSupplierService.selectSupplierList(null);
-        for (Category i:
-             categories) {
-            category.put(i.getId(), i.getName());
-        }
-        for (Supplier i:
-             suppliers) {
-            supplier.put(i.getId(), i.getName());
-        }
-        list.add(category);
-        list.add(supplier);
-        return list;
+    public Map<String, List> add(){
+        Map data = new HashMap();
+        data.put("supplier", iSupplierService.selectSupplierList(new Supplier()));
+        return data;
     }
 
 
@@ -264,13 +260,13 @@ public class ProductController extends BaseController
         List<String> list = new ArrayList<String>();
         Product product = productService.selectProductById(id);
         Skuproduct skuproduct = new Skuproduct();
-        skuproduct.setSkucode(String.valueOf(product.getCode()));
+        skuproduct.setCode(String.valueOf(product.getCode()));
         List<Skuproduct> list1 = skuproductService.selectSkuproductList(skuproduct);
         for (Skuproduct sku: list1
              ) {
-            if (sku.getStt() != null){
+            if (sku.getSalesStatTime() != null){
                 SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                String str = format.format(sku.getStt());
+                String str = format.format(sku.getSalesStatTime());
                 sku.setRemark(str);
             }
             list.add(JsonUtil.toJson(sku));
@@ -329,5 +325,23 @@ public class ProductController extends BaseController
     public String getDistribute(String id){
         Product product = productService.selectProductById(Long.parseLong(id));
         return product.getDd();
+    }
+
+
+
+    /**
+     * 获取仓库,物流渠道name
+     * @return
+     */
+    @GetMapping("/getName/{id}")
+    @ResponseBody
+    public Map<String, String > getName(@PathVariable Integer id){
+        Map<String , String > data = new HashMap<>();
+        Product product = productService.selectProductById(Long.parseLong(id.toString()));
+        Long supplier = product.getSupplier();
+        Long category = product.getCategory();
+        data.put("supplier", iSupplierService.selectSupplierById(supplier).getName());
+        data.put("category", iCategoryService.selectCategoryById(category).getName());
+        return data;
     }
 }

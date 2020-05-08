@@ -12,24 +12,7 @@
                         <ul>
                             <li>
                                 <p>SKU编码：</p>
-                                <input type="text" name="skucode"/>
-                            </li>
-                            <li>
-                                <p>状态：</p>
-                                <select name="state" th:with="type=${@dict.getType('DS_SKUStatus')}">
-                                    <option value="">所有</option>
-                                    <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>
-                                </select>
-                            </li>
-                            <li class="select-time">
-                                <p>统计时间：</p>
-                                <input type="text" class="time-input" id="startTime" placeholder="开始时间" name="params[beginStt]"/>
-                                <span>-</span>
-                                <input type="text" class="time-input" id="endTime" placeholder="结束时间" name="params[endStt]"/>
-                            </li>
-                            <li>
-                                <p>SKU映射：</p>
-                                <input type="text" name="skumap"/>
+                                <input type="text" name="code"/>
                             </li>
                             <li>
                                 <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
@@ -63,8 +46,6 @@
     <script th:inline="javascript">
         var editFlag = [[${@permission.hasPermi('DS:skuproduct:edit')}]];
         var removeFlag = [[${@permission.hasPermi('DS:skuproduct:remove')}]];
-        var stateDatas = [[${@dict.getType('DS_SKUStatus')}]];
-        var ipsDatas = [[${@dict.getType('DS_IPS')}]];
         var prefix = ctx + "DS/skuproduct";
 
         $(function() {
@@ -84,118 +65,110 @@
                     visible: false
                 },
                 {
-                    field : 'filepath',
-                    title: '图片预览',
-                    formatter: function(value, row, index) {
-                        return $.table.imageView(value,'auto','auto');
-                    }
+                    field : 'code', 
+                    title : 'SKU编码'
                 },
                 {
-                    field : 'skucode', 
-                    title : 'SKU编码',
-                    sortable: true
-                },
-                {
-                    field : 'skuocode', 
+                    field : 'codeExt', 
                     title : 'SKU外部码',
-                    sortable: true
+                    visible: false
                 },
                 {
                     field : 'size', 
-                    title : 'size',
-                    sortable: true
+                    title : 'size'
                 },
                 {
                     field : 'color', 
                     title : '颜色'
                 },
                 {
-                    field : 'suttle', 
-                    title : '净重',
-                    visible: false
+                    field : 'netWeight', 
+                    title : '净重'
                 },
                 {
-                    field : 'rw', 
+                    field : 'grossWeight', 
                     title : '毛重'
                 },
                 {
-                    field : 'costprice', 
+                    field : 'costPrice', 
                     title : '成本价(RMB)'
                 },
                 {
                     field : 'sellprice', 
-                    title : '售价',
+                    title : '售价'
+                },
+                {
+                    field : 'status', 
+                    title : '状态'
+                },
+                {
+                    field : 'sortOrder', 
+                    title : '排序',
                     visible: false
                 },
                 {
-                    field : 'state', 
-                    title : '状态',
-                    formatter: function(value, row, index) {
-                       return $.table.selectDictLabel(stateDatas, value);
-                    }
-                },
-                {
-                    field : 'rank', 
-                    title : '排序',
-                    visible: false,
-                    sortable: true
-                },
-                {
-                    field : 'ssq', 
+                    field : 'sales7days', 
                     title : '七天销量',
-                    visible: false,
-                    sortable: true
+                    visible: false
                 },
                 {
-                    field : 'ssqd', 
+                    field : 'sales7daysDay', 
                     title : '七天销量天数',
-                    visible: false,
-                    sortable: true
+                    visible: false
                 },
                 {
-                    field : 'tsq',
+                    field : 'sales14days', 
+                    title : '十四天销量',
+                    visible: false
+                },
+                {
+                    field : 'sales14daysDay', 
+                    title : '十四天销量天数',
+                    visible: false
+                },
+                {
+                    field : 'sales30days', 
                     title : '三十天销量',
-                    visible: false,
-                    sortable: true
+                    visible: false
                 },
                 {
-                    field : 'tsqd', 
+                    field : 'sales30daysDay', 
                     title : '三十天销量天数',
-                    visible: false,
-                    sortable: true
+                    visible: false
                 },
                 {
-                    field : 'tpq', 
+                    field : 'purchasePlan', 
                     title : '待采购量',
                     visible: false
                 },
                 {
-                    field : 'pod', 
+                    field : 'purchasePlanDays', 
                     title : '采购天数',
                     visible: false
                 },
                 {
-                    field : 'pd', 
+                    field : 'purchaseDeliveryDay', 
                     title : '采购交期',
                     visible: false
                 },
                 {
-                    field : 'stt', 
+                    field : 'salesStatTime', 
                     title : '统计时间',
-                    visible: false,
-                    sortable: true
+                    visible: false
                 },
                 {
-                    field : 'ips', 
+                    field : 'inventoryPublishPolicy', 
                     title : '库存刊登策略',
-                    formatter: function(value, row, index) {
-                       return $.table.selectDictLabel(ipsDatas, value);
-                    },
                     visible: false
                 },
                 {
                     field : 'product', 
                     title : '商品',
+                    visible: false
+                },
+                {
+                    field : 'filepath', 
+                    title : '文件路径',
                     visible: false
                 },
                 {
@@ -209,13 +182,8 @@
                     visible: false
                 },
                 {
-                    field : 'height',
+                    field : 'height', 
                     title : '高',
-                    visible: false
-                },
-                {
-                    field : 'skumap', 
-                    title : 'SKU映射',
                     visible: false
                 },
                 {

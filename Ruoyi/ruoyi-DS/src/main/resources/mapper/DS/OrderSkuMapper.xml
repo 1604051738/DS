@@ -46,7 +46,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         </where>
     </select>
     
-    <select id="selectOrderSkuById" parameterType="Long" resultMap="OrderSkuResult">
+    <select id="selectOrderSkuById" parameterType="Integer" resultMap="OrderSkuResult">
         <include refid="selectOrderSkuVo"/>
         where id = #{id}
     </select>
@@ -93,13 +93,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="platformOrderItemId != null  and platformOrderItemId != ''">platform_order_item_id = #{platformOrderItemId},</if>
             <if test="productName != null  and productName != ''">product_name = #{productName},</if>
             <if test="skuCode != null  and skuCode != ''">sku_code = #{skuCode},</if>
-            <if test="size != null  and size != ''">size = #{size},</if>
-            <if test="color != null  and color != ''">color = #{color},</if>
+            <if test="size != null">size = #{size},</if>
+            <if test="color != null ">color = #{color},</if>
             <if test="quantity != null ">quantity = #{quantity},</if>
             <if test="allocated != null  and allocated != ''">allocated = #{allocated},</if>
             <if test="released != null ">released = #{released},</if>
             <if test="price != null ">price = #{price},</if>
-            <if test="shipping != null ">shipping = #{shipping},</if>
+            <if test="shipping != '' ">shipping = #{shipping},</if>
             <if test="weight != null ">weight = #{weight},</if>
             <if test="purchaseCost != null ">purchase_cost = #{purchaseCost},</if>
             <if test="productSkuId != null ">product_sku_id = #{productSkuId},</if>
@@ -108,7 +108,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         where id = #{id}
     </update>
 
-    <delete id="deleteOrderSkuById" parameterType="Long">
+    <delete id="deleteOrderSkuById" parameterType="Integer">
         delete from order_sku where id = #{id}
     </delete>
 

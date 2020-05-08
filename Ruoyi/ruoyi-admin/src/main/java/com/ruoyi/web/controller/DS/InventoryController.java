@@ -132,14 +132,10 @@ public class InventoryController extends BaseController
     @ResponseBody
     public AjaxResult editSave(Inventory inventory)
     {
-        Inventory inventory1 = inventoryService.selectInventoryBySKU(inventory.getSku());
-        if (inventory1 == null) {
-            Date date = new Date();
-            String userName = (String) PermissionUtils.getPrincipalProperty("userName");
-            inventory.setUpdateBy(userName);
-            return toAjax(inventoryService.updateInventory(inventory));
-        }else
-            return error(inventory.getSku()+"已经存在库存信息");
+        Date date = new Date();
+        String userName = (String) PermissionUtils.getPrincipalProperty("userName");
+        inventory.setUpdateBy(userName);
+        return toAjax(inventoryService.updateInventory(inventory));
     }
 
     /**
@@ -177,7 +173,7 @@ public class InventoryController extends BaseController
         List<Skuproduct> skuproducts = skuproductService.selectSkuproductList(null);
         for (Skuproduct sku:
                 skuproducts) {
-            list.add(sku.getSkucode());
+            list.add(sku.getCode());
         }
         return list;
     }
@@ -188,7 +184,8 @@ public class InventoryController extends BaseController
     @ResponseBody
     public Integer getSku(@RequestParam(name = "value") String skucode){
         Skuproduct skuproduct = new Skuproduct();
-        skuproduct.setSkucode(skucode);
+        String code = skucode.split("-")[0];
+        skuproduct.setCode(code);
         List<Skuproduct> skuproduct1 = skuproductService.selectSkuproductList(skuproduct);
         if (skuproduct1.size() == 0){
             throw new RuntimeException("查询的指定Sku不存在");

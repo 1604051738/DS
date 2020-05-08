@@ -49,7 +49,7 @@ public interface SalesOrderMapper
      * @param id 销售订单ID
      * @return 结果
      */
-    public int deleteSalesOrderById(Long id);
+    public int deleteSalesOrderById(Integer id);
 
     /**
      * 批量删除销售订单

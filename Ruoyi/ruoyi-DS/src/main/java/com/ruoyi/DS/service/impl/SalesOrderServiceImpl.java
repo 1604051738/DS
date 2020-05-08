@@ -87,7 +87,7 @@ public class SalesOrderServiceImpl implements ISalesOrderService
      * @return 结果
      */
     @Override
-    public int deleteSalesOrderById(Long id)
+    public int deleteSalesOrderById(Integer id)
     {
         return salesOrderMapper.deleteSalesOrderById(id);
     }

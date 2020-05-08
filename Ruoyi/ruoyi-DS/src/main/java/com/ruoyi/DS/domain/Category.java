@@ -1,23 +1,17 @@
 package com.ruoyi.DS.domain;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import com.ruoyi.common.annotation.Excel;
-import com.ruoyi.common.core.domain.BaseEntity;
+import com.ruoyi.common.core.domain.TreeEntity;
 
 /**
  * 目录分类对象 category
  * 
  * @author ruoyi
- * @date 2019-12-26
+ * @date 2020-05-08
  */
-@NoArgsConstructor
-@AllArgsConstructor
-@Data
-public class Category extends BaseEntity
+public class Category extends TreeEntity
 {
     private static final long serialVersionUID = 1L;
 
@@ -32,10 +26,6 @@ public class Category extends BaseEntity
     @Excel(name = "中文名称")
     private String chinesename;
 
-    /** 描述 */
-    @Excel(name = "描述")
-    private String remark;
-
     /** 状态 */
     @Excel(name = "状态")
     private Long state;
@@ -46,12 +36,75 @@ public class Category extends BaseEntity
 
     /** 父目录 */
     @Excel(name = "父目录")
-    private String parentdirectory;
+    private Long parentdirectory;
 
     /** 排序路径 */
     @Excel(name = "排序路径")
     private String sp;
 
+    public void setId(Long id) 
+    {
+        this.id = id;
+    }
+
+    public Long getId() 
+    {
+        return id;
+    }
+    public void setName(String name) 
+    {
+        this.name = name;
+    }
+
+    public String getName() 
+    {
+        return name;
+    }
+    public void setChinesename(String chinesename) 
+    {
+        this.chinesename = chinesename;
+    }
+
+    public String getChinesename() 
+    {
+        return chinesename;
+    }
+    public void setState(Long state) 
+    {
+        this.state = state;
+    }
+
+    public Long getState() 
+    {
+        return state;
+    }
+    public void setOrdervalue(String ordervalue) 
+    {
+        this.ordervalue = ordervalue;
+    }
+
+    public String getOrdervalue() 
+    {
+        return ordervalue;
+    }
+    public void setParentdirectory(Long parentdirectory) 
+    {
+        this.parentdirectory = parentdirectory;
+    }
+
+    public Long getParentdirectory() 
+    {
+        return parentdirectory;
+    }
+    public void setSp(String sp) 
+    {
+        this.sp = sp;
+    }
+
+    public String getSp() 
+    {
+        return sp;
+    }
 
     @Override
     public String toString() {
@@ -63,10 +116,10 @@ public class Category extends BaseEntity
             .append("state", getState())
             .append("ordervalue", getOrdervalue())
             .append("parentdirectory", getParentdirectory())
-            .append("createby", getCreateBy())
-            .append("updateby", getUpdateBy())
-            .append("createtime", getCreateTime())
-            .append("updatetime", getUpdateTime())
+            .append("createBy", getCreateBy())
+            .append("updateBy", getUpdateBy())
+            .append("createTime", getCreateTime())
+            .append("updateTime", getUpdateTime())
             .append("sp", getSp())
             .toString();
     }

@@ -12,7 +12,7 @@ import com.ruoyi.common.core.text.Convert;
  * SKU单品Service业务层处理
  * 
  * @author ruoyi
- * @date 2019-12-26
+ * @date 2020-04-30
  */
 @Service
 public class SkuproductServiceImpl implements ISkuproductService 
@@ -20,19 +20,21 @@ public class SkuproductServiceImpl implements ISkuproductService
     @Autowired
     private SkuproductMapper skuproductMapper;
 
-
     /**
      * 查询SKU单品
      * 
      * @param id SKU单品ID
      * @return SKU单品
      */
-
-
     @Override
     public Skuproduct selectSkuproductById(Integer id)
     {
         return skuproductMapper.selectSkuproductById(id);
+    }
+
+    @Override
+    public Skuproduct selectSkuproductByCode(String code) {
+        return skuproductMapper.selectSkuproductByCode(code);
     }
 
     /**

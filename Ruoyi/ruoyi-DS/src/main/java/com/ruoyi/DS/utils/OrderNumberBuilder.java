@@ -1,9 +1,6 @@
 package com.ruoyi.DS.utils;
 
-import com.ruoyi.DS.service.impl.RandomImpl;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;

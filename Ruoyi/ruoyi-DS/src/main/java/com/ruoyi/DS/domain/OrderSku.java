@@ -22,7 +22,7 @@ public class OrderSku extends BaseEntity
     private static final long serialVersionUID = 1L;
 
     /** id */
-    private Long id;
+    private Integer id;
 
     /** 平台订单项ID */
     @Excel(name = "平台订单项ID")

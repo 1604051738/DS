@@ -17,7 +17,7 @@ public interface OrderSkuMapper
      * @param id 单品项ID
      * @return 单品项
      */
-    public OrderSku selectOrderSkuById(Long id);
+    public OrderSku selectOrderSkuById(Integer id);
 
     /**
      * 查询单品项列表
@@ -49,7 +49,7 @@ public interface OrderSkuMapper
      * @param id 单品项ID
      * @return 结果
      */
-    public int deleteOrderSkuById(Long id);
+    public int deleteOrderSkuById(Integer id);
 
     /**
      * 批量删除单品项

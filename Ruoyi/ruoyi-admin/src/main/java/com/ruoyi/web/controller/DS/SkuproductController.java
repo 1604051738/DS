@@ -109,7 +109,7 @@ public class SkuproductController extends BaseController
     {
         String code = SkuCodeBuilder.getSkuCode(skuproduct.getProduct(), skuproductService);
         // 上传文件路径
-        skuproduct.setSkucode(code);
+        skuproduct.setCode(code);
         String filePath = Global.getUploadPath();
         // 上传并返回新文件名称
         String fileName = FileUploadUtils.upload(filePath, file);
@@ -151,7 +151,8 @@ public class SkuproductController extends BaseController
             fileName = (String)file;
         skuproduct.setFilepath(fileName);
         model.addAttribute("path",path);
-        return toAjax(skuproductService.updateSkuproduct(skuproduct));
+        skuproductService.updateSkuproduct(skuproduct);
+        return toAjax(true);
     }
 
     /**

@@ -27,7 +27,7 @@ public class OrderSkuServiceImpl implements IOrderSkuService
      * @return 单品项
      */
     @Override
-    public OrderSku selectOrderSkuById(Long id)
+    public OrderSku selectOrderSkuById(Integer id)
     {
         return orderSkuMapper.selectOrderSkuById(id);
     }
@@ -87,7 +87,7 @@ public class OrderSkuServiceImpl implements IOrderSkuService
      * @return 结果
      */
     @Override
-    public int deleteOrderSkuById(Long id)
+    public int deleteOrderSkuById(Integer id)
     {
         return orderSkuMapper.deleteOrderSkuById(id);
     }

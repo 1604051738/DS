@@ -3,13 +3,10 @@ package com.ruoyi.web.controller.DS;
 import java.util.Date;
 import java.util.List;
 
-import com.ruoyi.common.annotation.Excel;
 import com.ruoyi.common.utils.security.PermissionUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -23,15 +20,15 @@ import com.ruoyi.DS.service.ICategoryService;
 import com.ruoyi.common.core.controller.BaseController;
 import com.ruoyi.common.core.domain.AjaxResult;
 import com.ruoyi.common.utils.poi.ExcelUtil;
-import com.ruoyi.common.core.page.TableDataInfo;
+import com.ruoyi.common.utils.StringUtils;
+import com.ruoyi.common.core.domain.Ztree;
 
 /**
  * 目录分类Controller
  * 
  * @author ruoyi
- * @date 2019-12-25
+ * @date 2020-05-08
  */
-@Transactional(rollbackFor = Exception.class)
 @Controller
 @RequestMapping("/DS/category")
 public class CategoryController extends BaseController
@@ -49,16 +46,15 @@ public class CategoryController extends BaseController
     }
 
     /**
-     * 查询目录分类列表
+     * 查询目录分类树列表
      */
     @RequiresPermissions("DS:category:list")
     @PostMapping("/list")
     @ResponseBody
-    public TableDataInfo list(Category category)
+    public List<Category> list(Category category)
     {
-        startPage();
         List<Category> list = categoryService.selectCategoryList(category);
-        return getDataTable(list);
+        return list;
     }
 
     /**
@@ -78,11 +74,13 @@ public class CategoryController extends BaseController
     /**
      * 新增目录分类
      */
-    @GetMapping("/add")
-    public String add(Model model)
+    @GetMapping(value = { "/add/{id}", "/add/" })
+    public String add(@PathVariable(value = "id", required = false) Long id, ModelMap mmap)
     {
-        List<Category> categories = categoryService.selectCategoryList(null);
-        model.addAttribute("list",categories);
+        if (StringUtils.isNotNull(id))
+        {
+            mmap.put("category", categoryService.selectCategoryById(id));
+        }
         return prefix + "/add";
     }
 
@@ -95,12 +93,11 @@ public class CategoryController extends BaseController
     @ResponseBody
     public AjaxResult addSave(Category category)
     {
+
         Date date = new Date();
-        category.setCreateTime(date);
-        category.setUpdateTime(date);
         String userName = (String) PermissionUtils.getPrincipalProperty("userName");
         category.setCreateBy(userName);
-        category.setUpdateBy("暂未更新");
+        category.setCreateTime(date);
         return toAjax(categoryService.insertCategory(category));
     }
 
@@ -108,10 +105,8 @@ public class CategoryController extends BaseController
      * 修改目录分类
      */
     @GetMapping("/edit/{id}")
-    public String edit(@PathVariable("id") Long id, ModelMap mmap,Model model)
+    public String edit(@PathVariable("id") Long id, ModelMap mmap)
     {
-        List<Category> categories = categoryService.selectCategoryList(null);
-        model.addAttribute("list",categories);
         Category category = categoryService.selectCategoryById(id);
         mmap.put("category", category);
         return prefix + "/edit";
@@ -134,14 +129,38 @@ public class CategoryController extends BaseController
     }
 
     /**
-     * 删除目录分类
+     * 删除
      */
     @RequiresPermissions("DS:category:remove")
     @Log(title = "目录分类", businessType = BusinessType.DELETE)
-    @PostMapping( "/remove")
+    @GetMapping("/remove/{id}")
     @ResponseBody
-    public AjaxResult remove(String ids)
+    public AjaxResult remove(@PathVariable("id") Long id)
     {
-        return toAjax(categoryService.deleteCategoryByIds(ids));
+        return toAjax(categoryService.deleteCategoryById(id));
+    }
+
+    /**
+     * 选择目录分类树
+     */
+    @GetMapping(value = { "/selectCategoryTree/{id}", "/selectCategoryTree/" })
+    public String selectCategoryTree(@PathVariable(value = "id", required = false) Long id, ModelMap mmap)
+    {
+        if (StringUtils.isNotNull(id))
+        {
+            mmap.put("category", categoryService.selectCategoryById(id));
+        }
+        return prefix + "/tree";
+    }
+
+    /**
+     * 加载目录分类树列表
+     */
+    @GetMapping("/treeData")
+    @ResponseBody
+    public List<Ztree> treeData()
+    {
+        List<Ztree> ztrees = categoryService.selectCategoryTree();
+        return ztrees;
     }
 }

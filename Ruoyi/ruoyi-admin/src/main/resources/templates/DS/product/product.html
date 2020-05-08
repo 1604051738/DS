@@ -113,7 +113,7 @@
                         $.post(prefix+"/getSkuList", data, function (result) {
                            $.each(result, function (i, skuProduct) {
                                skuProduct = jQuery.parseJSON(skuProduct);
-                               skuCode = skuCode + skuProduct.skucode + "<br/><br/>";
+                               skuCode = skuCode + skuProduct.code + "<br/><br/>";
                            })
                         });
                         return  skuCode;
@@ -131,7 +131,7 @@
                         $.post(prefix+"/getSkuList", data, function (result) {
                             $.each(result, function (i, skuProduct) {
                                 skuProduct = jQuery.parseJSON(skuProduct);
-                                sku = sku + skuProduct.costprice + "/" + skuProduct.rw + "<br/><br/>";
+                                sku = sku + skuProduct.costPrice + "/" + skuProduct.grossWeight + "<br/><br/>";
                             })
                         });
                         return  sku;
@@ -149,14 +149,14 @@
                         $.post(prefix+"/getSkuList", data, function (result) {
                             $.each(result, function (i, skuProduct) {
                                 skuProduct = jQuery.parseJSON(skuProduct);
-                                if (skuProduct.state == 0){
-                                    skuStatus = skuStatus + "非激活<br/><br/>";
+                                if (skuProduct.status == 0){
+                                    skuStatus = skuStatus + "<span style='color: red'>非激活</span><br/><br/>";
                                 }
-                                if(skuProduct.state == 1){
-                                    skuStatus = skuStatus +"激活<br/><br/>";
+                                if(skuProduct.status == 1){
+                                    skuStatus = skuStatus +"<span style='color: green'>激活</span><br/><br/>";
                                 }
-                                if(skuProduct.state == 2){
-                                    skuStatus = skuStatus + "售完为止<br/><br/>";
+                                if(skuProduct.status == 2){
+                                    skuStatus = skuStatus + "<span style='color: #1E0FBE'>售完为止</span><br/><br/>";
                                 }
                             })
                         });
@@ -165,7 +165,7 @@
                 },
                 {
                     field: '',
-                    title: '7/30天销量',
+                    title: '7/14/30天销量',
                     formatter: function(value, row, index) {
                         $.ajaxSettings.async = false;
                         var sku = "";
@@ -175,7 +175,7 @@
                         $.post(prefix+"/getSkuList", data, function (result) {
                             $.each(result, function (i, skuProduct) {
                                 skuProduct = jQuery.parseJSON(skuProduct);
-                                sku = sku + skuProduct.ssq + "/" + skuProduct.tsq+ "<br/><br/>";                            })
+                                sku = sku + skuProduct.sales7days + "/" + skuProduct.sales14days + "/" + skuProduct.sales30days+ "<br/><br/>";                            })
                         });
                         return  sku;
                     }

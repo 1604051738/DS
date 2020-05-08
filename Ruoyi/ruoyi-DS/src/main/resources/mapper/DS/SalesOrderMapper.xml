@@ -22,7 +22,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="refundedReason"    column="refunded_reason"    />
         <result property="remark"    column="remark"    />
         <result property="remarkToCustom"    column="remark_to_custom"    />
-        <result property="warehouse"    column="warehouse"    />
         <result property="forwarderWeight"    column="forwarder_weight"    />
         <result property="newOdd"    column="new_odd"    />
         <result property="logisticsChannel"    column="logistics_channel"    />
@@ -39,24 +38,23 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="dowloadTime"    column="dowload_time"    />
         <result property="customBuyTime"    column="custom_buy_time"    />
         <result property="createBy"    column="create_by"    />
+        <result property="warehouse"    column="warehouse"    />
     </resultMap>
 
     <sql id="selectSalesOrderVo">
-        select id, sale_id, sale_id_o, total_cost, total_purchase, except_freight, forwarder_freight, address, sales_ordercol, sales_ordercol_e, outbound_weight, number_type, is_refunded, refunded_time, refunded_reason, remark, remark_to_custom, warehouse, forwarder_weight, new_odd, logistics_channel, refunded_amount, total_weight, order_status, custom_id, pay_status, logistics_status, is_exchange, storage_time, deliver_remark_time, logistics_accept_time, dowload_time, custom_buy_time, create_by from sales_order
+        select id, sale_id, sale_id_o, total_cost, total_purchase, except_freight, forwarder_freight, address, sales_ordercol, sales_ordercol_e, outbound_weight, number_type, is_refunded, refunded_time, refunded_reason, remark, remark_to_custom, forwarder_weight, new_odd, logistics_channel, refunded_amount, total_weight, order_status, custom_id, pay_status, logistics_status, is_exchange, storage_time, deliver_remark_time, logistics_accept_time, dowload_time, custom_buy_time, create_by, warehouse from sales_order
     </sql>
-
 
     <select id="selectSalesOrderList" parameterType="SalesOrder" resultMap="SalesOrderResult">
         <include refid="selectSalesOrderVo"/>
         <where>  
-            <if test="id != null "> and id = #{id}</if>
             <if test="saleId != null  and saleId != ''"> and sale_id = #{saleId}</if>
             <if test="saleIdO != null  and saleIdO != ''"> and sale_id_o = #{saleIdO}</if>
             <if test="totalCost != null "> and total_cost = #{totalCost}</if>
             <if test="totalPurchase != null "> and total_purchase = #{totalPurchase}</if>
             <if test="exceptFreight != null "> and except_freight = #{exceptFreight}</if>
             <if test="forwarderFreight != null "> and forwarder_freight = #{forwarderFreight}</if>
-            <if test="address != null  and address != ''"> and address = #{address}</if>
+            <if test="address != null "> and address = #{address}</if>
             <if test="salesOrdercol != null  and salesOrdercol != ''"> and sales_ordercol = #{salesOrdercol}</if>
             <if test="salesOrdercolE != null  and salesOrdercolE != ''"> and sales_ordercol_e = #{salesOrdercolE}</if>
             <if test="outboundWeight != null "> and outbound_weight = #{outboundWeight}</if>
@@ -65,7 +63,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="refundedTime != null "> and refunded_time = #{refundedTime}</if>
             <if test="refundedReason != null  and refundedReason != ''"> and refunded_reason = #{refundedReason}</if>
             <if test="remarkToCustom != null  and remarkToCustom != ''"> and remark_to_custom = #{remarkToCustom}</if>
-            <if test="warehouse != null "> and warehouse = #{warehouse}</if>
             <if test="forwarderWeight != null "> and forwarder_weight = #{forwarderWeight}</if>
             <if test="newOdd != null  and newOdd != ''"> and new_odd = #{newOdd}</if>
             <if test="logisticsChannel != null "> and logistics_channel = #{logisticsChannel}</if>
@@ -81,18 +78,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="logisticsAcceptTime != null "> and logistics_accept_time = #{logisticsAcceptTime}</if>
             <if test="dowloadTime != null "> and dowload_time = #{dowloadTime}</if>
             <if test="customBuyTime != null "> and custom_buy_time = #{customBuyTime}</if>
+            <if test="warehouse != null "> and warehouse = #{warehouse}</if>
         </where>
     </select>
     
-    <select id="selectSalesOrderById" parameterType="Long" resultMap="SalesOrderResult">
+    <select id="selectSalesOrderById" parameterType="Integer" resultMap="SalesOrderResult">
         <include refid="selectSalesOrderVo"/>
         where id = #{id}
-    </select>
-
-
-    <select id="queryProfit" parameterType="SalesOrder" resultMap="SalesOrderResult">
-        <include refid="selectSalesOrderVo"/>
-        where custom_buy_time between #{param1} and #{param2}
     </select>
         
     <insert id="insertSalesOrder" parameterType="SalesOrder" useGeneratedKeys="true" keyProperty="id">
@@ -104,7 +96,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="totalPurchase != null ">total_purchase,</if>
             <if test="exceptFreight != null ">except_freight,</if>
             <if test="forwarderFreight != null ">forwarder_freight,</if>
-            <if test="address != null  and address != ''">address,</if>
+            <if test="address != null ">address,</if>
             <if test="salesOrdercol != null  and salesOrdercol != ''">sales_ordercol,</if>
             <if test="salesOrdercolE != null  and salesOrdercolE != ''">sales_ordercol_e,</if>
             <if test="outboundWeight != null ">outbound_weight,</if>
@@ -114,7 +106,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="refundedReason != null  and refundedReason != ''">refunded_reason,</if>
             <if test="remark != null  and remark != ''">remark,</if>
             <if test="remarkToCustom != null  and remarkToCustom != ''">remark_to_custom,</if>
-            <if test="warehouse != null ">warehouse,</if>
             <if test="forwarderWeight != null ">forwarder_weight,</if>
             <if test="newOdd != null  and newOdd != ''">new_odd,</if>
             <if test="logisticsChannel != null ">logistics_channel,</if>
@@ -131,6 +122,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="dowloadTime != null ">dowload_time,</if>
             <if test="customBuyTime != null ">custom_buy_time,</if>
             <if test="createBy != null  and createBy != ''">create_by,</if>
+            <if test="warehouse != null ">warehouse,</if>
          </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="saleId != null  and saleId != ''">#{saleId},</if>
@@ -139,7 +131,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="totalPurchase != null ">#{totalPurchase},</if>
             <if test="exceptFreight != null ">#{exceptFreight},</if>
             <if test="forwarderFreight != null ">#{forwarderFreight},</if>
-            <if test="address != null  and address != ''">#{address},</if>
+            <if test="address != null ">#{address},</if>
             <if test="salesOrdercol != null  and salesOrdercol != ''">#{salesOrdercol},</if>
             <if test="salesOrdercolE != null  and salesOrdercolE != ''">#{salesOrdercolE},</if>
             <if test="outboundWeight != null ">#{outboundWeight},</if>
@@ -149,7 +141,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="refundedReason != null  and refundedReason != ''">#{refundedReason},</if>
             <if test="remark != null  and remark != ''">#{remark},</if>
             <if test="remarkToCustom != null  and remarkToCustom != ''">#{remarkToCustom},</if>
-            <if test="warehouse != null ">#{warehouse},</if>
             <if test="forwarderWeight != null ">#{forwarderWeight},</if>
             <if test="newOdd != null  and newOdd != ''">#{newOdd},</if>
             <if test="logisticsChannel != null ">#{logisticsChannel},</if>
@@ -166,6 +157,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="dowloadTime != null ">#{dowloadTime},</if>
             <if test="customBuyTime != null ">#{customBuyTime},</if>
             <if test="createBy != null  and createBy != ''">#{createBy},</if>
+            <if test="warehouse != null ">#{warehouse},</if>
          </trim>
     </insert>
 
@@ -178,7 +170,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="totalPurchase != null ">total_purchase = #{totalPurchase},</if>
             <if test="exceptFreight != null ">except_freight = #{exceptFreight},</if>
             <if test="forwarderFreight != null ">forwarder_freight = #{forwarderFreight},</if>
-            <if test="address != null  and address != ''">address = #{address},</if>
+            <if test="address != null ">address = #{address},</if>
             <if test="salesOrdercol != null  and salesOrdercol != ''">sales_ordercol = #{salesOrdercol},</if>
             <if test="salesOrdercolE != null  and salesOrdercolE != ''">sales_ordercol_e = #{salesOrdercolE},</if>
             <if test="outboundWeight != null ">outbound_weight = #{outboundWeight},</if>
@@ -188,7 +180,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="refundedReason != null  and refundedReason != ''">refunded_reason = #{refundedReason},</if>
             <if test="remark != null  and remark != ''">remark = #{remark},</if>
             <if test="remarkToCustom != null  and remarkToCustom != ''">remark_to_custom = #{remarkToCustom},</if>
-            <if test="warehouse != null ">warehouse = #{warehouse},</if>
             <if test="forwarderWeight != null ">forwarder_weight = #{forwarderWeight},</if>
             <if test="newOdd != null  and newOdd != ''">new_odd = #{newOdd},</if>
             <if test="logisticsChannel != null ">logistics_channel = #{logisticsChannel},</if>
@@ -205,11 +196,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="dowloadTime != null ">dowload_time = #{dowloadTime},</if>
             <if test="customBuyTime != null ">custom_buy_time = #{customBuyTime},</if>
             <if test="createBy != null  and createBy != ''">create_by = #{createBy},</if>
+            <if test="warehouse != null ">warehouse = #{warehouse},</if>
         </trim>
         where id = #{id}
     </update>
 
-    <delete id="deleteSalesOrderById" parameterType="Long">
+    <delete id="deleteSalesOrderById" parameterType="Integer">
         delete from sales_order where id = #{id}
     </delete>
 

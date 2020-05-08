@@ -17,8 +17,45 @@
                             <li>
                                 <p>中文名称：</p>
                                 <input type="text" name="chinesename"/>
+                            </li>
                             <li>
-                                <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
+                                <p>状态：</p>
+                                <input type="text" name="state"/>
+                            </li>
+                            <li>
+                                <p>排序值：</p>
+                                <input type="text" name="ordervalue"/>
+                            </li>
+                            <li>
+                                <p>父目录：</p>
+                                <input type="text" name="parentdirectory"/>
+                            </li>
+                            <li>
+                                <p>创建人：</p>
+                                <input type="text" name="createBy"/>
+                            </li>
+                            <li>
+                                <p>更新人：</p>
+                                <input type="text" name="updateBy"/>
+                            </li>
+                            <li class="select-time">
+                                <p>创建时间：</p>
+                                <input type="text" class="time-input" id="startTime" placeholder="开始时间" name="params[beginCreateTime]"/>
+                                <span>-</span>
+                                <input type="text" class="time-input" id="endTime" placeholder="结束时间" name="params[endCreateTime]"/>
+                            </li>                
+                            <li class="select-time">
+                                <p>更新时间：</p>
+                                <input type="text" class="time-input" id="startTime" placeholder="开始时间" name="params[beginUpdateTime]"/>
+                                <span>-</span>
+                                <input type="text" class="time-input" id="endTime" placeholder="结束时间" name="params[endUpdateTime]"/>
+                            </li>                
+                            <li>
+                                <p>排序路径：</p>
+                                <input type="text" name="sp"/>
+                            </li>
+                            <li>
+                                <a class="btn btn-primary btn-rounded btn-sm" onclick="$.treeTable.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
                                 <a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i class="fa fa-refresh"></i>&nbsp;重置</a>
                             </li>
                         </ul>
@@ -28,113 +65,130 @@
 
             <div class="btn-group-sm" id="toolbar" role="group">
                 <a class="btn btn-success" onclick="$.operate.addTab()" shiro:hasPermission="DS:category:add">
-                    <i class="fa fa-plus"></i> 添加
+                    <i class="fa fa-plus"></i> 新增
                 </a>
-                <a class="btn btn-primary single disabled" onclick="$.operate.editTab()" shiro:hasPermission="DS:category:edit">
+                <a class="btn btn-primary" onclick="$.operate.editTab()" shiro:hasPermission="DS:category:edit">
                     <i class="fa fa-edit"></i> 修改
                 </a>
-                <a class="btn btn-danger multiple disabled" onclick="$.operate.removeAll()" shiro:hasPermission="DS:category:remove">
-                    <i class="fa fa-remove"></i> 删除
+                <a class="btn btn-info" id="expandAllBtn">
+                    <i class="fa fa-exchange"></i> 展开/折叠
                 </a>
-                <a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="DS:category:export">
-                    <i class="fa fa-download"></i> 导出
-                 </a>
             </div>
             <div class="col-sm-12 select-table table-striped">
-                <table id="bootstrap-table"></table>
+                <table id="bootstrap-tree-table"></table>
             </div>
         </div>
     </div>
     <th:block th:include="include :: footer" />
     <script th:inline="javascript">
+        var addFlag = [[${@permission.hasPermi('DS:category:add')}]];
         var editFlag = [[${@permission.hasPermi('DS:category:edit')}]];
         var removeFlag = [[${@permission.hasPermi('DS:category:remove')}]];
-        var stateDatas = [[${@dict.getType('DS_State')}]];
         var prefix = ctx + "DS/category";
 
         $(function() {
             var options = {
+                code: "id",
+                parentCode: "parentdirectory",
+                expandColumn: "1",
+                uniqueId: "id",
                 url: prefix + "/list",
-                createUrl: prefix + "/add",
+                createUrl: prefix + "/add/{id}",
                 updateUrl: prefix + "/edit/{id}",
-                removeUrl: prefix + "/remove",
+                removeUrl: prefix + "/remove/{id}",
                 exportUrl: prefix + "/export",
                 modalName: "目录分类",
                 columns: [{
-                    checkbox: true
-                },
-                {
-                    field : 'id', 
-                    title : 'id',
-                    visible: false
+                    field: 'selectItem', 
+                    radio: true
                 },
                 {
                     field : 'name', 
                     title : '名称',
-                    sortable: true
+                    align: 'left'
                 },
                 {
                     field : 'chinesename', 
                     title : '中文名称',
-                    sortable: true
+                    align: 'left'
                 },
                 {
                     field : 'remark', 
-                    title : '描述'
+                    title : '描述',
+                    align: 'left',
+                    visible: false
                 },
                 {
                     field : 'state', 
                     title : '状态',
-                    visible: false
+                    align: 'left',
+                    formatter: function(value, row, index) {
+                        var data ;
+                        if(value == 0){
+                            data = "<span style='color: red'>非激活</span>"
+                        }
+                        if(value == 1){
+                            data = "<span style='color: green'>激活</span>"
+                        }
+                        return data;
+                    }
                 },
                 {
                     field : 'ordervalue', 
                     title : '排序值',
+                    align: 'left',
                     visible: false
                 },
                 {
                     field : 'parentdirectory', 
                     title : '父目录',
+                    align: 'left',
                     visible: false
                 },
                 {
-                    field : 'createby', 
-                    title : '创建人'
+                    field : 'createBy', 
+                    title : '创建人',
+                    align: 'left',
+                    visible: false
                 },
                 {
-                    field : 'updateby', 
+                    field : 'updateBy', 
                     title : '更新人',
+                    align: 'left',
                     visible: false
                 },
                 {
-                    field : 'createtime', 
+                    field : 'createTime', 
                     title : '创建时间',
-                    visible: false,
-                    sortable: true
+                    align: 'left',
+                    visible: false
                 },
                 {
-                    field : 'updatetime', 
+                    field : 'updateTime', 
                     title : '更新时间',
-                    visible: false,
-                    sortable: true
+                    align: 'left',
+                    visible: false
                 },
                 {
                     field : 'sp', 
                     title : '排序路径',
+                    align: 'left',
                     visible: false
                 },
                 {
                     title: '操作',
                     align: 'center',
+                    align: 'left',
                     formatter: function(value, row, index) {
                         var actions = [];
                         actions.push('<a class="btn btn-success btn-xs ' + editFlag + '" href="javascript:void(0)" onclick="$.operate.editTab(\'' + row.id + '\')"><i class="fa fa-edit"></i>编辑</a> ');
+                        actions.push('<a class="btn btn-info  btn-xs ' + addFlag + '" href="javascript:void(0)" onclick="$.operate.addTab(\'' + row.id + '\')"><i class="fa fa-plus"></i>新增</a> ');
                         actions.push('<a class="btn btn-danger btn-xs ' + removeFlag + '" href="javascript:void(0)" onclick="$.operate.remove(\'' + row.id + '\')"><i class="fa fa-remove"></i>删除</a>');
                         return actions.join('');
                     }
                 }]
             };
-            $.table.init(options);
+            $.treeTable.init(options);
         });
     </script>
 </body>

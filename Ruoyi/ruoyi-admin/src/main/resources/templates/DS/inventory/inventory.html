@@ -81,9 +81,8 @@
                     title : 'SKU',
                     sortable: true,
                     formatter: function(value, row, index) {
-                        var actions = [];
-                        actions.push('<a class=" " href="javascript:void(0)" onclick="openSkuEdit(\'' + value + '\')">'+value+'</a> ');
-                        return actions.join('');
+                        var actions = '<a class=" " href="javascript:void(0)" onclick="openSkuEdit(\'' + value + '\')">'+value+'</a> ';
+                        return actions;
                     }
                 },
                 {

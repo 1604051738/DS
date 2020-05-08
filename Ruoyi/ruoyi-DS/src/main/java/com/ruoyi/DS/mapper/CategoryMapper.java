@@ -7,12 +7,11 @@ import java.util.List;
  * 目录分类Mapper接口
  * 
  * @author ruoyi
- * @date 2019-12-25
+ * @date 2020-05-08
  */
 public interface CategoryMapper 
 {
-
-   /**
+    /**
      * 查询目录分类
      * 
      * @param id 目录分类ID

@@ -7,7 +7,7 @@ import java.util.List;
  * SKU单品Service接口
  * 
  * @author ruoyi
- * @date 2019-12-26
+ * @date 2020-04-30
  */
 public interface ISkuproductService 
 {
@@ -18,6 +18,13 @@ public interface ISkuproductService
      * @return SKU单品
      */
     public Skuproduct selectSkuproductById(Integer id);
+
+    /**
+     * 根据code查询sku单品
+     * @param code
+     * @return
+     */
+    public Skuproduct selectSkuproductByCode(String code);
 
     /**
      * 查询SKU单品列表

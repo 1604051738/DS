@@ -47,6 +47,7 @@
         </div>
     </div>
     <th:block th:include="include :: footer" />
+    <script th:src="@{/ajax/libs/layui/layui.js}"></script>
     <script th:inline="javascript">
         var editFlag = [[${@permission.hasPermi('DS:sales_order:edit')}]];
         var removeFlag = [[${@permission.hasPermi('DS:sales_order:remove')}]];
@@ -73,6 +74,57 @@
                     title : '订单编号'
                 },
                 {
+                    title : '收货人',
+                    formatter: function(value, row, index) {
+                        $.ajaxSettings.async = false;
+                        var data = {
+                            id: row.id
+                        };
+                        var returnData = '';
+                        $.post(prefix+"/getAddress", data, function (result) {
+                            returnData = returnData + '<a  href="javascript:void(0)" onclick="openAddressEdit(\'' + result.id + '\')">'+result.name+'</a> ' +'<br/>'+ result.country +'&nbsp;'+result.zipcode+'<br/>'+result.streetAddress1;
+                        });
+                        return  returnData;
+                    }
+                },
+                {
+                    title : '商品',
+                    formatter: function(value, row, index) {
+                        $.ajaxSettings.async = false;
+                        var src = "";
+                        var id;
+                        var returnData = "<br/>";
+                        $.get(prefix+"/getProductMessage/"+row.id, function (result) {
+                            $.each(result, function (i, data) {
+                                if (data != 0) {
+                                    if (i == 0) {
+                                        id = data
+                                    }
+                                    if (i != 0) {
+                                        returnData = returnData + "<img src=" + data + " height=\"80\" width=\"80\" title='查看商品详细信息' onclick='$.modal.openTab(\"商品信息\",\"/DS/product/edit/" + id + "\")'/>"+"<br/><br/>";
+                                    }
+                                }
+                                });
+                        })
+                        return returnData;
+                        }
+                },
+                {
+                    title : '拣货信息',
+                    formatter: function(value, row, index) {
+                        var data = {
+                            id: row.id
+                        };
+                        var returnData = "";
+                        $.post(prefix+"/getOrderSkuList", data, function (result) {
+                            $.each(result, function (i, orderSku) {
+                                returnData = returnData + orderSku.skuCode+"/"+orderSku.size+"/"+orderSku.color+"<br/><br/><br/><br/><br/><br/>"
+                            })
+                        });
+                        return  "<h5 title='SKU编码/规格/颜色'>"+returnData+"<h3/>";
+                    }
+                },
+                {
                     field : 'saleIdO', 
                     title : '原订单id',
                     visible: false
@@ -82,6 +134,20 @@
                     title : '总金额/总重量',
                     formatter: function(value, row, index) {
                         return  value + "/" + row.totalWeight ;
+                    }
+                },
+                {
+                    title : '物流渠道',
+                    formatter: function(value, row, index) {
+                        var data = '';
+                        $.get(prefix+"/getName/"+row.id,function (result) {
+                            $.each(result, function (i, message) {
+                                if(i == "channel"){
+                                    data = message;
+                                }
+                            })
+                        })
+                        return  data ;
                     }
                 },
                 {
@@ -166,7 +232,8 @@
                 },
                 {
                     field : 'logisticsChannel', 
-                    title : '物流渠道'
+                    title : '物流渠道',
+                    visible: false
                 },
                 {
                     field : 'refundedAmount', 
@@ -185,7 +252,8 @@
                 },
                 {
                     field : 'customId', 
-                    title : '买家ID'
+                    title : '买家ID',
+                    visible: false
                 },
                 {
                     field : 'payStatus', 
@@ -239,6 +307,9 @@
             };
             $.table.init(options);
         });
+        function openAddressEdit(value) {
+            $.modal.openTab("编辑收货人","/DS/shopping_address/edit/"+value);
+        }
     </script>
 </body>
 </html>

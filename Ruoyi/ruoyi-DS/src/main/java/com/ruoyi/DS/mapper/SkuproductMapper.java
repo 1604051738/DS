@@ -1,13 +1,14 @@
 package com.ruoyi.DS.mapper;
 
 import com.ruoyi.DS.domain.Skuproduct;
+
 import java.util.List;
 
 /**
  * SKU单品Mapper接口
  * 
  * @author ruoyi
- * @date 2019-12-26
+ * @date 2020-04-30
  */
 public interface SkuproductMapper 
 {
@@ -20,6 +21,12 @@ public interface SkuproductMapper
     public Skuproduct selectSkuproductById(Integer id);
 
 
+    /**
+     * 根据code查询sku单品
+     * @param code
+     * @return
+     */
+    public Skuproduct selectSkuproductByCode(String code);
     /**
      * 查询SKU单品列表
      * 
@@ -59,6 +66,4 @@ public interface SkuproductMapper
      * @return 结果
      */
     public int deleteSkuproductByIds(String[] ids);
-
-
 }

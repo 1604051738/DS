@@ -1,283 +1,816 @@
 <!DOCTYPE html>
 <html lang="zh" xmlns:th="http://www.thymeleaf.org" >
-<head>
+<head id="1">
     <th:block th:include="include :: header('修改销售订单')" />
     <th:block th:include="include :: datetimepicker-css" />
+    <th:block th:include="include :: select2-css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0,user-scalable=no">
 </head>
 <body class="white-bg">
-    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
-        <form class="form-horizontal m" id="form-sales_order-edit" th:object="${salesOrder}">
-            <input name="id" th:field="*{id}" type="hidden">
-            <div class="form-group">    
-                <label class="col-sm-3 control-label">订单编号：</label>
-                <div class="col-sm-8">
-                    <input name="saleId" th:field="*{saleId}" class="form-control" type="text" required>
+<div class="wrapper wrapper-content animated fadeInRight ibox-content">
+    <div class="col-sm-12">
+        <div class="ibox float-e-margins border-0">
+            <div class="ibox-title">
+                <h5>订单基本信息</h5>
+                <div class="ibox-tools">
+                    <a class="collapse-link">
+                        <i class="fa fa-chevron-up" id="fa" onclick="COWindow()"></i>
+                    </a>
+                    <a class="close-link">
+                        <i class="fa fa-times"></i>
+                    </a>
                 </div>
             </div>
-            <div class="form-group">    
-                <label class="col-sm-3 control-label">原订单id：</label>
-                <div class="col-sm-8">
-                    <input name="saleIdO" th:field="*{saleIdO}" class="form-control" type="text">
-                </div>
+            <div class="ibox-content text-center h-200" id="CO">
+                    <span id="sparkline7">
+                        <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+                            <form class="form-horizontal m" id="form-sales_order-edit" th:object="${salesOrder}">
+                                <input name="id" id="id" th:field="*{id}" type="hidden">
+
+
+                             <div class="row show-grid ">
+                                <div class="col-md-3">
+                                    <label class="col-sm-4 control-label">订单编号：</label>
+                                    <div class="col-sm-8">
+                                        <input name="saleId" th:field="*{saleId}" class="form-control" style="border-radius:9px" type="text" readonly required>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <label class="col-sm-4 control-label">原订单id：</label>
+                                    <div class="col-sm-8">
+                                        <input name="saleIdO" th:field="*{saleIdO}" class="form-control" style="border-radius:9px" type="text">
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <label class="col-sm-4 control-label">总金额：</label>
+                                    <div class="col-sm-8">
+                                        <input name="totalCost" th:field="*{totalCost}" class="form-control" style="border-radius:9px" type="text" required>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <label class="col-sm-4 control-label">物流跟踪号：</label>
+                                    <div class="col-sm-8">
+                                        <input name="salesOrdercol" th:field="*{salesOrdercol}" style="border-radius:9px" class="form-control" type="text">
+                                    </div>
+                                </div>
+                             </div>
+
+
+                             <div class="row show-grid ">
+                                <div class="col-md-3">
+                                    <label class="col-sm-4 control-label">外部物流订单ID：</label>
+                                    <div class="col-sm-8">
+                                        <input name="salesOrdercolE" th:field="*{salesOrdercolE}" class="form-control" style="border-radius:9px" type="text">
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <label class="col-sm-4 control-label">预计运费：</label>
+                                    <div class="col-sm-8">
+                                        <input name="exceptFreight" th:field="*{exceptFreight}" class="form-control" style="border-radius:9px" type="text">
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <label class="col-sm-4 control-label">货代运费：</label>
+                                    <div class="col-sm-8">
+                                        <input name="forwarderFreight" th:field="*{forwarderFreight}" class="form-control" style="border-radius:9px" type="text">
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <label class="col-sm-4 control-label">数量类型：</label>
+                                    <div class="col-sm-8">
+                                        <select name="numberType" class="form-control m-b" style="border-radius:9px">
+                                            <option th:if="*{numberType=='单SKU单数量'}" value="单SKU单数量" selected>单SKU单数量</option>
+                                            <option th:if="*{numberType=='单SKU多数量'}" value="单SKU多数量" selected>单SKU多数量</option>
+                                            <option th:if="*{numberType=='多SKU'}" value="多SKU" selected>多SKU</option>
+                                            <option value="单SKU单数量">单SKU单数量</option>
+                                            <option value="单SKU多数量">单SKU多数量</option>
+                                            <option value="多SKU">多SKU</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                             </div>
+
+                             <div class="row show-grid ">
+                                <div class="col-md-6">
+                                    <label class="col-sm-2 control-label">买家ID：</label>
+                                    <div class="col-sm-10">
+                                        <input name="customId" th:field="*{customId}" class="form-control" style="border-radius:9px" type="text">
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <label class="col-sm-2 control-label">收货地址：</label>
+                                    <div class="col-sm-8">
+                                        <select name="address" id="address" class="form-control m-b" style="border-radius:9px">
+                                        </select>
+                                    </div>
+                                        <a class="btn btn-success col-sm-1" title="创建新的收货地址" onclick="layerOpenAddress()" ><i class="fa fa-plus"></i></a>
+                                </div>
+                             </div>
+
+
+                            <div class="row show-grid ">
+                                <div class="col-md-3">
+                                    <label class="col-sm-4 control-label">出库重量：</label>
+                                    <div class="col-sm-8">
+                                        <input name="outboundWeight" th:field="*{outboundWeight}" class="form-control" style="border-radius:9px" type="text">
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <label class="col-sm-3 control-label">发货仓库：</label>
+                                    <div class="col-sm-7">
+                                        <select name="warehouse" id="warehouse" class="form-control m-b" style="border-radius:9px">
+                                        </select>
+                                    </div>
+                                        <a class="btn btn-success col-sm-1" title="创建新的仓库" onclick="layerOpenWarehouse()" ><i class="fa fa-plus"></i></a>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <label class="col-sm-4 control-label">货代重量：</label>
+                                    <div class="col-sm-8">
+                                        <input name="forwarderWeight" th:field="*{forwarderWeight}" class="form-control" style="border-radius:9px" type="text">
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <label class="col-sm-4 control-label">转单号：</label>
+                                    <div class="col-sm-8">
+                                        <input name="newOdd" th:field="*{newOdd}" class="form-control" style="border-radius:9px" type="text">
+                                    </div>
+                                </div>
+                            </div>
+
+
+                           <div class="row show-grid ">
+                                <div class="col-md-4">
+                                    <label class="col-sm-3 control-label">是否退款：</label>
+                                    <div class="col-sm-8">
+                                        <input name="isRefunded" th:if="*{isRefunded==1}" checked class="form-control" style="border-radius:9px" type="checkbox" required>
+                                        <input name="isRefunded" th:if="*{isRefunded==0}" class="form-control" style="border-radius:9px" type="checkbox" required>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <label class="col-sm-3 control-label">退款时间：</label>
+                                    <div class="col-sm-8">
+                                        <div class="input-group date">
+                                            <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                            <input name="refundedTime" th:value="${#dates.format(salesOrder.refundedTime, 'yyyy-MM-dd')}" class="form-control"  placeholder="yyyy-MM-dd" type="text">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <label class="col-sm-3 control-label">退款金额：</label>
+                                    <div class="col-sm-8">
+                                        <input name="refundedAmount" th:field="*{refundedAmount}" class="form-control" style="border-radius:9px" type="text">
+                                    </div>
+                                </div>
+                           </div>
+                            <div class="row show-grid ">
+                            <div class="col-md-12" >
+                            <label class="col-sm-1 control-label">退款原因：</label>
+                            <div class="col-sm-11">
+                                <textarea name="refundedReason" th:field="*{refundedReason}" class="form-control" style="border-radius:9px" type="text"></textarea>
+                            </div>
+                            </div>
+                            </div>
+
+                            <br/>
+                            <div class="row show-grid ">
+                            <div class="col-md-12" >
+                            <label class="col-sm-1 control-label">备注给用户：</label>
+                            <div class="col-sm-11">
+                                <textarea name="remarkToCustom" th:field="*{remarkToCustom}" class="form-control" type="text" style="border-radius:9px" rows="2s"></textarea>
+                            </div>
+                            </div>
+                            </div>
+                            <br/>
+
+
+
+                            <div class="row show-grid ">
+                                <div class="col-md-4">
+                                    <label class="col-sm-3 control-label">物流渠道：</label>
+                                    <div class="col-sm-7">
+                                        <select name="logisticsChannel" id="logisticsChannel" class="form-control m-b" style="border-radius:9px">
+                                        </select>
+                                    </div>
+                                        <a class="btn btn-success col-sm-1" title="创建新的物流渠道" onclick="layerOpenChannel()" ><i class="fa fa-plus"></i></a>
+                                </div>
+
+                                <div class="col-md-2">
+                                    <label class="col-sm-4 control-label">总重：</label>
+                                    <div class="col-sm-8">
+                                        <input name="totalWeight" th:field="*{totalWeight}" class="form-control" style="border-radius:9px" type="text">
+                                    </div>
+                                </div>
+
+
+                                <div class="col-md-3">
+                                    <label class="col-sm-4 control-label">总采购货本：</label>
+                                    <div class="col-sm-8">
+                                        <input name="totalPurchase" th:field="*{totalPurchase}" class="form-control" type="text" style="border-radius:9px" rows="2s">
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <label class="col-sm-4 control-label">订单状态：</label>
+                                    <div class="col-sm-8">
+                                            <select name="orderStatus" class="form-control m-b">
+                                                <option value="0" th:if="*{orderStatus == 0}" selected>待处理</option>
+                                                <option value="1" th:if="*{orderStatus == 1}" selected>待打印</option>
+                                                <option value="2" th:if="*{orderStatus == 2}" selected>已包装</option>
+                                                <option value="3" th:if="*{orderStatus == 3}" selected>已出库</option>
+                                                <option value="4" th:if="*{orderStatus == 4}" selected>已取消</option>
+                                                <option value="5" th:if="*{orderStatus == 5}" selected>暂停处理</option>
+                                                <option value="6" th:if="*{orderStatus == 6}" selected>已退回</option>
+                                                <option value="7" th:if="*{orderStatus == 7}" selected>已审核</option>
+                                                <option value="0">待处理</option>
+                                                <option value="1">待打印</option>
+                                                <option value="2">已包装</option>
+                                                <option value="3">已出库</option>
+                                                <option value="4">已取消</option>
+                                                <option value="5">暂停处理</option>
+                                                <option value="6">已退回</option>
+                                                <option value="7">已审核</option>
+                                            </select>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="row show-grid ">
+                                <div class="col-md-3">
+                                    <label class="col-sm-4 control-label">付款状态：</label>
+                                    <div class="col-sm-8">
+                                            <select name="payStatus" class="form-control m-b">
+                                            <option value="0" th:if="*{payStatus == 0}" selected>未付款</option>
+                                            <option value="1" th:if="*{payStatus == 0}" selected>部分付款</option>
+                                            <option value="2" th:if="*{payStatus == 0}" selected>已付款</option>
+                                            <option value="0">未付款</option>
+                                            <option value="1">部分付款</option>
+                                            <option value="2">已付款</option>
+                                        </select>
+                                        </div>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <label class="col-sm-4 control-label">物流跟踪状态：</label>
+                                    <div class="col-sm-8">
+                                            <select name="logisticsStatus" class="form-control m-b">
+                                            <option value="0" th:if="*{logisticsStatus=='0'}" selected>未知</option>
+                                            <option value="1" th:if="*{logisticsStatus=='1'}" selected>货代已收货</option>
+                                            <option value="2" th:if="*{logisticsStatus=='2'}" selected>邮局已收货</option>
+                                            <option value="0">未知</option>
+                                            <option value="1">货代已收货</option>
+                                            <option value="2">邮局已收货</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <label class="col-sm-4 control-label">是否为换货订单：</label>
+                                    <div class="col-sm-8">
+                                        <input name="isExchange" th:if="*{isExchange==1}" checked style="border-radius:9px" class="form-control" type="checkbox" required>
+                                        <input name="isExchange" th:if="*{isExchange==0}" style="border-radius:9px" class="form-control" type="checkbox" required>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <label class="col-sm-4 control-label">出库时间：</label>
+                                    <div class="col-sm-8">
+                                        <div class="input-group date">
+                                            <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                            <input name="storageTime" th:value="${#dates.format(salesOrder.storageTime, 'yyyy-MM-dd HH:mm:ss')}" class="form-control" placeholder="yyyy-MM-dd" type="text">
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="row show-grid ">
+                                <div class="col-md-3">
+                                    <label class="col-sm-4 control-label">标记发货时间：</label>
+                                    <div class="col-sm-8">
+                                        <div class="input-group date">
+                                            <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                            <input name="deliverRemarkTime" th:value="${#dates.format(salesOrder.deliverRemarkTime, 'yyyy-MM-dd HH:mm:ss')}" class="form-control" placeholder="yyyy-MM-dd" type="text">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <label class="col-sm-4 control-label">物流方接单时间：</label>
+                                    <div class="col-sm-8">
+                                        <div class="input-group date">
+                                            <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                            <input name="logisticsAcceptTime" th:value="${#dates.format(salesOrder.logisticsAcceptTime, 'yyyy-MM-dd HH:mm:ss')}" class="form-control" placeholder="yyyy-MM-dd" type="text">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <label class="col-sm-4 control-label">下载时间：</label>
+                                    <div class="col-sm-8">
+                                        <div class="input-group date">
+                                            <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                            <input name="dowloadTime" th:value="${#dates.format(salesOrder.dowloadTime, 'yyyy-MM-dd HH:mm:ss')}" class="form-control" placeholder="yyyy-MM-dd" type="text">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <label class="col-sm-4 control-label">客户购买时间：</label>
+                                    <div class="col-sm-8">
+                                        <div class="input-group date">
+                                            <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                            <input name="customBuyTime" th:value="${#dates.format(salesOrder.customBuyTime, 'yyyy-MM-dd HH:mm:ss')}" class="form-control" placeholder="yyyy-MM-dd" type="text">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            </form>
+                        </div>
+                    </span>
             </div>
-            <div class="form-group">    
-                <label class="col-sm-3 control-label">总金额：</label>
-                <div class="col-sm-8">
-                    <input name="totalCost" th:field="*{totalCost}" class="form-control" type="text" required>
-                </div>
-            </div>
-            <div class="form-group">    
-                <label class="col-sm-3 control-label">总采购货本：</label>
-                <div class="col-sm-8">
-                    <input name="totalPurchase" th:field="*{totalPurchase}" class="form-control" type="text">
-                </div>
-            </div>
-            <div class="form-group">    
-                <label class="col-sm-3 control-label">预计运费：</label>
-                <div class="col-sm-8">
-                    <input name="exceptFreight" th:field="*{exceptFreight}" class="form-control" type="text">
-                </div>
-            </div>
-            <div class="form-group">    
-                <label class="col-sm-3 control-label">货代运费：</label>
-                <div class="col-sm-8">
-                    <input name="forwarderFreight" th:field="*{forwarderFreight}" class="form-control" type="text">
-                </div>
-            </div>
-            <div class="form-group">    
-                <label class="col-sm-3 control-label">收货地址：</label>
-                <div class="col-sm-8">
-                    <input name="address" th:field="*{address}" class="form-control" type="text" required>
-                </div>
-            </div>
-            <div class="form-group">    
-                <label class="col-sm-3 control-label">物流跟踪号：</label>
-                <div class="col-sm-8">
-                    <input name="salesOrdercol" th:field="*{salesOrdercol}" class="form-control" type="text">
-                </div>
-            </div>
-            <div class="form-group">    
-                <label class="col-sm-3 control-label">外部物流订单ID：</label>
-                <div class="col-sm-8">
-                    <input name="salesOrdercolE" th:field="*{salesOrdercolE}" class="form-control" type="text">
-                </div>
-            </div>
-            <div class="form-group">    
-                <label class="col-sm-3 control-label">出库重量：</label>
-                <div class="col-sm-8">
-                    <input name="outboundWeight" th:field="*{outboundWeight}" class="form-control" type="text">
-                </div>
-            </div>
-            <div class="form-group">    
-                <label class="col-sm-3 control-label">数量类型：</label>
-                <div class="col-sm-8">
-                    <select name="numberType" class="form-control m-b">
-                        <option value="">所有</option>
-                    </select>
-                    <span class="help-block m-b-none"><i class="fa fa-info-circle"></i> 代码生成请选择字典属性</span>
-                </div>
-            </div>
-            <div class="form-group">    
-                <label class="col-sm-3 control-label">是否退款：</label>
-                <div class="col-sm-8">
-                    <input name="isRefunded" th:field="*{isRefunded}" class="form-control" type="text" required>
-                </div>
-            </div>
-            <div class="form-group">    
-                <label class="col-sm-3 control-label">退款时间：</label>
-                <div class="col-sm-8">
-                    <div class="input-group date">
-                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                        <input name="refundedTime" th:value="${#dates.format(salesOrder.refundedTime, 'yyyy-MM-dd')}" class="form-control" placeholder="yyyy-MM-dd" type="text">
-                    </div>
-                </div>
-            </div>
-            <div class="form-group">    
-                <label class="col-sm-3 control-label">退款原因：</label>
-                <div class="col-sm-8">
-                    <input name="refundedReason" th:field="*{refundedReason}" class="form-control" type="text">
-                </div>
-            </div>
-            <div class="form-group">    
-                <label class="col-sm-3 control-label">备注给用户：</label>
-                <div class="col-sm-8">
-                    <input name="remarkToCustom" th:field="*{remarkToCustom}" class="form-control" type="text">
-                </div>
-            </div>
-            <div class="form-group">    
-                <label class="col-sm-3 control-label">发货仓库：</label>
-                <div class="col-sm-8">
-                    <input name="warehouse" th:field="*{warehouse}" class="form-control" type="text">
-                </div>
-            </div>
-            <div class="form-group">    
-                <label class="col-sm-3 control-label">货代重量：</label>
-                <div class="col-sm-8">
-                    <input name="forwarderWeight" th:field="*{forwarderWeight}" class="form-control" type="text">
-                </div>
-            </div>
-            <div class="form-group">    
-                <label class="col-sm-3 control-label">转单号：</label>
-                <div class="col-sm-8">
-                    <input name="newOdd" th:field="*{newOdd}" class="form-control" type="text">
-                </div>
-            </div>
-            <div class="form-group">    
-                <label class="col-sm-3 control-label">物流渠道：</label>
-                <div class="col-sm-8">
-                    <input name="logisticsChannel" th:field="*{logisticsChannel}" class="form-control" type="text">
-                </div>
-            </div>
-            <div class="form-group">    
-                <label class="col-sm-3 control-label">退款金额：</label>
-                <div class="col-sm-8">
-                    <input name="refundedAmount" th:field="*{refundedAmount}" class="form-control" type="text">
-                </div>
-            </div>
-            <div class="form-group">    
-                <label class="col-sm-3 control-label">总重：</label>
-                <div class="col-sm-8">
-                    <input name="totalWeight" th:field="*{totalWeight}" class="form-control" type="text">
-                </div>
-            </div>
-            <div class="form-group">    
-                <label class="col-sm-3 control-label">订单状态：</label>
-                <div class="col-sm-8">
-                    <div class="radio-box">
-                        <input type="radio" name="orderStatus" value="" required>
-                        <label th:for="orderStatus" th:text="未知"></label>
-                    </div>
-                    <span class="help-block m-b-none"><i class="fa fa-info-circle"></i> 代码生成请选择字典属性</span>
-                </div>
-            </div>
-            <div class="form-group">    
-                <label class="col-sm-3 control-label">买家ID：</label>
-                <div class="col-sm-8">
-                    <input name="customId" th:field="*{customId}" class="form-control" type="text">
-                </div>
-            </div>
-            <div class="form-group">    
-                <label class="col-sm-3 control-label">付款状态：</label>
-                <div class="col-sm-8">
-                    <div class="radio-box">
-                        <input type="radio" name="payStatus" value="" required>
-                        <label th:for="payStatus" th:text="未知"></label>
-                    </div>
-                    <span class="help-block m-b-none"><i class="fa fa-info-circle"></i> 代码生成请选择字典属性</span>
-                </div>
-            </div>
-            <div class="form-group">    
-                <label class="col-sm-3 control-label">物流跟踪状态：</label>
-                <div class="col-sm-8">
-                    <div class="radio-box">
-                        <input type="radio" name="logisticsStatus" value="" required>
-                        <label th:for="logisticsStatus" th:text="未知"></label>
-                    </div>
-                    <span class="help-block m-b-none"><i class="fa fa-info-circle"></i> 代码生成请选择字典属性</span>
-                </div>
-            </div>
-            <div class="form-group">    
-                <label class="col-sm-3 control-label">是否为换货订单：</label>
-                <div class="col-sm-8">
-                    <input name="isExchange" th:field="*{isExchange}" class="form-control" type="text" required>
-                </div>
-            </div>
-            <div class="form-group">    
-                <label class="col-sm-3 control-label">出库时间：</label>
-                <div class="col-sm-8">
-                    <div class="input-group date">
-                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                        <input name="storageTime" th:value="${#dates.format(salesOrder.storageTime, 'yyyy-MM-dd')}" class="form-control" placeholder="yyyy-MM-dd" type="text">
-                    </div>
-                </div>
-            </div>
-            <div class="form-group">    
-                <label class="col-sm-3 control-label">标记发货时间：</label>
-                <div class="col-sm-8">
-                    <div class="input-group date">
-                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                        <input name="deliverRemarkTime" th:value="${#dates.format(salesOrder.deliverRemarkTime, 'yyyy-MM-dd')}" class="form-control" placeholder="yyyy-MM-dd" type="text">
-                    </div>
-                </div>
-            </div>
-            <div class="form-group">    
-                <label class="col-sm-3 control-label">物流方接单时间：</label>
-                <div class="col-sm-8">
-                    <div class="input-group date">
-                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                        <input name="logisticsAcceptTime" th:value="${#dates.format(salesOrder.logisticsAcceptTime, 'yyyy-MM-dd')}" class="form-control" placeholder="yyyy-MM-dd" type="text">
-                    </div>
-                </div>
-            </div>
-            <div class="form-group">    
-                <label class="col-sm-3 control-label">下载时间：</label>
-                <div class="col-sm-8">
-                    <div class="input-group date">
-                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                        <input name="dowloadTime" th:value="${#dates.format(salesOrder.dowloadTime, 'yyyy-MM-dd')}" class="form-control" placeholder="yyyy-MM-dd" type="text">
-                    </div>
-                </div>
-            </div>
-            <div class="form-group">    
-                <label class="col-sm-3 control-label">客户购买时间：</label>
-                <div class="col-sm-8">
-                    <div class="input-group date">
-                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                        <input name="customBuyTime" th:value="${#dates.format(salesOrder.customBuyTime, 'yyyy-MM-dd')}" class="form-control" placeholder="yyyy-MM-dd" type="text">
-                    </div>
-                </div>
-            </div>
-        </form>
+        </div>
     </div>
+</div>
+
+<!--单品项主题-->
+<div class="wrapper wrapper-content animated fadeInRight ibox-content" id="orderSku">
+    <div class="col-sm-12">
+        <div class="ibox float-e-margins">
+            <div class="ibox-title">
+                <h5>单品项</h5>
+                <div class="ibox-tools">
+                    <a class="collapse-link">
+                        <i class="fa fa-chevron-down" id="fa1" onclick="CO1Window()"></i>
+                    </a>
+                    <a>
+                        <i class="fa fa-plus" id="sku" onclick="addOrderSku()"></i>
+                    </a>
+                    <a class="close-link">
+                        <i class="fa fa-times"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="ibox-content text-center h-200" id="CO1" style="display: none">
+                        <span id="sparkline8">
+                        </span>
+            </div>
+        </div>
+    </div>
+</div>
+<!--单品项表单-->
+<div style="display: none" id="orderSku_div">
+    <form class="form-horizontal m" id="form-order_sku-add">
+        <input type="text" hidden name="id">
+
+        <div class="row show-grid ">
+            <div class="col-md-12">
+                <label class="col-sm-1 control-label">商品名称：</label>
+                <div class="col-sm-11">
+                    <input name="productName" class="form-control" type="text" style="border-radius:3em">
+                </div>
+            </div>
+        </div>
+
+        <div class="row show-grid ">
+            <div class="col-md-4" name="skuCodeAppend">
+                <label class="col-sm-3 control-label"><span style="color: red; ">*</span>SKU编码：</label>
+            </div>
+
+            <div class="col-md-4">
+                <label class="col-sm-3 control-label"><span style="color: red; ">*</span>大小尺码：</label>
+                <div class="col-sm-8">
+                    <input name="size" class="form-control" type="text" style="border-radius:3em" required>
+                </div>
+            </div>
+
+
+            <div class="col-md-4">
+                <label class="col-sm-3 control-label"><span style="color: red; ">*</span>颜色：</label>
+                <div class="col-sm-8">
+                    <input name="color" class="form-control" type="text" style="border-radius:3em" required>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="row show-grid ">
+            <div class="col-md-3">
+                <label class="col-sm-4 control-label">单个售价：</label>
+                <div class="col-sm-8">
+                    <input name="price" class="form-control" type="text" style="border-radius:3em">
+                </div>
+            </div>
+
+
+            <div class="col-md-3">
+                <label class="col-sm-4 control-label"><span style="color: red; ">*</span>重量(克)：</label>
+                <div class="col-sm-8">
+                    <input name="weight" class="form-control" type="text" style="border-radius:3em" required>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <label class="col-sm-4 control-label">数量：</label>
+                <div class="col-sm-8">
+                    <input name="quantity" class="form-control" type="text" style="border-radius:3em">
+                </div>
+            </div>
+
+            <div class="col-md-3" hidden>
+                <label class="col-sm-4 control-label">sku_id：</label>
+                <div class="col-sm-8">
+                    <input name="productSkuId" class="form-control" type="text">
+                </div>
+            </div>
+        </div>
+
+
+        <div class="row show-grid ">
+            <div class="col-md-4">
+                <label class="col-sm-3 control-label">运费：</label>
+                <div class="col-sm-8">
+                    <input name="shipping" class="form-control" type="text" style="border-radius:3em">
+                </div>
+            </div>
+
+
+            <div class="col-md-4">
+                <label class="col-sm-3 control-label">已释放：</label>
+                <div class="col-sm-5">
+                    <input name="released" class="form-control" type="checkbox" style="border-radius:3em">
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <label class="col-sm-3 control-label"><span style="color: red; ">*</span>采购货本：</label>
+                <div class="col-sm-8">
+                    <input name="purchaseCost" class="form-control" type="text" style="border-radius:3em" required>
+                </div>
+            </div>
+
+        </div>
+
+
+    </form>
+</div>
+
+
+
+<div class="btn-group clearfix show-xs save-group col-xs-12">
+    <div class="col-sm-offset-10 col-sm-10">
+        <button type="button" class="default btn btn-primary hide-xs" onclick="saveMessage()"><i class="fa fa-check"></i>保 存</button>&nbsp;
+        <button type="button" class="btn btn-default" onclick="closeItem()"><i class="fa fa-reply-all"></i>关 闭 </button>
+    </div>
+</div>
+
     <th:block th:include="include :: footer" />
     <th:block th:include="include :: datetimepicker-js" />
+    <th:block th:include="include :: select2-js" />
     <script type="text/javascript">
         var prefix = ctx + "DS/sales_order";
         $("#form-sales_order-edit").validate({
             focusCleanup: true
         });
 
-        function submitHandler() {
-            if ($.validate.form()) {
-                $.operate.save(prefix + "/edit", $('#form-sales_order-edit').serialize());
+        $().ready(function () {
+            $("#sku").one('click', getOrderSkuList());
+            $("#warehouse").one("click", refresh());
+            if (screen.height==1080&&screen.width==1920){
+                $(".show-grid").css('margin','0px 0');
+                $(".show-grid").css('border','0px');
+                $(".show-grid div[class^=col-]").css('height','55px');
+                $("#ddwindow").css('height','500px');
             }
+        })
+
+
+
+
+
+        /**
+         *销售订单+单品项信息保存
+         * */
+        function saveMessage(){
+            var formData = new FormData();
+            var sales_order = $('#form-sales_order-edit').serializeJSON();
+            if (sales_order.isRefunded == "on"){
+                sales_order.isRefunded = 1;
+            }
+            if (typeof (sales_order.isRefunded) =="undefined"){
+                sales_order.isRefunded = 0;
+            }
+            if (sales_order.isExchange == "on"){
+                sales_order.isExchange = 1;
+            }
+            if (typeof (sales_order.isExchange) =="undefined"){
+                sales_order.isExchange = 0;
+            }
+            formData.append("salesOrderMessage", JSON.stringify(sales_order));
+            formData.append('orderSkuMessage',0);
+            for (var i =1;i<parseInt($('head').attr('id'))+1;i++){
+                var id = "form-order_sku-edit" + i;
+                var order_sku = $('#'+'form-order_sku-edit'+i).serializeJSON();
+                if (order_sku.released == "on"){
+                    order_sku.released = 1;
+                }
+                if (typeof (order_sku.released) =="undefined"){
+                    order_sku.released = 0;
+                }
+                if ($("#" + id).css('display') == 'block') {
+                    formData.append('orderSkuMessage',JSON.stringify(order_sku));
+                }
+            }
+            $.ajax({
+                url: prefix + "/edit",
+                type: 'post',
+                cache: false,
+                data:  formData,
+                processData: false,
+                contentType: false,
+                dataType: "json",
+                async: false,
+                success: function (result) {
+                    if(self.frameElement.tagName=="IFRAME" && typeof (window.parent.refresh) == "function"){
+                        // 在frame中时处理
+                        $.operate.successCallback(result);
+                    }
+                    $.operate.successTabCallback(result);
+                }
+            });
+
         }
 
         $("input[name='refundedTime']").datetimepicker({
-            format: "yyyy-mm-dd",
-            minView: "month",
-            autoclose: true
+            format: "yyyy-mm-dd hh:ii:ss",
+            minView: "hour",
+            autoclose: true,
+            clearBtn: true,
+            todayBtn: true
         });
 
         $("input[name='storageTime']").datetimepicker({
-            format: "yyyy-mm-dd",
-            minView: "month",
-            autoclose: true
+            format: "yyyy-mm-dd hh:ii:ss",
+            minView: "hour",
+            autoclose: true,
+            clearBtn: true,
+            todayBtn: true
         });
 
         $("input[name='deliverRemarkTime']").datetimepicker({
-            format: "yyyy-mm-dd",
-            minView: "month",
-            autoclose: true
+            format: "yyyy-mm-dd hh:ii:ss",
+            minView: "hour",
+            autoclose: true,
+            clearBtn: true,
+            todayBtn: true
         });
 
         $("input[name='logisticsAcceptTime']").datetimepicker({
-            format: "yyyy-mm-dd",
-            minView: "month",
-            autoclose: true
+            format: "yyyy-mm-dd hh:ii:ss",
+            minView: "hour",
+            autoclose: true,
+            clearBtn: true,
+            todayBtn: true
         });
 
         $("input[name='dowloadTime']").datetimepicker({
-            format: "yyyy-mm-dd",
-            minView: "month",
-            autoclose: true
+            format: "yyyy-mm-dd hh:ii:ss",
+            minView: "hour",
+            autoclose: true,
+            clearBtn: true,
+            todayBtn: true
         });
 
         $("input[name='customBuyTime']").datetimepicker({
-            format: "yyyy-mm-dd",
-            minView: "month",
-            autoclose: true
+            format: "yyyy-mm-dd hh:ii:ss",
+            minView: "hour",
+            autoclose: true,
+            clearBtn: true,
+            todayBtn: true
         });
+
+
+
+        /*
+       order_sku窗口打开关闭
+        */
+        function CO1Window() {
+            var show = $('#CO1').css('display');
+            if (show == "block") {
+                // $('#CO').css('display', 'none');
+                $("#CO1").slideToggle('fast');
+                $("#fa1").attr('class', 'fa fa-chevron-down');
+            }
+            if (show == "none") {
+                $("#CO1").slideToggle('fast');
+                // $('#CO').css('display', 'block');
+                $("#fa1").attr('class', 'fa fa-chevron-up');
+            }
+        }
+
+        /**
+         * order_sku窗口添加
+         */
+        function addOrderSku(skuCode) {
+            var number = $("head").attr('id');
+            var skudivclone =$("#orderSku_div").clone(true);
+            var idname = 'form-order_sku-edit'+number;
+            skudivclone.find("form").attr('id', idname);
+            var order_skudiv = skudivclone.html();
+            var skucode = "\n" +
+                "                <div class=\"col-sm-8\">\n" +
+                "                    <select name=\"skuCode\" class=\"form-control m-b\" onchange='setOrderSkuMessage("+JSON.stringify(idname)+")' style=\"border-radius:3em\">\n" +
+                "                    </select>\n" +
+                "                </div>";
+            $("#sparkline8").append("<br><br><div class='row'><span class='col-md-1' style='color: #0d8ddb'>单品项 #"+number+"</span> <div class='col-md-1 col-md-offset-10'><a class=\"close-link\"><i class=\"fa fa-times\" onclick='closeSku("+JSON.stringify(idname)+")'></i></a></div></div>");
+            $("#sparkline8").append(order_skudiv);
+            $("#"+idname+" div[name = skuCodeAppend]").append(skucode);
+            $("#"+idname+" select[name=skuCode]").empty();
+            $("#"+idname+" select[name=skuCode]").append("<option value='"+skuCode+"'>"+skuCode+"</option>");
+            $.get(prefix+"/getSkuList", function (result) {
+                $.each(result, function (i, sku) {
+                    $("#"+idname+" select[name=skuCode]").append("<option value="+sku.code+">"+sku.code+"</option>");
+                });
+            });
+            $("#"+idname+" select[name=skuCode]").select2();
+            var show = $('#CO1').css('display');
+            if (show == "none") {
+                $("#CO1").slideToggle('fast');
+                $("#fa1").attr('class', 'fa fa-chevron-up');
+            }
+            var number1 = parseInt(number) + 1;
+            $("head").attr('id', number1);
+        }
+
+
+        //关闭单项sku单品添加表单
+        function closeSku(data) {
+            var data1 = {"ids": $('#' + data + ' input[name=id]').attr('value')};
+            $.modal.confirm("是否删除该单品项？", function () {
+                $.post('/DS/order_sku' + '/remove', data1, function (result) {
+                    if (result) {
+                        $("#" + data).hide();
+                        $.modal.msgSuccess("已成功删除！");
+                    }
+                })
+            });
+        }
+
+        /**
+         * 将表单数据转为Json
+         */
+        $.fn.serializeJSON=function() {
+            var serializeObj = {};
+            var array = this.serializeArray();
+            $(array).each(function () {
+                if (serializeObj[this.name]) {
+                    if ($.isArray(serializeObj[this.name])) {
+                        serializeObj[this.name].push(this.value);
+                    } else {
+                        serializeObj[this.name] = [serializeObj[this.name], this.value];
+                    }
+                } else {
+                    serializeObj[this.name] = this.value;
+                }
+            });
+            return serializeObj;
+        }
+
+        function getOrderSkuList() {
+            data={
+                id: $("#id").val()
+            };
+            $.post(prefix + "/getOrderSkuList", data, function (result) {
+                $.each(result, function (i, orderSku) {
+                    addOrderSku(orderSku.skuCode);
+                    $("#form-order_sku-edit"+(parseInt(i)+1)+ " input[name=id]").attr('value', orderSku.id);
+                    $("#form-order_sku-edit"+(parseInt(i)+1)+ " input[name=productName]").attr('value', orderSku.productName);
+                    $("#form-order_sku-edit"+(parseInt(i)+1)+ " input[name=size]").attr('value', orderSku.size);
+                    $("#form-order_sku-edit"+(parseInt(i)+1)+ " input[name=color]").attr('value', orderSku.color);
+                    $("#form-order_sku-edit"+(parseInt(i)+1)+ " input[name=quantity]").attr('value', orderSku.quantity);
+
+                    if(orderSku.released == 1){$("#form-order_sku-edit"+(parseInt(i)+1)+ " input[name=released]").prop('checked', true)};
+                    if(orderSku.released == 0){$("#form-order_sku-edit"+(parseInt(i)+1)+ " input[name=released]").prop('checked', false)};
+
+                    $("#form-order_sku-edit"+(parseInt(i)+1)+ " input[name=price]").attr('value', orderSku.price);
+                    $("#form-order_sku-edit"+(parseInt(i)+1)+ " input[name=productSkuId]").attr('value', orderSku.productSkuId);
+                    $("#form-order_sku-edit"+(parseInt(i)+1)+ " input[name=shipping]").attr('value', orderSku.shipping);
+                    $("#form-order_sku-edit"+(parseInt(i)+1)+ " input[name=weight]").attr('value', orderSku.weight);
+                    $("#form-order_sku-edit"+(parseInt(i)+1)+ " input[name=purchaseCost]").attr('value', orderSku.purchaseCost);
+                })
+            })
+        }
+
+
+        /**
+         * ajax获取仓库，物流渠道，收件人列表
+         */
+        function refresh() {
+            var id = $("#id").val();
+            $("#warehouse").empty();
+            $("#logisticsChannel").empty();
+            $.get(prefix+"/getName/"+id,function (result) {
+                $.each(result, function (i, data) {
+                    if(i == "warehouse"){
+                        $("#warehouse").append("<option value=\"\" selected>"+data+"</option>");
+                    }
+                    if(i == "channel"){
+                        $("#logisticsChannel").append("<option value=\"\" selected>"+data+"</option>");
+                    }
+                    if(i == "address"){
+                        $("#address").append("<option value=\"\" selected>当前所选：   "+data+"</option>");
+                    }
+                })
+            })
+            $.get(prefix + "/refresh",function (result) {
+                $.each(result,function (i, list) {
+                    if(i == 1){
+                        $.each(list,function (i,warehouse) {
+                            $("#warehouse").append("<option  value="+warehouse.id+">"+warehouse.chinesename+"</option>");
+                        })
+                    }
+                    if(i==2){
+                        $.each(list,function (i,logisticsChannel) {
+                            $("#logisticsChannel").append("<option  value="+logisticsChannel.id+">"+logisticsChannel.logisticsName+"</option>");
+                        })
+                    }
+                    if (i==3){
+                        $.each(list,function (i,address) {
+                            $("#address").append("<option  value="+address.id+">"+address.name+"</option>");
+                        })
+                    }
+                })
+            });
+        }
+
+
+
+
+             /*
+        layer.open打开第三方添加界面
+        */
+             function layerOpenAddress() {
+                 layer.open({
+                         type: 2,
+                         title: "添加收获地址",
+                         content: "/DS/shopping_address/add",
+                         area: ['80%','80%']
+                     }
+                 )
+             }
+
+        /*
+   layer.open打开第三方添加界面
+   */
+        function layerOpenWarehouse() {
+            layer.open({
+                    type: 2,
+                    title: "添加仓库",
+                    content: "/DS/warehouse/add",
+                    area: ['80%','80%']
+                }
+            )
+        }
+
+        /*
+   layer.open打开第三方添加界面
+   */
+        function layerOpenChannel() {
+            layer.open({
+                    type: 2,
+                    title: "添加物流渠道",
+                    content: "/DS/channel/add",
+                    area: ['80%','80%']
+                }
+            )
+        }
+
+        function setOrderSkuMessage(nodeId) {
+            var skuCode = $("#"+nodeId+" select[name=skuCode]").val();
+            if(skuCode != ''){
+                $.get(prefix+"/setOrderSkuMessage/"+skuCode, function (result) {
+                    $("#"+nodeId+" input[name=size]").attr('value', result.size);
+                    $("#"+nodeId+" input[name=color]").attr('value', result.color);
+                    $("#"+nodeId+" input[name=purchaseCost]").attr('value', result.costPrice);
+                    $("#"+nodeId+" input[name=weight]").attr('value', result.grossWeight);
+                    $("#"+nodeId+" input[name=price]").attr('value', result.price);
+                    $("#"+nodeId+" input[name=productSkuId]").attr('value', result.id);
+                })
+            }
+        }
     </script>
 </body>
 </html>

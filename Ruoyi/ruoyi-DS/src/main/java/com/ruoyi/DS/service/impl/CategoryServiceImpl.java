@@ -1,6 +1,9 @@
 package com.ruoyi.DS.service.impl;
 
 import java.util.List;
+import java.util.ArrayList;
+import com.ruoyi.common.core.domain.Ztree;
+import com.ruoyi.common.utils.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.ruoyi.DS.mapper.CategoryMapper;
@@ -12,7 +15,7 @@ import com.ruoyi.common.core.text.Convert;
  * 目录分类Service业务层处理
  * 
  * @author ruoyi
- * @date 2019-12-25
+ * @date 2020-05-08
  */
 @Service
 public class CategoryServiceImpl implements ICategoryService 
@@ -31,8 +34,6 @@ public class CategoryServiceImpl implements ICategoryService
     {
         return categoryMapper.selectCategoryById(id);
     }
-
-
 
     /**
      * 查询目录分类列表
@@ -55,6 +56,7 @@ public class CategoryServiceImpl implements ICategoryService
     @Override
     public int insertCategory(Category category)
     {
+        category.setCreateTime(DateUtils.getNowDate());
         return categoryMapper.insertCategory(category);
     }
 
@@ -67,6 +69,7 @@ public class CategoryServiceImpl implements ICategoryService
     @Override
     public int updateCategory(Category category)
     {
+        category.setUpdateTime(DateUtils.getNowDate());
         return categoryMapper.updateCategory(category);
     }
 
@@ -92,5 +95,27 @@ public class CategoryServiceImpl implements ICategoryService
     public int deleteCategoryById(Long id)
     {
         return categoryMapper.deleteCategoryById(id);
+    }
+
+    /**
+     * 查询目录分类树列表
+     * 
+     * @return 所有目录分类信息
+     */
+    @Override
+    public List<Ztree> selectCategoryTree()
+    {
+        List<Category> categoryList = categoryMapper.selectCategoryList(new Category());
+        List<Ztree> ztrees = new ArrayList<Ztree>();
+        for (Category category : categoryList)
+        {
+            Ztree ztree = new Ztree();
+            ztree.setId(category.getId());
+            ztree.setpId(category.getParentdirectory());
+            ztree.setName(category.getName());
+            ztree.setTitle(category.getName());
+            ztrees.add(ztree);
+        }
+        return ztrees;
     }
 }

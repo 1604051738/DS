@@ -17,6 +17,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="createTime"    column="createTime"    />
         <result property="updateTime"    column="updateTime"    />
         <result property="sp"    column="sp"    />
+        <result property="parentName" column="parent_name" />
     </resultMap>
 
     <sql id="selectCategoryVo">
@@ -28,25 +29,24 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <where>  
             <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
             <if test="chinesename != null  and chinesename != ''"> and chineseName like concat('%', #{chinesename}, '%')</if>
-            <if test="remark != null  and remark != ''"> and remark = #{remark}</if>
             <if test="state != null "> and state = #{state}</if>
             <if test="ordervalue != null  and ordervalue != ''"> and orderValue = #{ordervalue}</if>
-            <if test="parentdirectory != null  and parentdirectory != ''"> and parentDirectory = #{parentdirectory}</if>
+            <if test="parentdirectory != null "> and parentDirectory = #{parentdirectory}</if>
             <if test="createBy != null  and createBy != ''"> and createBy = #{createBy}</if>
             <if test="updateBy != null  and updateBy != ''"> and updateBy = #{updateBy}</if>
             <if test="createTime != null "> and createTime = #{createTime}</if>
             <if test="updateTime != null "> and updateTime = #{updateTime}</if>
             <if test="sp != null  and sp != ''"> and sp = #{sp}</if>
         </where>
+        order by parentDirectory
     </select>
-
-<!--    根据id查询 category-->
+    
     <select id="selectCategoryById" parameterType="Long" resultMap="CategoryResult">
-        <include refid="selectCategoryVo"/>
-        where id = #{id}
+        select t.id, t.name, t.chineseName, t.remark, t.state, t.orderValue, t.parentDirectory, t.createBy, t.updateBy, t.createTime, t.updateTime, t.sp, p.name as parent_name
+        from category t
+        left join category p on p.id = t.parentDirectory
+        where t.id = #{id}
     </select>
-
-
         
     <insert id="insertCategory" parameterType="Category" useGeneratedKeys="true" keyProperty="id">
         insert into category
@@ -56,7 +56,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="remark != null  and remark != ''">remark,</if>
             <if test="state != null ">state,</if>
             <if test="ordervalue != null  and ordervalue != ''">orderValue,</if>
-            <if test="parentdirectory != null  and parentdirectory != ''">parentDirectory,</if>
+            <if test="parentdirectory != null ">parentDirectory,</if>
             <if test="createBy != null  and createBy != ''">createBy,</if>
             <if test="updateBy != null  and updateBy != ''">updateBy,</if>
             <if test="createTime != null ">createTime,</if>
@@ -69,7 +69,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="remark != null  and remark != ''">#{remark},</if>
             <if test="state != null ">#{state},</if>
             <if test="ordervalue != null  and ordervalue != ''">#{ordervalue},</if>
-            <if test="parentdirectory != null  and parentdirectory != ''">#{parentdirectory},</if>
+            <if test="parentdirectory != null ">#{parentdirectory},</if>
             <if test="createBy != null  and createBy != ''">#{createBy},</if>
             <if test="updateBy != null  and updateBy != ''">#{updateBy},</if>
             <if test="createTime != null ">#{createTime},</if>
@@ -86,7 +86,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="remark != null  and remark != ''">remark = #{remark},</if>
             <if test="state != null ">state = #{state},</if>
             <if test="ordervalue != null  and ordervalue != ''">orderValue = #{ordervalue},</if>
-            <if test="parentdirectory != null  and parentdirectory != ''">parentDirectory = #{parentdirectory},</if>
+            <if test="parentdirectory != null ">parentDirectory = #{parentdirectory},</if>
             <if test="createBy != null  and createBy != ''">createBy = #{createBy},</if>
             <if test="updateBy != null  and updateBy != ''">updateBy = #{updateBy},</if>
             <if test="createTime != null ">createTime = #{createTime},</if>

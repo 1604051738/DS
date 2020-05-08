@@ -2,12 +2,13 @@ package com.ruoyi.DS.service;
 
 import com.ruoyi.DS.domain.Category;
 import java.util.List;
+import com.ruoyi.common.core.domain.Ztree;
 
 /**
  * 目录分类Service接口
  * 
  * @author ruoyi
- * @date 2019-12-25
+ * @date 2020-05-08
  */
 public interface ICategoryService 
 {
@@ -18,8 +19,6 @@ public interface ICategoryService
      * @return 目录分类
      */
     public Category selectCategoryById(Long id);
-
-
 
     /**
      * 查询目录分类列表
@@ -60,4 +59,11 @@ public interface ICategoryService
      * @return 结果
      */
     public int deleteCategoryById(Long id);
+
+    /**
+     * 查询目录分类树列表
+     * 
+     * @return 所有目录分类信息
+     */
+    public List<Ztree> selectCategoryTree();
 }

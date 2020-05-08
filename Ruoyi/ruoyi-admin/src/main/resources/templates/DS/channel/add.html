@@ -169,8 +169,8 @@
             if ($.validate.form()) {
                 $.operate.save(prefix + "/add", $('#form-channel-add').serialize(),function(result) {
                     if(self.frameElement.tagName=="IFRAME" && typeof (window.parent.refresh) == "function"){
-                        // 在frame中时处理
-                        $.operate.successCallback(result);
+                        $.modal.close();
+                        window.parent.refresh();
                     }
                     $.operate.successTabCallback(result);
                 });

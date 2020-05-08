@@ -145,6 +145,12 @@
     <script type="text/javascript">
         $().ready(function () {
             $("#warehouse").one("click", refresh());
+            if (screen.height==1080&&screen.width==1920){
+                $(".show-grid").css('margin','0px 0');
+                $(".show-grid").css('border','0px');
+                $(".show-grid div[class^=col-]").css('height','55px');
+                $("#ddwindow").css('height','500px');
+            }
             }
         )
 
@@ -158,6 +164,7 @@
                 $.operate.save(prefix + "/add", $('#form-inventory-add').serialize(),function(result) {
                     if(self.frameElement.tagName=="IFRAME" && typeof (window.parent.refresh) == "function"){
                         // 在frame中时处理
+                        window.parent.refresh();
                         $.operate.successCallback(result);
                     }
                     $.operate.successTabCallback(result);

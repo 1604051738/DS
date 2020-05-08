@@ -33,14 +33,14 @@
                                  <div class="col-md-4">
                                      <label class="col-sm-2 control-label">SKU：</label>
                                     <div class="col-sm-10">
-                                        <input name="sku" th:placeholder="*{sku}" class="form-control" type="text" readonly>
+                                        <input name="sku" th:field="*{sku}" class="form-control" type="text" readonly>
                                     </div>
                                  </div>
                                  <div class="col-md-4">
                                     <label class="col-sm-2 control-label">货位：</label>
                                     <div class="col-sm-10">
                                         <select name="allocation" class="form-control m-b" th:with="type=${@dict.getType('DS_allocation')}">
-                                            <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}" th:placeholder="*{allocation}"></option>
+                                            <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}" th:field="*{allocation}"></option>
                                         </select>
                                     </div>
                                  </div>
@@ -60,25 +60,25 @@
                                 <div class="col-md-3">
                                     <label class="col-sm-3 control-label"><span style="color: red; ">*</span>在库量：</label>
                                     <div class="col-sm-8">
-                                        <input name="tqol" th:placeholder="*{tqol}" class="form-control" type="text">
+                                        <input name="tqol" th:field="*{tqol}" class="form-control" type="text">
                                     </div>
                                 </div>
                                 <div class="col-md-3">
                                     <label class="col-sm-3 control-label"><span style="color: red; ">*</span>已分配量：</label>
                                     <div class="col-sm-8">
-                                        <input name="allocated" th:placeholder="*{allocated}" class="form-control" type="text">
+                                        <input name="allocated" th:field="*{allocated}" class="form-control" type="text">
                                     </div>
                                 </div> 
                                 <div class="col-md-3">
                                     <label class="col-sm-3 control-label">可售量：</label>
                                     <div class="col-sm-8">
-                                        <input name="aoa" th:placeholder="*{aoa}" class="form-control" type="text">
+                                        <input name="aoa" th:field="*{aoa}" class="form-control" type="text">
                                     </div>
                                 </div>
                                 <div class="col-md-3">
                                     <label class="col-sm-3 control-label"><span style="color: red; ">*</span>采购在途量：</label>
                                     <div class="col-sm-8">
-                                        <input name="pit" th:placeholder="*{pit}" class="form-control" type="text" >
+                                        <input name="pit" th:field="*{pit}" class="form-control" type="text" >
                                     </div>
                                 </div>
                             </div>
@@ -105,13 +105,13 @@
                                 <div class="col-md-3">
                                     <label class="col-sm-3 control-label"><span style="color: red; ">*</span>超卖量：</label>
                                     <div class="col-sm-8">
-                                    <input name="oversold" th:placeholder="*{oversold}" class="form-control" type="text">
+                                    <input name="oversold" th:field="*{oversold}" class="form-control" type="text">
                                 </div>
                                 </div>
                                 <div class="col-md-3">
                                     <label class="col-sm-3 control-label">缺货量：</label>
                                     <div class="col-sm-8">
-                                    <input name="oosq" th:placeholder="*{oosq}" class="form-control" type="text">
+                                    <input name="oosq" th:field="*{oosq}" class="form-control" type="text">
                                 </div>
                                 </div>
                             </div>
@@ -131,7 +131,13 @@
     <th:block th:include="include :: datetimepicker-js" />
     <script type="text/javascript">
         $().ready(function () {
-                $("#warehouse").one("click", refresh());
+            $("#warehouse").one("click", refresh());
+            if (screen.height==1080&&screen.width==1920){
+                $(".show-grid").css('margin','0px 0');
+                $(".show-grid").css('border','0px');
+                $(".show-grid div[class^=col-]").css('height','55px');
+                $("#ddwindow").css('height','500px');
+            }
             }
         )
 

@@ -1,5 +1,6 @@
 package com.ruoyi.DS.domain;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -20,6 +21,7 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
+
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class SalesOrder extends BaseEntity
 {
@@ -54,7 +56,7 @@ public class SalesOrder extends BaseEntity
 
     /** 收货地址 */
     @Excel(name = "收货地址")
-    private String address;
+    private Long address;
 
     /** 物流跟踪号 */
     @Excel(name = "物流跟踪号")
@@ -133,23 +135,28 @@ public class SalesOrder extends BaseEntity
     private Long isExchange;
 
     /** 出库时间 */
-    @Excel(name = "出库时间", width = 30, dateFormat = "yyyy-MM-dd")
+    @JsonFormat(shape =JsonFormat.Shape.STRING , pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    @Excel(name = "出库时间", width = 30, dateFormat = "yyyy-MM-dd HH:mm:ss")
     private Date storageTime;
 
     /** 标记发货时间 */
-    @Excel(name = "标记发货时间", width = 30, dateFormat = "yyyy-MM-dd")
+    @JsonFormat(shape =JsonFormat.Shape.STRING , pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    @Excel(name = "标记发货时间", width = 30, dateFormat = "yyyy-MM-dd HH:mm:ss")
     private Date deliverRemarkTime;
 
     /** 物流方接单时间 */
-    @Excel(name = "物流方接单时间", width = 30, dateFormat = "yyyy-MM-dd")
+    @JsonFormat(shape =JsonFormat.Shape.STRING , pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    @Excel(name = "物流方接单时间", width = 30, dateFormat = "yyyy-MM-dd HH:mm:ss")
     private Date logisticsAcceptTime;
 
     /** 下载时间 */
-    @Excel(name = "下载时间", width = 30, dateFormat = "yyyy-MM-dd")
+    @JsonFormat(shape =JsonFormat.Shape.STRING , pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    @Excel(name = "下载时间", width = 30, dateFormat = "yyyy-MM-dd HH:mm:ss")
     private Date dowloadTime;
 
     /** 客户购买时间 */
-    @Excel(name = "客户购买时间", width = 30, dateFormat = "yyyy-MM-dd")
+    @JsonFormat(shape =JsonFormat.Shape.STRING , pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    @Excel(name = "客户购买时间", width = 30, dateFormat = "yyyy-MM-dd HH:mm:ss")
     private Date customBuyTime;
 
 
