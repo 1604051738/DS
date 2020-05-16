@@ -7,7 +7,7 @@ import java.util.List;
  * 库存Service接口
  * 
  * @author ruoyi
- * @date 2019-12-26
+ * @date 2020-05-11
  */
 public interface IInventoryService 
 {
@@ -18,6 +18,13 @@ public interface IInventoryService
      * @return 库存
      */
     public Inventory selectInventoryById(Long id);
+
+    /**
+     * 根据SKU查询库存
+     * @param SKU
+     * @return
+     */
+    public Inventory selectInventoryBySKU(Integer SKU);
 
     /**
      * 查询库存列表
@@ -58,7 +65,4 @@ public interface IInventoryService
      * @return 结果
      */
     public int deleteInventoryById(Long id);
-
-
-    public Inventory selectInventoryBySKU(String sku);
 }

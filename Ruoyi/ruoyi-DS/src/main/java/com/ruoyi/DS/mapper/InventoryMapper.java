@@ -7,7 +7,7 @@ import java.util.List;
  * 库存Mapper接口
  * 
  * @author ruoyi
- * @date 2019-12-26
+ * @date 2020-05-11
  */
 public interface InventoryMapper 
 {
@@ -18,6 +18,13 @@ public interface InventoryMapper
      * @return 库存
      */
     public Inventory selectInventoryById(Long id);
+
+    /**
+     * 根据SKU查询库存
+     * @param SKU
+     * @return
+     */
+    public Inventory selectInventoryBySKU(Integer SKU);
 
     /**
      * 查询库存列表
@@ -58,7 +65,4 @@ public interface InventoryMapper
      * @return 结果
      */
     public int deleteInventoryByIds(String[] ids);
-
-
-    public Inventory selectInventoryBySKU(String sku);
 }

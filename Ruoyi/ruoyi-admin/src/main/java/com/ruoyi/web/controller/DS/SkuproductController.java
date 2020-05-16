@@ -172,12 +172,16 @@ public class SkuproductController extends BaseController
     @Log(title = "SKU单品", businessType = BusinessType.DELETE)
     @PostMapping( "/delete")
     @ResponseBody
-    public Boolean delete(String ids)
+    public Boolean delete(@RequestParam(value = "ids") String ids)
     {
         Boolean result = false;
-        Integer data = skuproductService.deleteSkuproductByIds(ids);
-        if (data != 0){
-            result = true;
+        try {
+            Integer data = skuproductService.deleteSkuproductByIds(ids);
+            if (data != 0){
+                result = true;
+            }
+        }catch (Exception e){
+            result = false;
         }
         return result;
     }

@@ -102,7 +102,14 @@
                     field : 'state', 
                     title : '状态',
                     formatter: function(value, row, index) {
-                       return $.table.selectDictLabel(stateDatas, value);
+                        var data;
+                        if (value == 0){
+                            data = "<span style='color: red'>非激活</span><br/><br/>";
+                        }
+                        if(value == 1){
+                            data = "<span style='color: green'>激活</span><br/><br/>";
+                        }
+                        return data;
                     }
                 },
                 {

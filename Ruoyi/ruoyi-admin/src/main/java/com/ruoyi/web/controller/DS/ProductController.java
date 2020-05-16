@@ -181,6 +181,7 @@ public class ProductController extends BaseController
         String userName = (String) PermissionUtils.getPrincipalProperty("userName");
         product.setUpdateBy(userName);
         product.setUpdateTime(date);
+        Long productId = product.getId();
         productService.updateProduct(product);
         //sku单品判断是否存在进行添加/更新
         if (skuMessages != null){
@@ -190,7 +191,7 @@ public class ProductController extends BaseController
                     // 上传文件路径
                     String code = SkuCodeBuilder.getSkuCode(product.getCode(), skuproductService);
                     skuproduct.setCode(code);
-                    skuproduct.setProduct(product.getId());
+                    skuproduct.setProduct(productId);
                     skuproductService.insertSkuproduct(skuproduct);
                 }else {
                     skuproductService.updateSkuproduct(skuproduct);
@@ -231,7 +232,7 @@ public class ProductController extends BaseController
             if (skuproductService.selectSkuproductList(skuproduct).size() == 0)
                 return toAjax(productService.deleteProductByIds(ids));
             else
-                return error("fail to delete, it has 'sku'");
+                return error("删除失败，改商品存在sku单品");
         }
         }
 

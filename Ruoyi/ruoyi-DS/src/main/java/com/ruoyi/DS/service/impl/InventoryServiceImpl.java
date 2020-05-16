@@ -1,6 +1,7 @@
 package com.ruoyi.DS.service.impl;
 
 import java.util.List;
+import com.ruoyi.common.utils.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.ruoyi.DS.mapper.InventoryMapper;
@@ -12,7 +13,7 @@ import com.ruoyi.common.core.text.Convert;
  * 库存Service业务层处理
  * 
  * @author ruoyi
- * @date 2019-12-26
+ * @date 2020-05-11
  */
 @Service
 public class InventoryServiceImpl implements IInventoryService 
@@ -30,6 +31,11 @@ public class InventoryServiceImpl implements IInventoryService
     public Inventory selectInventoryById(Long id)
     {
         return inventoryMapper.selectInventoryById(id);
+    }
+
+    @Override
+    public Inventory selectInventoryBySKU(Integer SKU) {
+        return inventoryMapper.selectInventoryBySKU(SKU);
     }
 
     /**
@@ -53,6 +59,7 @@ public class InventoryServiceImpl implements IInventoryService
     @Override
     public int insertInventory(Inventory inventory)
     {
+        inventory.setCreateTime(DateUtils.getNowDate());
         return inventoryMapper.insertInventory(inventory);
     }
 
@@ -90,10 +97,5 @@ public class InventoryServiceImpl implements IInventoryService
     public int deleteInventoryById(Long id)
     {
         return inventoryMapper.deleteInventoryById(id);
-    }
-
-    @Override
-    public Inventory selectInventoryBySKU(String sku) {
-        return inventoryMapper.selectInventoryBySKU(sku);
     }
 }

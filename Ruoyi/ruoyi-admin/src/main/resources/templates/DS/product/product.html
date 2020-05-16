@@ -138,7 +138,7 @@
                     }
                 },
                 {
-                    field: '',
+                    field: 'status',
                     title: 'SKU状态',
                     formatter: function(value, row, index) {
                         $.ajaxSettings.async = false;
@@ -156,12 +156,12 @@
                                     skuStatus = skuStatus +"<span style='color: green'>激活</span><br/><br/>";
                                 }
                                 if(skuProduct.status == 2){
-                                    skuStatus = skuStatus + "<span style='color: #1E0FBE'>售完为止</span><br/><br/>";
+                                    skuStatus = skuStatus + "<span style='color: #1E0FBE'>售完即止</span><br/><br/>";
                                 }
                             })
                         });
                         return  skuStatus;
-                    }
+                    },
                 },
                 {
                     field: '',
@@ -192,10 +192,10 @@
                         $.post(prefix+"/getSkuList", data, function (result) {
                             $.each(result, function (i, skuProduct) {
                                 skuProduct = jQuery.parseJSON(skuProduct);
-                                if(skuProduct.tpq == null){
+                                if(skuProduct.purchasePlan == null){
                                     sku = sku + "" + "<br/><br/>";
                                 }else{
-                                sku = sku + skuProduct.tpq + "<br/><br/>";   }
+                                sku = sku + skuProduct.purchasePlan + "<br/><br/>";   }
                             })
                         });
                         return  sku;

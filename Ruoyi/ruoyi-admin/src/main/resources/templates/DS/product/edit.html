@@ -207,7 +207,7 @@
                 <br/>
                 <div class="row">
                     <div class="col-md-6">
-                        <label class="col-sm-3 control-label"><span style="color: red;">*</span>库存刊登策略：</label>
+                        <label class="col-sm-4 control-label"><span style="color: red;">*</span>库存刊登策略：</label>
                         <div class="col-sm-6">
                             <select name="inventory_publish_policy" id="inventory_publish_policy" class="form-control m-b" required>
                                 <option value="1">默认</option>
@@ -216,11 +216,11 @@
                         </div>
                     </div>
                     <div class="col-md-6">
-                        <label class="col-sm-3 control-label">统计时间：</label>
+                        <label class="col-sm-2 control-label">统计时间：</label>
                         <div class="col-sm-6">
                             <div class="input-group date">
                                 <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                                <input type="text" class="form-control datepicker hasDatepicker" id="sales_stat_time" placeholder="yyyy-MM-dd" name="sales_stat_time" data-format="yyyy-MM" style="border-radius:9px"/>
+                                <input type="text" class="form-control datepicker hasDatepicker" id="sales_stat_time" placeholder="yyyy-MM-dd HH:mm:ss" name="sales_stat_time" data-format="yyyy-MM-dd HH:mm:ss" style="border-radius:9px"/>
                             </div>
                         </div>
                     </div>
@@ -236,25 +236,25 @@
             <input type="text" style="display:none;" name="idcode">
 
             <div class="col-md-3">
-                <label class="col-sm-3 control-label">净重：</label>
+                <label class="col-sm-4 control-label">净重：</label>
                 <div class="col-sm-6">
                     <input name="net_weight" id="net_weight" class="form-control" type="text" style="border-radius:9px">
                 </div>
             </div>
             <div class="col-md-3">
-                <label class="col-sm-3 control-label"><span style="color: red; ">*</span>毛重：</label>
+                <label class="col-sm-4 control-label"><span style="color: red; ">*</span>毛重：</label>
                 <div class="col-sm-6">
                     <input name="gross_weight" id="gross_weight" class="form-control" type="text" style="border-radius:9px" required>
                 </div>
             </div>
             <div class="col-md-3">
-                <label class="col-sm-3 control-label"><span style="color: red; ">*</span>成本价(RMB)：</label>
+                <label class="col-sm-4 control-label"><span style="color: red; ">*</span>成本价(RMB)：</label>
                 <div class="col-sm-6">
                     <input name="cost_price" id="cost_price" class="form-control" type="text" style="border-radius:9px" required>
                 </div>
             </div>
             <div class="col-md-3">
-                <label class="col-sm-3 control-label">售价：</label>
+                <label class="col-sm-4 control-label">售价：</label>
                 <div class="col-sm-6">
                     <input name="price" id="price" class="form-control" type="text" style="border-radius:9px">
                 </div>
@@ -266,7 +266,7 @@
 
         <div class="row show-grid">
             <div class="col-md-4">
-                <label class="col-sm-2 control-label"><span style="color: red; ">*</span>状态：</label>
+                <label class="col-sm-3 control-label"><span style="color: red; ">*</span>状态：</label>
                 <div class="col-sm-6">
                     <select name="status" id="status" class="form-control m-b" style="border-radius:9px" required>
                         <option value="0">非激活</option>
@@ -277,7 +277,7 @@
             </div>
 
             <div class="col-md-4">
-                <label class="col-sm-2 control-label">采购交期：</label>
+                <label class="col-sm-3 control-label">采购交期：</label>
                 <div class="col-sm-6">
                     <input name="purchase_delivery_day" id="purchase_delivery_day" class="form-control" type="text" style="border-radius:9px">
                 </div>
@@ -287,20 +287,20 @@
 
         <div class="row show-grid">
             <div class="col-md-4">
-                <label class="col-sm-2 control-label">长：</label>
+                <label class="col-sm-3 control-label">长：</label>
                 <div class="col-sm-3">
                     <input name="length" id="length" class="form-control" type="text" style="border-radius:9px">
                 </div>
             </div>
             <div class="col-sm-4">
-                <label class="col-sm-2 control-label">宽：</label>
+                <label class="col-sm-3 control-label">宽：</label>
                 <div class="col-sm-3">
                     <input name="width" id="width" class="form-control" type="text" style="border-radius:9px">
                 </div>
             </div>
 
             <div class="col-sm-4">
-                <label class="col-sm-2 control-label">高：</label>
+                <label class="col-sm-3 control-label">高：</label>
                 <div class="col-sm-3">
                     <input name="height" id="height" class="form-control" type="text" style="border-radius:9px">
                 </div>
@@ -340,7 +340,7 @@
         $("#sku-div").one('click', getSkuList());
         $("#ul-img").one('click', showpicture());
         $("#summernote").one('click', getDistribute());
-        if (screen.height==1080&&screen.width==1920){
+        if (screen.height > 860&&screen.height < 1081&&screen.width>1500&&screen.width<1921){
             $(".show-grid").css('margin','0px 0');
             $(".show-grid").css('border','0px');
             $(".show-grid div[class^=col-]").css('height','55px');
@@ -434,7 +434,7 @@
                     status: $('#' + id + ' select[name = status]').find("option:selected").attr("value"),
                     rank: $('#' + id + ' input[name = rank]').val(),
                     purchaseDeliveryDay: $('#' + id + ' input[name = purchase_delivery_day]').val(),
-                    salesStatTime: $('#' + id + ' input[name = sales_stat_time]').val().substr(0,10),
+                    salesStatTime: $('#' + id + ' input[name = sales_stat_time]').val(),
                     inventoryPublishPolicy: $('#' + id + ' select[name = inventory_publish_policy]').val(),
                     length: $('#' + id + ' input[name = length]').val(),
                     width: $('#' + id + ' input[name = width]').val(),
@@ -707,7 +707,7 @@
         $("#sparkline8").append("<br><br><div class='row'><span class='col-sm-1' style='color: #0d8ddb'>SKU单品项 #"+number+"</span> <div class='col-md-1 col-md-offset-10'><a class=\"close-link\"><i class=\"fa fa-times\" onclick='closeSku("+JSON.stringify(idname)+")'></i></a></div></div>");
         $("#sparkline8").append(skudiv);
         $("#"+idname+" input[name = sales_stat_time]").datetimepicker({
-            format: 'yyyy-mm-dd',
+            format: 'yyyy-mm-dd hh:ii:ss',
             autoclose: true,
             minView: 0,
             minuteStep:1,
@@ -733,10 +733,12 @@
     function closeSku(data) {
         var data1 = {"ids": $('#' + data + ' .h7').attr('value')};
         $.modal.confirm("是否删除该sku项？", function () {
-            $.post('/DS/skuproduct' + '/remove', data1, function (result) {
+            $.post('/DS/skuproduct/delete', data1, function (result) {
                 if (result) {
                     $("#" + data).hide();
                     $.modal.msgSuccess("已成功删除！");
+                }else {
+                    $.modal.msgError("删除失败，该SKU单品已被销售订单引用。");
                 }
             })
         });

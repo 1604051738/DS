@@ -1,5 +1,6 @@
 package com.ruoyi.DS.utils;
 
+import com.ruoyi.DS.domain.Inventory;
 import com.ruoyi.common.config.Global;
 import com.ruoyi.common.utils.file.FileUploadUtils;
 import org.springframework.web.multipart.MultipartFile;
@@ -44,5 +45,21 @@ public final class DSUtils {
             String fileName  = FileUploadUtils.upload(filePath, file);
 
             return fileName;
+    }
+
+    /**
+     * 更新库存加减操作
+     */
+    public  static Inventory refreshInventory(Inventory inventory){
+        if (inventory.getQuantity() - inventory.getAllocated() < 0){
+            inventory.setOosq(inventory.getAllocated() - inventory.getQuantity());
+            inventory.setAvailable((long) 0);
+            inventory.setQuantityOversell(inventory.getOosq());
+        }else{
+            inventory.setOosq((long) 0);
+            inventory.setAvailable(inventory.getQuantity() - inventory.getAllocated());
+            inventory.setQuantityOversell(inventory.getOosq());
+        }
+        return inventory;
     }
 }

@@ -9,34 +9,40 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="sku"    column="SKU"    />
         <result property="allocation"    column="allocation"    />
         <result property="warehouse"    column="wareHouse"    />
-        <result property="tqol"    column="tqol"    />
+        <result property="quantity"    column="quantity"    />
         <result property="allocated"    column="allocated"    />
-        <result property="aoa"    column="aoa"    />
-        <result property="pit"    column="pit"    />
+        <result property="available"    column="available"    />
+        <result property="quantityInTransit"    column="quantity_in_transit"    />
         <result property="createBy"    column="createBy"    />
         <result property="createTime"    column="createTime"    />
-        <result property="checktime"    column="checkTime"    />
-        <result property="ihtime"    column="ihTime"    />
+        <result property="takeStockTime"    column="take_stock_time"    />
+        <result property="stockInTime"    column="stock_in_time"    />
         <result property="updateBy"    column="updateBy"    />
-        <result property="oversold"    column="oversold"    />
+        <result property="quantityOversell"    column="quantity_oversell"    />
         <result property="oosq"    column="oosq"    />
     </resultMap>
 
     <sql id="selectInventoryVo">
-        select id, SKU, allocation, wareHouse, tqol, allocated, aoa, pit, createBy, createTime, checkTime, ihTime, updateBy, oversold, oosq from inventory
+        select id, SKU, allocation, wareHouse, quantity, allocated, available, quantity_in_transit, createBy, createTime, take_stock_time, stock_in_time, updateBy, quantity_oversell, oosq from inventory
     </sql>
 
     <select id="selectInventoryList" parameterType="Inventory" resultMap="InventoryResult">
         <include refid="selectInventoryVo"/>
         <where>  
-            <if test="sku != null  and sku != ''"> and SKU = #{sku}</if>
+            <if test="sku != null "> and SKU = #{sku}</if>
             <if test="allocation != null  and allocation != ''"> and allocation = #{allocation}</if>
-            <if test="warehouse != null  and warehouse != ''"> and wareHouse = #{warehouse}</if>
+            <if test="warehouse != null "> and wareHouse = #{warehouse}</if>
+            <if test="quantity != null "> and quantity = #{quantity}</if>
+            <if test="allocated != null "> and allocated = #{allocated}</if>
+            <if test="available != null "> and available = #{available}</if>
+            <if test="quantityInTransit != null "> and quantity_in_transit = #{quantityInTransit}</if>
             <if test="createBy != null  and createBy != ''"> and createBy = #{createBy}</if>
             <if test="createTime != null "> and createTime = #{createTime}</if>
-            <if test="checktime != null "> and checkTime = #{checktime}</if>
-            <if test="ihtime != null "> and ihTime = #{ihtime}</if>
+            <if test="takeStockTime != null "> and take_stock_time = #{takeStockTime}</if>
+            <if test="stockInTime != null "> and stock_in_time = #{stockInTime}</if>
             <if test="updateBy != null  and updateBy != ''"> and updateBy = #{updateBy}</if>
+            <if test="quantityOversell != null "> and quantity_oversell = #{quantityOversell}</if>
+            <if test="oosq != null "> and oosq = #{oosq}</if>
         </where>
     </select>
     
@@ -45,65 +51,64 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         where id = #{id}
     </select>
 
-
-    <select id="selectInventoryBySKU" parameterType="String" resultMap="InventoryResult">
+    <select id="selectInventoryBySKU" parameterType="Integer" resultMap="InventoryResult">
         <include refid="selectInventoryVo"/>
-        where sku = #{sku}
+        where SKU = #{sku}
     </select>
         
     <insert id="insertInventory" parameterType="Inventory" useGeneratedKeys="true" keyProperty="id">
         insert into inventory
         <trim prefix="(" suffix=")" suffixOverrides=",">
-            <if test="sku != null  and sku != ''">SKU,</if>
+            <if test="sku != null ">SKU,</if>
             <if test="allocation != null  and allocation != ''">allocation,</if>
-            <if test="warehouse != null  and warehouse != ''">wareHouse,</if>
-            <if test="tqol != null  and tqol != ''">tqol,</if>
-            <if test="allocated != null  and allocated != ''">allocated,</if>
-            <if test="aoa != null  and aoa != ''">aoa,</if>
-            <if test="pit != null  and pit != ''">pit,</if>
+            <if test="warehouse != null ">wareHouse,</if>
+            <if test="quantity != null ">quantity,</if>
+            <if test="allocated != null ">allocated,</if>
+            <if test="available != null ">available,</if>
+            <if test="quantityInTransit != null ">quantity_in_transit,</if>
             <if test="createBy != null  and createBy != ''">createBy,</if>
             <if test="createTime != null ">createTime,</if>
-            <if test="checktime != null ">checkTime,</if>
-            <if test="ihtime != null ">ihTime,</if>
+            <if test="takeStockTime != null ">take_stock_time,</if>
+            <if test="stockInTime != null ">stock_in_time,</if>
             <if test="updateBy != null  and updateBy != ''">updateBy,</if>
-            <if test="oversold != null  and oversold != ''">oversold,</if>
-            <if test="oosq != null  and oosq != ''">oosq,</if>
+            <if test="quantityOversell != null ">quantity_oversell,</if>
+            <if test="oosq != null ">oosq,</if>
          </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
-            <if test="sku != null  and sku != ''">#{sku},</if>
+            <if test="sku != null ">#{sku},</if>
             <if test="allocation != null  and allocation != ''">#{allocation},</if>
-            <if test="warehouse != null  and warehouse != ''">#{warehouse},</if>
-            <if test="tqol != null  and tqol != ''">#{tqol},</if>
-            <if test="allocated != null  and allocated != ''">#{allocated},</if>
-            <if test="aoa != null  and aoa != ''">#{aoa},</if>
-            <if test="pit != null  and pit != ''">#{pit},</if>
+            <if test="warehouse != null ">#{warehouse},</if>
+            <if test="quantity != null ">#{quantity},</if>
+            <if test="allocated != null ">#{allocated},</if>
+            <if test="available != null ">#{available},</if>
+            <if test="quantityInTransit != null ">#{quantityInTransit},</if>
             <if test="createBy != null  and createBy != ''">#{createBy},</if>
             <if test="createTime != null ">#{createTime},</if>
-            <if test="checktime != null ">#{checktime},</if>
-            <if test="ihtime != null ">#{ihtime},</if>
+            <if test="takeStockTime != null ">#{takeStockTime},</if>
+            <if test="stockInTime != null ">#{stockInTime},</if>
             <if test="updateBy != null  and updateBy != ''">#{updateBy},</if>
-            <if test="oversold != null  and oversold != ''">#{oversold},</if>
-            <if test="oosq != null  and oosq != ''">#{oosq},</if>
+            <if test="quantityOversell != null ">#{quantityOversell},</if>
+            <if test="oosq != null ">#{oosq},</if>
          </trim>
     </insert>
 
     <update id="updateInventory" parameterType="Inventory">
         update inventory
         <trim prefix="SET" suffixOverrides=",">
-            <if test="sku != null  and sku != ''">SKU = #{sku},</if>
+            <if test="sku != null ">SKU = #{sku},</if>
             <if test="allocation != null  and allocation != ''">allocation = #{allocation},</if>
             <if test="warehouse != null ">wareHouse = #{warehouse},</if>
-            <if test="tqol != null  and tqol != ''">tqol = #{tqol},</if>
-            <if test="allocated != null  and allocated != ''">allocated = #{allocated},</if>
-            <if test="aoa != null  and aoa != ''">aoa = #{aoa},</if>
-            <if test="pit != null  and pit != ''">pit = #{pit},</if>
+            <if test="quantity != null ">quantity = #{quantity},</if>
+            <if test="allocated != null ">allocated = #{allocated},</if>
+            <if test="available != null ">available = #{available},</if>
+            <if test="quantityInTransit != null ">quantity_in_transit = #{quantityInTransit},</if>
             <if test="createBy != null  and createBy != ''">createBy = #{createBy},</if>
             <if test="createTime != null ">createTime = #{createTime},</if>
-            <if test="checktime != null ">checkTime = #{checktime},</if>
-            <if test="ihtime != null ">ihTime = #{ihtime},</if>
+            <if test="takeStockTime != null ">take_stock_time = #{takeStockTime},</if>
+            <if test="stockInTime != null ">stock_in_time = #{stockInTime},</if>
             <if test="updateBy != null  and updateBy != ''">updateBy = #{updateBy},</if>
-            <if test="oversold != null  and oversold != ''">oversold = #{oversold},</if>
-            <if test="oosq != null  and oosq != ''">oosq = #{oosq},</if>
+            <if test="quantityOversell != null ">quantity_oversell = #{quantityOversell},</if>
+            <if test="oosq != null ">oosq = #{oosq},</if>
         </trim>
         where id = #{id}
     </update>

@@ -28,12 +28,13 @@
                 <div class="ibox-content text-center h-200" id="CO">
                     <span id="sparkline7">
                         <form class="form-horizontal m" id="form-inventory-edit" th:object="${inventory}">
-                            <input name="id" th:field="*{id}" type="hidden">
+                            <input name="id" id="id" th:field="*{id}" type="hidden">
                              <div class="row show-grid ">
                                  <div class="col-md-4">
                                      <label class="col-sm-2 control-label">SKU：</label>
                                     <div class="col-sm-10">
-                                        <input name="sku" th:field="*{sku}" class="form-control" type="text" readonly>
+                                        <input id="skuDisplay" class="form-control" type="text" readonly>
+                                        <input id="sku" name="sku" type="text" th:field="*{sku}" hidden>
                                     </div>
                                  </div>
                                  <div class="col-md-4">
@@ -49,7 +50,6 @@
                                     <label class="col-sm-2 control-label">仓库：</label>
                                     <div class="col-sm-8">
                                         <select name="warehouse" id="warehouse" class="form-control m-b">
-                                            <option value="" th:text="*{warehouse}"></option>
                                         </select>
                                     </div>
                                      <a class="btn btn-success col-sm-1" title="创建新的仓库" onclick="layerOpenWareahouse()" ><i class="fa fa-plus"></i></a>
@@ -60,7 +60,7 @@
                                 <div class="col-md-3">
                                     <label class="col-sm-3 control-label"><span style="color: red; ">*</span>在库量：</label>
                                     <div class="col-sm-8">
-                                        <input name="tqol" th:field="*{tqol}" class="form-control" type="text">
+                                        <input name="quantity" th:field="*{quantity}" class="form-control" type="text">
                                     </div>
                                 </div>
                                 <div class="col-md-3">
@@ -72,24 +72,36 @@
                                 <div class="col-md-3">
                                     <label class="col-sm-3 control-label">可售量：</label>
                                     <div class="col-sm-8">
-                                        <input name="aoa" th:field="*{aoa}" class="form-control" type="text">
+                                        <input name="available" th:field="*{available}" class="form-control" type="text">
                                     </div>
                                 </div>
                                 <div class="col-md-3">
                                     <label class="col-sm-3 control-label"><span style="color: red; ">*</span>采购在途量：</label>
                                     <div class="col-sm-8">
-                                        <input name="pit" th:field="*{pit}" class="form-control" type="text" >
+                                        <input name="quantityInTransit" th:field="*{quantityInTransit}" class="form-control" type="text" >
                                     </div>
                                 </div>
                             </div>
 
                             <div class="row show-grid ">
                                 <div class="col-md-3">
+                                    <label class="col-sm-3 control-label"><span style="color: red; ">*</span>超卖量：</label>
+                                    <div class="col-sm-8">
+                                    <input name="quantityOversell" readonly th:field="*{quantityOversell}" class="form-control" type="text">
+                                </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <label class="col-sm-3 control-label">缺货量：</label>
+                                    <div class="col-sm-8">
+                                    <input name="oosq" readonly th:field="*{oosq}" class="form-control" type="text">
+                                </div>
+                                </div>
+                                <div class="col-md-3">
                                     <label class="col-sm-3 control-label">最近盘点时间：</label>
                                     <div class="col-sm-8">
                                     <div class="input-group date">
                                         <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                                        <input name="checktime" th:value="${#dates.format(inventory.checktime, 'yyyy-MM-dd')}" class="form-control" placeholder="yyyy-MM-dd" type="text" data-format="yyyy-MM">
+                                        <input name="takeStockTime" readonly th:value="${#dates.format(inventory.takeStockTime, 'yyyy-MM-dd HH:mm:ss')}" class="form-control" placeholder="yyyy-MM-dd HH:mm:ss" type="text" data-format="yyyy-MM-dd HH:mm:ss">
                                     </div>
                                     </div>
                                 </div>
@@ -98,20 +110,8 @@
                                     <div class="col-sm-8">
                                     <div class="input-group date">
                                         <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                                        <input name="ihtime" th:value="${#dates.format(inventory.ihtime, 'yyyy-MM-dd')}" class="form-control" placeholder="yyyy-MM-dd" type="text" data-format="yyyy-MM">
+                                        <input name="stockInTime" readonly th:value="${#dates.format(inventory.stockInTime, 'yyyy-MM-dd HH:mm:ss')}" class="form-control" placeholder="yyyy-MM-dd HH:mm:ss" type="text" data-format="yyyy-MM-dd HH:mm:ss">
                                     </div>
-                                </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <label class="col-sm-3 control-label"><span style="color: red; ">*</span>超卖量：</label>
-                                    <div class="col-sm-8">
-                                    <input name="oversold" th:field="*{oversold}" class="form-control" type="text">
-                                </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <label class="col-sm-3 control-label">缺货量：</label>
-                                    <div class="col-sm-8">
-                                    <input name="oosq" th:field="*{oosq}" class="form-control" type="text">
                                 </div>
                                 </div>
                             </div>
@@ -154,22 +154,6 @@
             }
         }
 
-        $("input[name='checktime']").datetimepicker({
-            clearBtn: true,
-            todayBtn: true,
-            format: "yyyy-mm-dd hh:ii:ss",
-            minView: "month",
-            autoclose: true
-        });
-
-        $("input[name='ihtime']").datetimepicker({
-            clearBtn: true,
-            todayBtn: true,
-            format: "yyyy-mm-dd hh:ii:ss",
-            minView: "month",
-            autoclose: true
-        });
-
         /*
        layer.open打开第三方添加界面
        */
@@ -186,9 +170,20 @@
 
         //select数据获取（ajax）
         function refresh(){
-            $.get(prefix + "/refresh",function (result) {
+            var id = $("#id").val();
+            $.get(prefix+"/getName/"+id,function (result) {
+                $.each(result, function (i, data) {
+                    if (i == 0){
+                        $("#warehouse").append("<option value=''>"+data+"</option>");
+                    }
+                    if (i == 1){
+                        $("#skuDisplay").val(data);
+                    }
+                });
+            });
+            $.get(prefix + "/refreshWarehouse",function (result) {
                 $.each(result,function (i, warehouse) {
-                    $("#warehouse").append("<option value="+i+">"+i+":"+warehouse+"</option>");
+                    $("#warehouse").append("<option value="+warehouse.id+">"+warehouse.chinesename+"</option>");
                 })
             });
         }

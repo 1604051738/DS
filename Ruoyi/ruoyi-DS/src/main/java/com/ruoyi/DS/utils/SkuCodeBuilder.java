@@ -18,10 +18,8 @@ public  final class SkuCodeBuilder {
         Format f1 = new DecimalFormat("000");
         for (int i = 1; i < 999; i++) {
             code = productCode + "-" +f1.format(i);
-            Skuproduct skuproduct = new Skuproduct();
-            skuproduct.setCode(code);
-            List<Skuproduct> list= skuproductService.selectSkuproductList(skuproduct);
-            if (list.size() == 0)
+            Skuproduct skuproduct =  skuproductService.selectSkuproductByCode(code);
+            if (skuproduct == null)
                 break;
         }
 

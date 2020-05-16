@@ -6,6 +6,7 @@ import com.ruoyi.DS.domain.Skuproduct;
 import com.ruoyi.DS.domain.Warehouse;
 import com.ruoyi.DS.service.ISkuproductService;
 import com.ruoyi.DS.service.IWarehouseService;
+import com.ruoyi.DS.utils.DSUtils;
 import com.ruoyi.common.utils.security.PermissionUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -104,6 +105,7 @@ public class InventoryController extends BaseController
             Date date = new Date();
             inventory.setCreateTime(date);
             String userName = (String) PermissionUtils.getPrincipalProperty("userName");
+            inventory = DSUtils.refreshInventory(inventory);
             inventory.setCreateBy(userName);
             inventory.setUpdateBy("暂未更新");
             return toAjax(inventoryService.insertInventory(inventory));
@@ -132,8 +134,8 @@ public class InventoryController extends BaseController
     @ResponseBody
     public AjaxResult editSave(Inventory inventory)
     {
-        Date date = new Date();
         String userName = (String) PermissionUtils.getPrincipalProperty("userName");
+        inventory = DSUtils.refreshInventory(inventory);
         inventory.setUpdateBy(userName);
         return toAjax(inventoryService.updateInventory(inventory));
     }
@@ -154,30 +156,38 @@ public class InventoryController extends BaseController
     /*
         ajax获取 option列表
      */
-    @GetMapping("/refresh")
+    @GetMapping("/refreshWarehouse")
     @ResponseBody
-    public Map<Long, String> refreshwarehouse(){
-        Map<Long, String> map = new HashMap<Long, String>();
+    public List<Warehouse> refreshwarehouse(){
+        List<Warehouse> data = new ArrayList<Warehouse>();
         List<Warehouse> warehouses = warehouseService.selectWarehouseList(null);
         for (Warehouse wa:
                 warehouses) {
-            map.put(wa.getId(), wa.getChinesename());
+            data.add(wa);
         }
-        return map;
+        return data;
     }
 
     @GetMapping("/refreshSKU")
     @ResponseBody
-    public List<String> refreshSKU(){
-        List<String> list = new ArrayList<String>();
+    public List<Skuproduct> refreshSKU(){
+        List<Skuproduct> data = new ArrayList<Skuproduct>();
         List<Skuproduct> skuproducts = skuproductService.selectSkuproductList(null);
         for (Skuproduct sku:
                 skuproducts) {
-            list.add(sku.getCode());
+            data.add(sku);
         }
-        return list;
+        return data;
     }
 
+    @GetMapping("/getName/{id}")
+    @ResponseBody
+    public List<String> getName(@PathVariable Long id){
+        List<String> data = new ArrayList<>();
+        data.add( warehouseService.selectWarehouseById(inventoryService.selectInventoryById(id).getWarehouse()).getChinesename() );
+        data.add( skuproductService.selectSkuproductById(inventoryService.selectInventoryById(id).getSku()).getCode());
+        return data;
+    }
 
 
     @PostMapping("/getSku")

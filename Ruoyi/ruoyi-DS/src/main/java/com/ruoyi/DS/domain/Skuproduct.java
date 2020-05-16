@@ -1,5 +1,6 @@
 package com.ruoyi.DS.domain;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -103,6 +104,7 @@ public class Skuproduct extends BaseEntity
 
     /** 统计时间 */
     @Excel(name = "统计时间", width = 30, dateFormat = "yyyy-MM-dd")
+    @JsonFormat(shape =JsonFormat.Shape.STRING , pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date salesStatTime;
 
     /** 库存刊登策略 */

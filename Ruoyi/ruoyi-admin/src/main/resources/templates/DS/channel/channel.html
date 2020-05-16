@@ -128,11 +128,31 @@
                 },
                 {
                     field : 'isStop', 
-                    title : '是否停用'
+                    title : '是否停用',
+                    formatter: function(value, row, index) {
+                        var data;
+                        if (value == 'on'){
+                            data = "<span style='color: red'>停用</span><br/><br/>";
+                        }
+                        if(value != 'on'){
+                            data = "<span style='color: green'>正常</span><br/><br/>";
+                        }
+                        return data;
+                    }
                 },
                 {
                     field : 'onlineSettlement', 
-                    title : '线上结算'
+                    title : '线上结算',
+                    formatter: function(value, row, index) {
+                        var data;
+                        if (value == 'on'){
+                            data = "<span style='color: green'>线上</span><br/><br/>";
+                        }
+                        if(value != 'on'){
+                            data = "<span style='color: #1E0FBE'>线下</span><br/><br/>";
+                        }
+                        return data;
+                    }
                 },
                 {
                     field : 'logisticsCompany', 

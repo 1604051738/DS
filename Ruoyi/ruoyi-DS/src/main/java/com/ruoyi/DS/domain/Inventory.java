@@ -13,7 +13,7 @@ import java.util.Date;
  * 库存对象 inventory
  * 
  * @author ruoyi
- * @date 2019-12-26
+ * @date 2020-05-11
  */
 @NoArgsConstructor
 @AllArgsConstructor
@@ -27,7 +27,7 @@ public class Inventory extends BaseEntity
 
     /** SKU */
     @Excel(name = "SKU")
-    private String sku;
+    private Integer sku;
 
     /** 货位 */
     @Excel(name = "货位")
@@ -39,36 +39,35 @@ public class Inventory extends BaseEntity
 
     /** 在库量 */
     @Excel(name = "在库量")
-    private String tqol;
+    private Long quantity;
 
-    /** 已分配量 */
-    @Excel(name = "已分配量")
-    private String allocated;
+    /** 已分配 */
+    @Excel(name = "已分配")
+    private Long allocated;
 
     /** 可售量 */
     @Excel(name = "可售量")
-    private String aoa;
+    private Long available;
 
-    /** 采购在途量 */
-    @Excel(name = "采购在途量")
-    private String pit;
+    /** 采购在途 */
+    @Excel(name = "采购在途")
+    private Long quantityInTransit;
 
     /** 最近盘点时间 */
     @Excel(name = "最近盘点时间", width = 30, dateFormat = "yyyy-MM-dd")
-    private Date checktime;
+    private Date takeStockTime;
 
     /** 最近入库时间 */
     @Excel(name = "最近入库时间", width = 30, dateFormat = "yyyy-MM-dd")
-    private Date ihtime;
+    private Date stockInTime;
 
     /** 超卖量 */
     @Excel(name = "超卖量")
-    private String oversold;
+    private Long quantityOversell;
 
     /** 缺货量 */
     @Excel(name = "缺货量")
-    private String oosq;
-
+    private Long oosq;
 
     @Override
     public String toString() {
@@ -77,16 +76,16 @@ public class Inventory extends BaseEntity
             .append("sku", getSku())
             .append("allocation", getAllocation())
             .append("warehouse", getWarehouse())
-            .append("tqol", getTqol())
+            .append("quantity", getQuantity())
             .append("allocated", getAllocated())
-            .append("aoa", getAoa())
-            .append("pit", getPit())
-            .append("createby", getCreateBy())
-            .append("createtime", getCreateTime())
-            .append("checktime", getChecktime())
-            .append("ihtime", getIhtime())
-            .append("updateby", getUpdateBy())
-            .append("oversold", getOversold())
+            .append("available", getAvailable())
+            .append("quantityInTransit", getQuantityInTransit())
+            .append("createBy", getCreateBy())
+            .append("createTime", getCreateTime())
+            .append("takeStockTime", getTakeStockTime())
+            .append("stockInTime", getStockInTime())
+            .append("updateBy", getUpdateBy())
+            .append("quantityOversell", getQuantityOversell())
             .append("oosq", getOosq())
             .toString();
     }

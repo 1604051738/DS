@@ -2,7 +2,11 @@ package com.ruoyi.web.controller.DS;
 
 import java.util.List;
 
+import com.ruoyi.DS.domain.Inventory;
 import com.ruoyi.DS.domain.Skuproduct;
+import com.ruoyi.DS.service.IInventoryService;
+import com.ruoyi.DS.service.ISkuproductService;
+import com.ruoyi.DS.utils.DSUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -29,7 +33,13 @@ public class OrderSkuController extends BaseController {
     private String prefix = "DS/order_sku";
 
     @Autowired
+    private IInventoryService inventoryService;
+
+    @Autowired
     private IOrderSkuService orderSkuService;
+
+    @Autowired
+    private ISkuproductService skuproductService;
 
     @RequiresPermissions("DS:order_sku:view")
     @GetMapping()
@@ -110,6 +120,16 @@ public class OrderSkuController extends BaseController {
     @PostMapping("/remove")
     @ResponseBody
     public AjaxResult remove(String ids) {
+        if (ids.split(",").length == 1){
+            OrderSku orderSku1 = orderSkuService.selectOrderSkuById(Integer.parseInt(ids.split(",")[0]));
+            Inventory inventory = inventoryService.selectInventoryBySKU(orderSku1.getProductSkuId());
+            inventory.setAllocated(inventory.getAllocated() - orderSku1.getQuantity());
+            inventory = DSUtils.refreshInventory(inventory);
+            Skuproduct skuproduct = skuproductService.selectSkuproductById(inventory.getSku());
+            skuproduct.setPurchasePlan(inventory.getOosq().toString());
+            inventoryService.updateInventory(inventory);
+            skuproductService.updateSkuproduct(skuproduct);
+        }
         return toAjax(orderSkuService.deleteOrderSkuByIds(ids));
     }
 

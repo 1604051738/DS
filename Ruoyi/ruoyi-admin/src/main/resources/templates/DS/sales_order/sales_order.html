@@ -91,18 +91,13 @@
                     title : '商品',
                     formatter: function(value, row, index) {
                         $.ajaxSettings.async = false;
-                        var src = "";
-                        var id;
                         var returnData = "<br/>";
                         $.get(prefix+"/getProductMessage/"+row.id, function (result) {
                             $.each(result, function (i, data) {
-                                if (data != 0) {
-                                    if (i == 0) {
-                                        id = data
-                                    }
-                                    if (i != 0) {
-                                        returnData = returnData + "<img src=" + data + " height=\"80\" width=\"80\" title='查看商品详细信息' onclick='$.modal.openTab(\"商品信息\",\"/DS/product/edit/" + id + "\")'/>"+"<br/><br/>";
-                                    }
+                                if (data != null){
+                                    $.each(data, function (i, data1) {
+                                        returnData = returnData + "<img src=" + JSON.stringify(data1) + " height=\"80\" width=\"80\" title='查看商品信息' onclick='$.modal.openTab(\"商品信息\",\"/DS/product/edit/" + i + "\")'/>"+"<br/><br/>";
+                                    })
                                 }
                                 });
                         })
@@ -115,10 +110,10 @@
                         var data = {
                             id: row.id
                         };
-                        var returnData = "";
+                        var returnData = "<br/>";
                         $.post(prefix+"/getOrderSkuList", data, function (result) {
                             $.each(result, function (i, orderSku) {
-                                returnData = returnData + orderSku.skuCode+"/"+orderSku.size+"/"+orderSku.color+"<br/><br/><br/><br/><br/><br/>"
+                                returnData = returnData + orderSku.skuCode+"/"+orderSku.size+"/"+orderSku.color+"<br/><br/><br/><br/><br/><br/><br/>"
                             })
                         });
                         return  "<h5 title='SKU编码/规格/颜色'>"+returnData+"<h3/>";

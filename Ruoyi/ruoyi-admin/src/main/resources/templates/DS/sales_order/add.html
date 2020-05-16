@@ -37,12 +37,12 @@
                                     </div>
                                 </div>
 
-                                <div class="col-sm-4">
-                                    <label class="col-sm-3 control-label"><span style="color: red; ">*</span>总金额：</label>
-                                    <div class="col-sm-8">
-                                        <input name="totalCost" class="form-control" type="text" style="border-radius:3em" required>
-                                    </div>
-                                </div>
+<!--                                <div class="col-sm-4">-->
+<!--                                    <label class="col-sm-3 control-label"><span style="color: red; ">*</span>总金额：</label>-->
+<!--                                    <div class="col-sm-8">-->
+<!--                                        <input name="totalCost" class="form-control" type="text" style="border-radius:3em">-->
+<!--                                    </div>-->
+<!--                                </div>-->
 
                                 <div class="col-sm-4">
                                     <label class="col-sm-3 control-label">物流跟踪号：</label>
@@ -199,20 +199,20 @@
                                         <a class="btn btn-success col-sm-1" title="创建新的物流渠道" onclick="layerOpenChannel()" style="margin: 1em 0;border: 0em;"><i class="fa fa-plus"></i></a>
                                 </div>
 
-                                <div class="col-sm-2">
-                                    <label class="col-sm-4 control-label">总重：</label>
-                                    <div class="col-sm-8">
-                                        <input name="totalWeight" class="form-control" style="border-radius:3em" type="text">
-                                    </div>
-                                </div>
+<!--                                <div class="col-sm-2">-->
+<!--                                    <label class="col-sm-4 control-label">总重：</label>-->
+<!--                                    <div class="col-sm-8">-->
+<!--                                        <input name="totalWeight" class="form-control" style="border-radius:3em" type="text">-->
+<!--                                    </div>-->
+<!--                                </div>-->
 
 
-                                <div class="col-sm-3">
-                                    <label class="col-sm-4 control-label">总采购货本：</label>
-                                    <div class="col-sm-8">
-                                        <input name="totalPurchase" class="form-control" style="border-radius:3em" type="text">
-                                    </div>
-                                </div>
+<!--                                <div class="col-sm-3">-->
+<!--                                    <label class="col-sm-4 control-label">总采购货本：</label>-->
+<!--                                    <div class="col-sm-8">-->
+<!--                                        <input name="totalPurchase" class="form-control" style="border-radius:3em" type="text">-->
+<!--                                    </div>-->
+<!--                                </div>-->
 
                                 <div class="col-sm-3">
                                     <label class="col-sm-4 control-label">订单状态：</label>
@@ -466,11 +466,10 @@
 
         $().ready(function () {
             $("#warehouse").one("click", refresh());
-            if (screen.height==1080&&screen.width==1920){
+            if (screen.height > 860&&screen.height < 1081&&screen.width>1500&&screen.width<1921){
                 $(".show-grid").css('margin','0px 0');
                 $(".show-grid").css('border','0px');
                 $(".show-grid div[class^=col-]").css('height','55px');
-                $("#ddwindow").css('height','500px');
             }
         })
 

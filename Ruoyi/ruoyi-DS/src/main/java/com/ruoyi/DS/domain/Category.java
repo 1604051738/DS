@@ -1,5 +1,8 @@
 package com.ruoyi.DS.domain;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import com.ruoyi.common.annotation.Excel;
@@ -11,6 +14,9 @@ import com.ruoyi.common.core.domain.TreeEntity;
  * @author ruoyi
  * @date 2020-05-08
  */
+@NoArgsConstructor
+@AllArgsConstructor
+@Data
 public class Category extends TreeEntity
 {
     private static final long serialVersionUID = 1L;
@@ -28,7 +34,7 @@ public class Category extends TreeEntity
 
     /** 状态 */
     @Excel(name = "状态")
-    private Long state;
+    private Integer status;
 
     /** 排序值 */
     @Excel(name = "排序值")
@@ -42,69 +48,6 @@ public class Category extends TreeEntity
     @Excel(name = "排序路径")
     private String sp;
 
-    public void setId(Long id) 
-    {
-        this.id = id;
-    }
-
-    public Long getId() 
-    {
-        return id;
-    }
-    public void setName(String name) 
-    {
-        this.name = name;
-    }
-
-    public String getName() 
-    {
-        return name;
-    }
-    public void setChinesename(String chinesename) 
-    {
-        this.chinesename = chinesename;
-    }
-
-    public String getChinesename() 
-    {
-        return chinesename;
-    }
-    public void setState(Long state) 
-    {
-        this.state = state;
-    }
-
-    public Long getState() 
-    {
-        return state;
-    }
-    public void setOrdervalue(String ordervalue) 
-    {
-        this.ordervalue = ordervalue;
-    }
-
-    public String getOrdervalue() 
-    {
-        return ordervalue;
-    }
-    public void setParentdirectory(Long parentdirectory) 
-    {
-        this.parentdirectory = parentdirectory;
-    }
-
-    public Long getParentdirectory() 
-    {
-        return parentdirectory;
-    }
-    public void setSp(String sp) 
-    {
-        this.sp = sp;
-    }
-
-    public String getSp() 
-    {
-        return sp;
-    }
 
     @Override
     public String toString() {
@@ -113,7 +56,7 @@ public class Category extends TreeEntity
             .append("name", getName())
             .append("chinesename", getChinesename())
             .append("remark", getRemark())
-            .append("state", getState())
+            .append("state", getStatus())
             .append("ordervalue", getOrdervalue())
             .append("parentdirectory", getParentdirectory())
             .append("createBy", getCreateBy())

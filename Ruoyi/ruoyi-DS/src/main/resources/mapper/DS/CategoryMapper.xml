@@ -9,7 +9,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="name"    column="name"    />
         <result property="chinesename"    column="chineseName"    />
         <result property="remark"    column="remark"    />
-        <result property="state"    column="state"    />
+        <result property="status"    column="status"    />
         <result property="ordervalue"    column="orderValue"    />
         <result property="parentdirectory"    column="parentDirectory"    />
         <result property="createBy"    column="createBy"    />
@@ -21,7 +21,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </resultMap>
 
     <sql id="selectCategoryVo">
-        select id, name, chineseName, remark, state, orderValue, parentDirectory, createBy, updateBy, createTime, updateTime, sp from category
+        select id, name, chineseName, remark, status, orderValue, parentDirectory, createBy, updateBy, createTime, updateTime, sp from category
     </sql>
 
     <select id="selectCategoryList" parameterType="Category" resultMap="CategoryResult">
@@ -29,7 +29,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <where>  
             <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
             <if test="chinesename != null  and chinesename != ''"> and chineseName like concat('%', #{chinesename}, '%')</if>
-            <if test="state != null "> and state = #{state}</if>
+            <if test="status != null "> and status = #{status}</if>
             <if test="ordervalue != null  and ordervalue != ''"> and orderValue = #{ordervalue}</if>
             <if test="parentdirectory != null "> and parentDirectory = #{parentdirectory}</if>
             <if test="createBy != null  and createBy != ''"> and createBy = #{createBy}</if>
@@ -42,7 +42,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </select>
     
     <select id="selectCategoryById" parameterType="Long" resultMap="CategoryResult">
-        select t.id, t.name, t.chineseName, t.remark, t.state, t.orderValue, t.parentDirectory, t.createBy, t.updateBy, t.createTime, t.updateTime, t.sp, p.name as parent_name
+        select t.id, t.name, t.chineseName, t.remark, t.status, t.orderValue, t.parentDirectory, t.createBy, t.updateBy, t.createTime, t.updateTime, t.sp, p.name as parent_name
         from category t
         left join category p on p.id = t.parentDirectory
         where t.id = #{id}
@@ -54,7 +54,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="name != null  and name != ''">name,</if>
             <if test="chinesename != null  and chinesename != ''">chineseName,</if>
             <if test="remark != null  and remark != ''">remark,</if>
-            <if test="state != null ">state,</if>
+            <if test="status != null ">status,</if>
             <if test="ordervalue != null  and ordervalue != ''">orderValue,</if>
             <if test="parentdirectory != null ">parentDirectory,</if>
             <if test="createBy != null  and createBy != ''">createBy,</if>
@@ -67,7 +67,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="name != null  and name != ''">#{name},</if>
             <if test="chinesename != null  and chinesename != ''">#{chinesename},</if>
             <if test="remark != null  and remark != ''">#{remark},</if>
-            <if test="state != null ">#{state},</if>
+            <if test="status != null ">#{status},</if>
             <if test="ordervalue != null  and ordervalue != ''">#{ordervalue},</if>
             <if test="parentdirectory != null ">#{parentdirectory},</if>
             <if test="createBy != null  and createBy != ''">#{createBy},</if>
@@ -84,7 +84,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="name != null  and name != ''">name = #{name},</if>
             <if test="chinesename != null  and chinesename != ''">chineseName = #{chinesename},</if>
             <if test="remark != null  and remark != ''">remark = #{remark},</if>
-            <if test="state != null ">state = #{state},</if>
+            <if test="status != null ">status = #{status},</if>
             <if test="ordervalue != null  and ordervalue != ''">orderValue = #{ordervalue},</if>
             <if test="parentdirectory != null ">parentDirectory = #{parentdirectory},</if>
             <if test="createBy != null  and createBy != ''">createBy = #{createBy},</if>

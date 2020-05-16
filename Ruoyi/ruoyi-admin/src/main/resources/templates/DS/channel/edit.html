@@ -28,119 +28,145 @@
             </div>
             <div class="ibox-content text-center h-200" id="CO">
                     <span id="sparkline7">
-        <form class="form-horizontal m" id="form-channel-edit" th:object="${logisticsChannel}">
-            <input name="id" th:field="*{id}" type="hidden">
-            <div class="form-group">    
-                <label class="col-sm-3 control-label">物流名称：</label>
-                <div class="col-sm-8">
-                    <input name="logisticsName" th:placeholder="*{logisticsName}" class="form-control" type="text">
-                </div>
-            </div>
-            <div class="form-group">    
-                <label class="col-sm-3 control-label">物流编码：</label>
-                <div class="col-sm-8">
-                    <input name="logisticsCode" th:placeholder="*{logisticsCode}" class="form-control" type="text">
-                </div>
-            </div>
-            <div class="form-group">    
-                <label class="col-sm-3 control-label">物流商物流名称：</label>
-                <div class="col-sm-8">
-                    <input name="logisticsProviderName" th:placeholder="*{logisticsProviderName}" class="form-control" type="text">
-                </div>
-            </div>
-            <div class="form-group">    
-                <label class="col-sm-3 control-label">物流商编码：</label>
-                <div class="col-sm-8">
-                    <input name="logisticsProviderCode" th:placeholder="*{logisticsProviderCode}" class="form-control" type="text">
-                </div>
-            </div>
-            <div class="form-group">    
-                <label class="col-sm-3 control-label">起重：</label>
-                <div class="col-sm-8">
-                    <input name="minWeight" th:placeholder="*{minWeight}" class="form-control" type="text">
-                </div>
-            </div>
-            <div class="form-group">    
-                <label class="col-sm-3 control-label">最大：</label>
-                <div class="col-sm-8">
-                    <input name="maxWeight" th:placeholder="*{maxWeight}" class="form-control" type="text">
-                </div>
-            </div>
-            <div class="form-group">    
-                <label class="col-sm-3 control-label">体积重：</label>
-                <div class="col-sm-8">
-                    <input name="volumeWeight" th:placeholder="*{volumeWeight}" class="form-control" type="text">
-                </div>
-            </div>
-            <div class="form-group">    
-                <label class="col-sm-3 control-label">敏感类型：</label>
-                <div class="col-sm-8">
-                    <select name="sensitiveType" class="form-control m-b">
-                        <option value="1">普货</option>
-                    </select>
-                </div>
-            </div>
-            <div class="form-group">    
-                <label class="col-sm-3 control-label">优先级：</label>
-                <div class="col-sm-8">
-                    <input name="priority" th:placeholder="*{priority}" class="form-control" type="text">
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="col-sm-3 control-label">是否挂号渠道：</label>
-                <div class="col-sm-8">
-                    <input name="isRegistration" class="form-control" th:if="*{isRegistration == 'on' }" type="checkbox" checked>
-                    <input name="isRegistration" class="form-control" th:if="*{isRegistration != 'on'}" type="checkbox">
-                </div>
-            </div>
-            <div class="form-group">    
-                <label class="col-sm-3 control-label">发件人地址：</label>
-                <div class="col-sm-8">
-                    <input name="senderAddress" th:placeholder="*{senderAddress}" class="form-control" type="text">
-                </div>
-            </div>
-            <div class="form-group">    
-                <label class="col-sm-3 control-label">揽收地址：</label>
-                <div class="col-sm-8">
-                    <input name="lanshouAddress" th:placeholder="*{lanshouAddress}" class="form-control" type="text">
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="col-sm-3 control-label">是否停用：</label>
-                <div class="col-sm-8">
-                    <input name="isStop" class="form-control" th:if="*{isStop == 'on' }" type="checkbox" checked>
-                    <input name="isStop" class="form-control" th:if="*{isStop != 'on' }" type="checkbox">
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="col-sm-3 control-label">是否线上结算：</label>
-                <div class="col-sm-8">
-                    <input name="onlineSettlement" class="form-control" th:if="*{onlineSettlement == 'on' }" type="checkbox" checked>
-                    <input name="onlineSettlement" class="form-control" th:if="*{onlineSettlement != 'on' }" type="checkbox">
-                </div>
-            </div>
-            <div class="form-group">    
-                <label class="col-sm-3 control-label">物流商：</label>
-                <div class="col-sm-8">
-                    <input name="logisticsCompany" th:placeholder="*{logisticsCompany}" class="form-control" type="text">
-                </div>
-            </div>
-            <div class="form-group">    
-                <label class="col-sm-3 control-label">物流商：</label>
-                <div class="col-sm-8">
-                    <input name="logisticsCompanyCode" th:placeholder="*{logisticsCompanyCode}" class="form-control" type="text">
-                </div>
-            </div>
-            <div class="form-group">    
-                <label class="col-sm-3 control-label">所属仓库：</label>
-                <div class="col-sm-8">
-                    <select name="warehouse" id="warehouse" class="form-control m-b">
-                        <option value="" th:text="*{warehouse}"></option>
-                    </select>
-                </div>
-                <a class="btn btn-primary" onclick="layerOpenWareahouse()" ><i class="fa fa-plus"></i>仓库</a>
-            </div>
-        </form>
+                        <form class="form-horizontal m" id="form-channel-edit" th:object="${logisticsChannel}">
+                            <input name="id" th:field="*{id}" type="hidden">
+                            <div class="row show-grid ">
+                                <div class="col-sm-6">
+                                    <label class="col-sm-2 control-label"><span style="color: red; ">*</span>物流名称：</label>
+                                    <div class="col-sm-8">
+                                        <input name="logisticsName" class="form-control" type="text" required style="border-radius:9px" th:field="*{logisticsName}">
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <label class="col-sm-2 control-label"><span style="color: red; ">*</span>物流编码：</label>
+                                    <div class="col-sm-8">
+                                        <input name="logisticsCode" class="form-control" type="text" required style="border-radius:9px" th:field="*{logisticsCode}">
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+                            <div class="row show-grid ">
+                                <div class="col-sm-6">
+                                    <label class="col-sm-2 control-label">物流商物流名称：</label>
+                                    <div class="col-sm-8">
+                                        <input name="logisticsProviderName" class="form-control" type="text" style="border-radius:9px" th:field="*{logisticsProviderName}">
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <label class="col-sm-2 control-label">物流商编码：</label>
+                                    <div class="col-sm-8">
+                                        <input name="logisticsProviderCode" class="form-control" type="text" style="border-radius:9px" th:field="*{logisticsProviderCode}">
+                                    </div>
+                                </div>
+                            </div>
+
+
+                             <div class="row show-grid ">
+                                 <div class="col-sm-3">
+                                      <label class="col-sm-4 control-label">起重：</label>
+                                    <div class="col-sm-8">
+                                        <input name="minWeight" class="form-control" type="text" style="border-radius:9px" th:field="*{minWeight}">
+                                    </div>
+                                 </div>
+                                 <div class="col-sm-3">
+                                     <label class="col-sm-4 control-label">最大：</label>
+                                     <div class="col-sm-8">
+                                        <input name="maxWeight" class="form-control" type="text" style="border-radius:9px" th:field="*{maxWeight}">
+                                     </div>
+                                 </div>
+                                 <div class="col-sm-3">
+                                    <label class="col-sm-4 control-label">体积重：</label>
+                                    <div class="col-sm-8">
+                                    <input name="volumeWeight" class="form-control" type="text" style="border-radius:9px" th:field="*{volumeWeight}">
+                                    </div>
+                                 </div>
+                                 <div class="col-sm-3">
+                                     <label class="col-sm-4 control-label"><span style="color: red; ">*</span>敏感类型：</label>
+                                    <div class="col-sm-8">
+                                        <select name="sensitiveType" class="form-control m-b" required style="border-radius:9px">
+                                            <option value="">-----</option>
+                                            <option value="1" th:if="*{sensitiveType == 1}" selected>仅普货</option>
+                                            <option value="2" th:if="*{sensitiveType == 2}" selected>普货内电</option>
+                                            <option value="3" th:if="*{sensitiveType == 3}" selected>敏感货</option>
+                                            <option value="1">仅普货</option>
+                                            <option value="2">普货内电</option>
+                                            <option value="3">敏感货</option>
+                                        </select>
+                                    </div>
+                                 </div>
+                             </div>
+
+
+                            <div class="row show-grid ">
+                                 <div class="col-sm-3">
+                                    <label class="col-sm-4 control-label">优先级：</label>
+                                    <div class="col-sm-8">
+                                        <input name="priority" class="form-control" type="text" style="border-radius:9px" th:field="*{priority}">
+                                    </div>
+                                 </div>
+                                 <div class="col-sm-3">
+                                    <label class="col-sm-4 control-label">是否挂号渠道：</label>
+                                    <div class="col-sm-8">
+                                        <input name="isRegistration" class="form-control" type="checkbox" th:if="*{isRegistration == 'on'}" checked>
+                                        <input name="isRegistration" class="form-control" type="checkbox" th:if="*{isRegistration != 'on'}">
+                                    </div>
+                                 </div>
+                                 <div class="col-sm-3">
+                                    <label class="col-sm-4 control-label">发件人地址：</label>
+                                    <div class="col-sm-8">
+                                        <input name="senderAddress" class="form-control" type="text" style="border-radius:9px" th:field="*{senderAddress}">
+                                    </div>
+                                 </div>
+                                 <div class="col-sm-3">
+                                    <label class="col-sm-4 control-label">是否停用：</label>
+                                    <div class="col-sm-8">
+                                        <input name="isStop" class="form-control" type="checkbox" th:if="*{isStop == 'on'}" checked >
+                                        <input name="isStop" class="form-control" type="checkbox" th:if="*{isStop != 'on'}">
+                                    </div>
+                                 </div>
+                            </div>
+
+                            <div class="row show-grid ">
+                                 <div class="col-sm-4">
+                                    <label class="col-sm-3 control-label">揽收地址：</label>
+                                    <div class="col-sm-8">
+                                        <input name="lanshouAddress" class="form-control" type="text" style="border-radius:9px" th:field="*{lanshouAddress}" >
+                                    </div>
+                                 </div>
+                                 <div class="col-sm-4">
+                                    <label class="col-sm-3 control-label">所属仓库：</label>
+                                    <div class="col-sm-6">
+                                        <select name="warehouse" id="warehouse" class="form-control m-b" style="border-radius:9px">
+                                        </select>
+                                    </div>
+                                     <a class="btn btn-success col-sm-1" title="创建新的仓库" onclick="layerOpenWareahouse()" ><i class="fa fa-plus"></i></a>
+                                 </div>
+                                 <div class="col-sm-4">
+                                <label class="col-sm-3 control-label">是否线上结算：</label>
+                                <div class="col-sm-8">
+                                    <input name="onlineSettlement" class="form-control" type="checkbox" th:if="*{onlineSettlement == 'on'}" checked>
+                                    <input name="onlineSettlement" class="form-control" type="checkbox" th:if="*{onlineSettlement != 'on'}">
+                                </div>
+                                 </div>
+                            </div>
+
+                            <div class="row show-grid ">
+                                 <div class="col-sm-6">
+                                    <label class="col-sm-2 control-label"><span style="color: red; ">*</span>物流商（公司）：</label>
+                                    <div class="col-sm-8">
+                                        <input name="logisticsCompany" class="form-control" type="text" th:field="*{logisticsCompany}" required style="border-radius:9px">
+                                    </div>
+                                 </div>
+                                 <div class="col-sm-6">
+                                    <label class="col-sm-2 control-label">物流商（公司）编码：</label>
+                                    <div class="col-sm-8">
+                                        <input name="logisticsCompanyCode" class="form-control" th:field="*{logisticsCompanyCode}" type="text" style="border-radius:9px">
+                                    </div>
+                                 </div>
+                            </div>
+                        </form>
                     </span>
             </div>
         </div>
@@ -160,6 +186,11 @@
     <script type="text/javascript">
         $().ready(function () {
                 $("#warehouse").one("click", refresh());
+                if (screen.height > 860&&screen.height < 1081&&screen.width>1500&&screen.width<1921){
+                    $(".show-grid").css('margin','0px 0');
+                    $(".show-grid").css('border','0px');
+                    $(".show-grid div[class^=col-]").css('height','55px');
+                }
             }
         )
 
@@ -171,9 +202,7 @@
         });
 
         function submitHandler() {
-            if ($.validate.form()) {
-                $.operate.save(prefix + "/edit", $('#form-channel-edit').serialize());
-            }
+            $.operate.save(prefix + "/edit", $('#form-channel-edit').serialize());
         }
 
         /*

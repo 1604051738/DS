@@ -4,58 +4,77 @@
     <th:block th:include="include :: header('新增收货人信息')" />
 </head>
 <body class="white-bg">
-    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
-        <form class="form-horizontal m" id="form-shopping_address-add">
-            <div class="form-group">    
-                <label class="col-sm-3 control-label">收货人：</label>
-                <div class="col-sm-8">
-                    <input name="name" class="form-control" type="text" required>
+<div class="wrapper wrapper-content animated fadeInRight ibox-content">
+    <div class="col-sm-12">
+        <div class="ibox float-e-margins border-0">
+            <div class="ibox-title">
+                <h5>收货人基本信息</h5>
+                <div class="ibox-tools">
+                    <a class="collapse-link">
+                        <i class="fa fa-chevron-up" id="fa"></i>
+                    </a>
+                    <a class="close-link">
+                        <i class="fa fa-times"></i>
+                    </a>
                 </div>
             </div>
-            <div class="form-group">    
-                <label class="col-sm-3 control-label">联系方式：</label>
-                <div class="col-sm-8">
-                    <input name="phoneNumber" class="form-control" type="text">
-                </div>
+            <div class="ibox-content text-center h-200" id="CO">
+                    <span id="sparkline7">
+                        <form class="form-horizontal m" id="form-shopping_address-add">
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label"><span style="color: red; ">*</span>收货人：</label>
+                                <div class="col-sm-8">
+                                    <input name="name" class="form-control" type="text" required style="border-radius:9px">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">联系方式：</label>
+                                <div class="col-sm-8">
+                                    <input name="phoneNumber" class="form-control" type="text" style="border-radius:9px">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label"><span style="color: red; ">*</span>国家：</label>
+                                <div class="col-sm-8">
+                                    <input name="country" class="form-control" type="text" required style="border-radius:9px">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">邮编：</label>
+                                <div class="col-sm-8">
+                                    <input name="zipcode" class="form-control" type="text" style="border-radius:9px">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label"><span style="color: red; ">*</span>省份：</label>
+                                <div class="col-sm-8">
+                                    <input name="state" class="form-control" type="text" required style="border-radius:9px">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label"><span style="color: red; ">*</span>城市：</label>
+                                <div class="col-sm-8">
+                                    <input name="city" class="form-control" type="text" required style="border-radius:9px">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label"><span style="color: red; ">*</span>街道地址1：</label>
+                                <div class="col-sm-8">
+                                    <input name="streetAddress1" class="form-control" type="text" required style="border-radius:9px">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">街道地址2：</label>
+                                <div class="col-sm-8">
+                                    <input name="streetAddress2" class="form-control" type="text" style="border-radius:9px">
+                                </div>
+                            </div>
+                        </form>
+                    </span>
             </div>
-            <div class="form-group">    
-                <label class="col-sm-3 control-label">国家：</label>
-                <div class="col-sm-8">
-                    <input name="country" class="form-control" type="text" required>
-                </div>
-            </div>
-            <div class="form-group">    
-                <label class="col-sm-3 control-label">邮编：</label>
-                <div class="col-sm-8">
-                    <input name="zipcode" class="form-control" type="text">
-                </div>
-            </div>
-            <div class="form-group">    
-                <label class="col-sm-3 control-label">省份：</label>
-                <div class="col-sm-8">
-                    <input name="state" class="form-control" type="text" required>
-                </div>
-            </div>
-            <div class="form-group">    
-                <label class="col-sm-3 control-label">城市：</label>
-                <div class="col-sm-8">
-                    <input name="city" class="form-control" type="text" required>
-                </div>
-            </div>
-            <div class="form-group">    
-                <label class="col-sm-3 control-label">街道地址1：</label>
-                <div class="col-sm-8">
-                    <input name="streetAddress1" class="form-control" type="text" required>
-                </div>
-            </div>
-            <div class="form-group">    
-                <label class="col-sm-3 control-label">街道地址2：</label>
-                <div class="col-sm-8">
-                    <input name="streetAddress2" class="form-control" type="text">
-                </div>
-            </div>
-        </form>
+        </div>
     </div>
+</div>
     <div class="btn-group clearfix show-xs save-group col-xs-12" style="position: fixed; margin-left: -10px; right: 10px;  bottom: 10px; width: 20% ">
         <div class="col-sm-offset-5 col-sm-10">
             <button type="button" class="default btn btn-primary hide-xs" onclick="submitHandler()"><i class="fa fa-check"></i>保 存</button>&nbsp;

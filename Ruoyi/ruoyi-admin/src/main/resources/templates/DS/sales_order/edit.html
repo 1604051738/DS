@@ -39,7 +39,7 @@
                                 <div class="col-md-3">
                                     <label class="col-sm-4 control-label">原订单id：</label>
                                     <div class="col-sm-8">
-                                        <input name="saleIdO" th:field="*{saleIdO}" class="form-control" style="border-radius:9px" type="text">
+                                        <input name="saleIdO"  readonly th:field="*{saleIdO}" class="form-control" style="border-radius:9px" type="text">
                                     </div>
                                 </div>
 
@@ -163,7 +163,7 @@
                                     <div class="col-sm-8">
                                         <div class="input-group date">
                                             <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                                            <input name="refundedTime" th:value="${#dates.format(salesOrder.refundedTime, 'yyyy-MM-dd')}" class="form-control"  placeholder="yyyy-MM-dd" type="text">
+                                            <input name="refundedTime"  readonly th:value="${#dates.format(salesOrder.refundedTime, 'yyyy-MM-dd HH:mm:ss')}" class="form-control"  placeholder="yyyy-MM-dd HH:mm:ss" type="text">
                                         </div>
                                     </div>
                                 </div>
@@ -233,7 +233,8 @@
                                                 <option value="4" th:if="*{orderStatus == 4}" selected>已取消</option>
                                                 <option value="5" th:if="*{orderStatus == 5}" selected>暂停处理</option>
                                                 <option value="6" th:if="*{orderStatus == 6}" selected>已退回</option>
-                                                <option value="7" th:if="*{orderStatus == 7}" selected>已审核</option>
+                                                <option value="7" th:if="*{orderStatus == 7}" selected>已审核</option><br/>
+                                                <option disabled><hr align=center width=300 color=#987cb9 SIZE=1></option>
                                                 <option value="0">待处理</option>
                                                 <option value="1">待打印</option>
                                                 <option value="2">已包装</option>
@@ -254,8 +255,8 @@
                                     <div class="col-sm-8">
                                             <select name="payStatus" class="form-control m-b">
                                             <option value="0" th:if="*{payStatus == 0}" selected>未付款</option>
-                                            <option value="1" th:if="*{payStatus == 0}" selected>部分付款</option>
-                                            <option value="2" th:if="*{payStatus == 0}" selected>已付款</option>
+                                            <option value="1" th:if="*{payStatus == 1}" selected>部分付款</option>
+                                            <option value="2" th:if="*{payStatus == 2}" selected>已付款</option>
                                             <option value="0">未付款</option>
                                             <option value="1">部分付款</option>
                                             <option value="2">已付款</option>
@@ -290,7 +291,7 @@
                                     <div class="col-sm-8">
                                         <div class="input-group date">
                                             <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                                            <input name="storageTime" th:value="${#dates.format(salesOrder.storageTime, 'yyyy-MM-dd HH:mm:ss')}" class="form-control" placeholder="yyyy-MM-dd" type="text">
+                                            <input name="storageTime"  readonly th:value="${#dates.format(salesOrder.storageTime, 'yyyy-MM-dd HH:mm:ss')}" class="form-control" placeholder="yyyy-MM-dd HH:mm:ss" type="text">
                                         </div>
                                     </div>
                                 </div>
@@ -303,7 +304,7 @@
                                     <div class="col-sm-8">
                                         <div class="input-group date">
                                             <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                                            <input name="deliverRemarkTime" th:value="${#dates.format(salesOrder.deliverRemarkTime, 'yyyy-MM-dd HH:mm:ss')}" class="form-control" placeholder="yyyy-MM-dd" type="text">
+                                            <input name="deliverRemarkTime"  readonly th:value="${#dates.format(salesOrder.deliverRemarkTime, 'yyyy-MM-dd HH:mm:ss')}" class="form-control" placeholder="yyyy-MM-dd HH:mm:ss" type="text">
                                         </div>
                                     </div>
                                 </div>
@@ -313,7 +314,7 @@
                                     <div class="col-sm-8">
                                         <div class="input-group date">
                                             <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                                            <input name="logisticsAcceptTime" th:value="${#dates.format(salesOrder.logisticsAcceptTime, 'yyyy-MM-dd HH:mm:ss')}" class="form-control" placeholder="yyyy-MM-dd" type="text">
+                                            <input name="logisticsAcceptTime"  readonly th:value="${#dates.format(salesOrder.logisticsAcceptTime, 'yyyy-MM-dd HH:mm:ss')}" class="form-control" placeholder="yyyy-MM-dd HH:mm:ss" type="text">
                                         </div>
                                     </div>
                                 </div>
@@ -323,7 +324,7 @@
                                     <div class="col-sm-8">
                                         <div class="input-group date">
                                             <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                                            <input name="dowloadTime" th:value="${#dates.format(salesOrder.dowloadTime, 'yyyy-MM-dd HH:mm:ss')}" class="form-control" placeholder="yyyy-MM-dd" type="text">
+                                            <input name="dowloadTime"  readonly th:value="${#dates.format(salesOrder.dowloadTime, 'yyyy-MM-dd HH:mm:ss')}" class="form-control" placeholder="yyyy-MM-dd HH:mm:ss" type="text">
                                         </div>
                                     </div>
                                 </div>
@@ -333,7 +334,7 @@
                                     <div class="col-sm-8">
                                         <div class="input-group date">
                                             <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                                            <input name="customBuyTime" th:value="${#dates.format(salesOrder.customBuyTime, 'yyyy-MM-dd HH:mm:ss')}" class="form-control" placeholder="yyyy-MM-dd" type="text">
+                                            <input name="customBuyTime"  readonly th:value="${#dates.format(salesOrder.customBuyTime, 'yyyy-MM-dd HH:mm:ss')}" class="form-control" placeholder="yyyy-MM-dd HH:mm:ss" type="text">
                                         </div>
                                     </div>
                                 </div>
@@ -489,11 +490,10 @@
         $().ready(function () {
             $("#sku").one('click', getOrderSkuList());
             $("#warehouse").one("click", refresh());
-            if (screen.height==1080&&screen.width==1920){
+            if (screen.height > 860&&screen.height < 1081&&screen.width>1500&&screen.width<1921){
                 $(".show-grid").css('margin','0px 0');
                 $(".show-grid").css('border','0px');
                 $(".show-grid div[class^=col-]").css('height','55px');
-                $("#ddwindow").css('height','500px');
             }
         })
 
@@ -523,6 +523,10 @@
             formData.append('orderSkuMessage',0);
             for (var i =1;i<parseInt($('head').attr('id'))+1;i++){
                 var id = "form-order_sku-edit" + i;
+                if ($('#'+'form-order_sku-edit'+i+' select[name=skuCode]').val() == 'undefined'){
+                    $.modal.confirm("请为第"+i+"个单品选择sku编码");
+                    return false;
+                }
                 var order_sku = $('#'+'form-order_sku-edit'+i).serializeJSON();
                 if (order_sku.released == "on"){
                     order_sku.released = 1;
@@ -553,54 +557,6 @@
             });
 
         }
-
-        $("input[name='refundedTime']").datetimepicker({
-            format: "yyyy-mm-dd hh:ii:ss",
-            minView: "hour",
-            autoclose: true,
-            clearBtn: true,
-            todayBtn: true
-        });
-
-        $("input[name='storageTime']").datetimepicker({
-            format: "yyyy-mm-dd hh:ii:ss",
-            minView: "hour",
-            autoclose: true,
-            clearBtn: true,
-            todayBtn: true
-        });
-
-        $("input[name='deliverRemarkTime']").datetimepicker({
-            format: "yyyy-mm-dd hh:ii:ss",
-            minView: "hour",
-            autoclose: true,
-            clearBtn: true,
-            todayBtn: true
-        });
-
-        $("input[name='logisticsAcceptTime']").datetimepicker({
-            format: "yyyy-mm-dd hh:ii:ss",
-            minView: "hour",
-            autoclose: true,
-            clearBtn: true,
-            todayBtn: true
-        });
-
-        $("input[name='dowloadTime']").datetimepicker({
-            format: "yyyy-mm-dd hh:ii:ss",
-            minView: "hour",
-            autoclose: true,
-            clearBtn: true,
-            todayBtn: true
-        });
-
-        $("input[name='customBuyTime']").datetimepicker({
-            format: "yyyy-mm-dd hh:ii:ss",
-            minView: "hour",
-            autoclose: true,
-            clearBtn: true,
-            todayBtn: true
-        });
 
 
 
@@ -639,7 +595,11 @@
             $("#sparkline8").append(order_skudiv);
             $("#"+idname+" div[name = skuCodeAppend]").append(skucode);
             $("#"+idname+" select[name=skuCode]").empty();
-            $("#"+idname+" select[name=skuCode]").append("<option value='"+skuCode+"'>"+skuCode+"</option>");
+            if (typeof(skuCode) != "undefined"){
+                $("#"+idname+" select[name=skuCode]").append("<option value='"+skuCode+"'>"+skuCode+"</option>");
+            }else{
+                $("#"+idname+" select[name=skuCode]").append("<option value=''>---------</option>");
+            }
             $.get(prefix+"/getSkuList", function (result) {
                 $.each(result, function (i, sku) {
                     $("#"+idname+" select[name=skuCode]").append("<option value="+sku.code+">"+sku.code+"</option>");

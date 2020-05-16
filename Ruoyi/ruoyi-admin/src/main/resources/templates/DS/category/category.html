@@ -20,7 +20,7 @@
                             </li>
                             <li>
                                 <p>状态：</p>
-                                <input type="text" name="state"/>
+                                <input type="text" name="status"/>
                             </li>
                             <li>
                                 <p>排序值：</p>
@@ -84,6 +84,7 @@
         var addFlag = [[${@permission.hasPermi('DS:category:add')}]];
         var editFlag = [[${@permission.hasPermi('DS:category:edit')}]];
         var removeFlag = [[${@permission.hasPermi('DS:category:remove')}]];
+        var datas = [[${@dict.getType('sys_normal_disable')}]];
         var prefix = ctx + "DS/category";
 
         $(function() {
@@ -119,18 +120,11 @@
                     visible: false
                 },
                 {
-                    field : 'state', 
+                    field : 'status',
                     title : '状态',
                     align: 'left',
-                    formatter: function(value, row, index) {
-                        var data ;
-                        if(value == 0){
-                            data = "<span style='color: red'>非激活</span>"
-                        }
-                        if(value == 1){
-                            data = "<span style='color: green'>激活</span>"
-                        }
-                        return data;
+                    formatter: function(value, item, index) {
+                        return $.table.selectDictLabel(datas, item.status);
                     }
                 },
                 {

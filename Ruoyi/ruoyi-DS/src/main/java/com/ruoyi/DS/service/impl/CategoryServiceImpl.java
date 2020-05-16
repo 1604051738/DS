@@ -109,12 +109,14 @@ public class CategoryServiceImpl implements ICategoryService
         List<Ztree> ztrees = new ArrayList<Ztree>();
         for (Category category : categoryList)
         {
-            Ztree ztree = new Ztree();
-            ztree.setId(category.getId());
-            ztree.setpId(category.getParentdirectory());
-            ztree.setName(category.getName());
-            ztree.setTitle(category.getName());
-            ztrees.add(ztree);
+            if(category.getStatus() == 0){
+                Ztree ztree = new Ztree();
+                ztree.setId(category.getId());
+                ztree.setpId(category.getParentdirectory());
+                ztree.setName(category.getName());
+                ztree.setTitle(category.getName());
+                ztrees.add(ztree);
+            }
         }
         return ztrees;
     }

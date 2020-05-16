@@ -9,11 +9,13 @@ import java.util.Map;
 import com.ruoyi.DS.domain.*;
 import com.ruoyi.DS.service.*;
 import com.ruoyi.DS.service.impl.RandomImpl;
+import com.ruoyi.DS.utils.DSUtils;
 import com.ruoyi.DS.utils.JsonUtil;
 import com.ruoyi.DS.utils.OrderNumberBuilder;
 import com.ruoyi.common.utils.security.PermissionUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.ModelMap;
@@ -56,7 +58,7 @@ public class SalesOrderController extends BaseController
     private ISkuproductService skuproductService;
 
     @Autowired
-    private IProductService productService;
+    private IInventoryService inventoryService;
 
     @Autowired
     private IShippingAddressService shippingAddressService;
@@ -129,18 +131,39 @@ public class SalesOrderController extends BaseController
         String userName = (String) PermissionUtils.getPrincipalProperty("userName");
         salesOrder1.setCreateBy(userName);
         BigDecimal totalWeight = new BigDecimal(0);
-//        order_sku信息保存
+        BigDecimal totalPurchase = new BigDecimal(0);
+        BigDecimal totalCost = new BigDecimal(0);
+        salesOrder1.setTotalCost(new BigDecimal(0));
+        salesOrderService.insertSalesOrder(salesOrder1);
+        //order_sku信息保存
         if (orderSku != null) {
             for (int i = 1; i < orderSku.length; i++) {
                 OrderSku orderSku1 = JsonUtil.fromJson(orderSku[i], OrderSku.class);
+                /**
+                 * 库存扣减
+                 */
+                if (salesOrder1.getOrderStatus() == 3){
+                    Inventory inventory = inventoryService.selectInventoryBySKU(orderSku1.getProductSkuId());
+                    inventory.setAllocated(inventory.getAllocated() + orderSku1.getQuantity());
+                    inventory = DSUtils.refreshInventory(inventory);
+                    Skuproduct skuproduct = skuproductService.selectSkuproductById(inventory.getSku());
+                    skuproduct.setPurchasePlan(inventory.getOosq().toString());
+                    inventoryService.updateInventory(inventory);
+                    skuproductService.updateSkuproduct(skuproduct);
+
+                }
                 orderSku1.setSalesOrderId(salesOrder1.getId());
                 orderSku1.setPlatformOrderItemId(salesOrder1.getSaleId());
                 totalWeight = totalWeight.add(new BigDecimal(orderSku1.getWeight()*orderSku1.getQuantity()));
+                totalPurchase = totalPurchase.add(new BigDecimal(orderSku1.getPurchaseCost()*orderSku1.getQuantity()));
+                totalCost = totalCost.add(new BigDecimal(orderSku1.getQuantity()*orderSku1.getPrice() + orderSku1.getShipping()));
                 iOrderSkuService.insertOrderSku(orderSku1);
             }
         }
         salesOrder1.setTotalWeight(totalWeight);
-        salesOrderService.insertSalesOrder(salesOrder1);
+        salesOrder1.setTotalPurchase(totalPurchase);
+        salesOrder1.setTotalCost(totalCost);
+        salesOrderService.updateSalesOrder(salesOrder1);
         return toAjax(true);
     }
 
@@ -167,24 +190,56 @@ public class SalesOrderController extends BaseController
     {
         SalesOrder salesOrder1 = JsonUtil.fromJson(salesOrder, SalesOrder.class);
         BigDecimal totalWeight = new BigDecimal(0);
+        BigDecimal totalPurchase = new BigDecimal(0);
+        BigDecimal totalCost = new BigDecimal(0);
         //        order_sku信息保存
         if (orderSku != null) {
             for (int i = 1; i < orderSku.length; i++) {
                 OrderSku orderSku1 = JsonUtil.fromJson(orderSku[i], OrderSku.class);
+                OrderSku orderSku2 = iOrderSkuService.selectOrderSkuById(orderSku1.getId());
                 if(orderSku1.getId()==null) {
                     orderSku1.setSalesOrderId(salesOrder1.getId());
                     orderSku1.setPlatformOrderItemId(salesOrder1.getSaleId());
                     orderSku1.setSalesOrderId(salesOrder1.getId());
+                    /**
+                     * 库存扣减
+                     */
+                    if (salesOrder1.getOrderStatus() == 3 ){
+                        Inventory inventory = inventoryService.selectInventoryBySKU(orderSku1.getProductSkuId());
+                        inventory.setAllocated(inventory.getAllocated() + orderSku1.getQuantity());
+                        inventory = DSUtils.refreshInventory(inventory);
+                        Skuproduct skuproduct = skuproductService.selectSkuproductById(inventory.getSku());
+                        skuproduct.setPurchasePlan(inventory.getOosq().toString());
+                        inventoryService.updateInventory(inventory);
+                        skuproductService.updateSkuproduct(skuproduct);
+
+                    }
                     totalWeight = totalWeight.add(new BigDecimal(orderSku1.getWeight()*orderSku1.getQuantity()));
+                    totalPurchase = totalPurchase.add(new BigDecimal(orderSku1.getPurchaseCost()*orderSku1.getQuantity()));
+                    totalCost = totalCost.add(new BigDecimal(orderSku1.getQuantity()*orderSku1.getPrice() + orderSku1.getShipping()));
                     iOrderSkuService.insertOrderSku(orderSku1);
+                    break;
                 }
                 if(orderSku1.getId()!=null) {
+                    if (orderSku1.getQuantity() != orderSku2.getQuantity()){
+                        Inventory inventory = inventoryService.selectInventoryBySKU(orderSku1.getProductSkuId());
+                        inventory.setAllocated(inventory.getAllocated() - orderSku2.getQuantity() + orderSku1.getQuantity());
+                        inventory = DSUtils.refreshInventory(inventory);
+                        Skuproduct skuproduct = skuproductService.selectSkuproductById(inventory.getSku());
+                        skuproduct.setPurchasePlan(inventory.getOosq().toString());
+                        inventoryService.updateInventory(inventory);
+                        skuproductService.updateSkuproduct(skuproduct);
+                    }
                     totalWeight = totalWeight.add(new BigDecimal(orderSku1.getWeight()*orderSku1.getQuantity()));
+                    totalPurchase = totalPurchase.add(new BigDecimal(orderSku1.getPurchaseCost()*orderSku1.getQuantity()));
+                    totalCost = totalCost.add(new BigDecimal(orderSku1.getQuantity()*orderSku1.getPrice() + orderSku1.getShipping()));
                     iOrderSkuService.updateOrderSku(orderSku1);
                 }
             }
         }
         salesOrder1.setTotalWeight(totalWeight);
+        salesOrder1.setTotalPurchase(totalPurchase);
+        salesOrder1.setTotalCost(totalCost);
         salesOrderService.updateSalesOrder(salesOrder1);
         return toAjax(true);
     }
@@ -246,21 +301,20 @@ public class SalesOrderController extends BaseController
     @GetMapping("/getProductMessage/{id}")
     @ResponseBody
     synchronized
-    public List<String> getProductImgSrc(@PathVariable Integer id) {
-        List<String> data = new ArrayList<String>();
-//        SalesOrder salesOrder = salesOrderService.selectSalesOrderById(id);
+    public List<Map<Integer, String>> getProductImgSrc(@PathVariable Integer id) {
+        List<Map<Integer, String>> data = new ArrayList<Map<Integer, String>>();
         OrderSku orderSku = new OrderSku();
         orderSku.setSalesOrderId(id);
         if ( iOrderSkuService.selectOrderSkuList(orderSku).size() != 0){
-            Integer skuid = iOrderSkuService.selectOrderSkuList(orderSku).get(0).getProductSkuId();
-            Skuproduct skuproduct = skuproductService.selectSkuproductById(skuid);
-            data.add(skuproduct.getProduct().toString());
             for (OrderSku orderSku1: iOrderSkuService.selectOrderSkuList(orderSku)) {
                 Integer orderskuId = orderSku1.getProductSkuId();
-                data.add(skuproductService.selectSkuproductById(orderskuId).getFilepath());
+                Skuproduct skuproduct = skuproductService.selectSkuproductById(orderskuId);
+                Map<Integer, String> imgMessage = new HashMap<>();
+                imgMessage.put(Integer.parseInt(skuproduct.getProduct().toString()), skuproduct.getFilepath());
+                data.add(imgMessage);
             }
         }else {
-            data.add("0");
+            data.add(null);
         }
         return data;
     }
@@ -320,7 +374,16 @@ public class SalesOrderController extends BaseController
     @GetMapping("/getSkuList")
     @ResponseBody
     public List<Skuproduct> getSkuList(){
-        return skuproductService.selectSkuproductList(new Skuproduct());
+        List<Skuproduct> data = new ArrayList<Skuproduct>();
+        Skuproduct skuproduct = new Skuproduct();
+        List<Skuproduct> skuproductList = skuproductService.selectSkuproductList(skuproduct);
+        for (Skuproduct sku:
+             skuproductList) {
+            if (sku.getStatus() != 0){
+                data.add(sku);
+            }
+        }
+        return data;
     }
 
 
