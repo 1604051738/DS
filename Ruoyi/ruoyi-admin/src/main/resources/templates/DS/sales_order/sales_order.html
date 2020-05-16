@@ -6,7 +6,7 @@
 <body class="gray-bg">
      <div class="container-div">
         <div class="row">
-            <div class="col-sm-12 search-collapse">
+            <div class="col-sm-12 search-collapse" hidden>
                 <form id="formId">
                     <div class="select-list">
                         <ul>
@@ -96,7 +96,7 @@
                             $.each(result, function (i, data) {
                                 if (data != null){
                                     $.each(data, function (i, data1) {
-                                        returnData = returnData + "<img src=" + JSON.stringify(data1) + " height=\"80\" width=\"80\" title='查看商品信息' onclick='$.modal.openTab(\"商品信息\",\"/DS/product/edit/" + i + "\")'/>"+"<br/><br/>";
+                                        returnData = returnData + "<img src=" + JSON.stringify(data1) + " height=\"50\" width=\"50\" title='查看商品信息' onclick='$.modal.openTab(\"商品信息\",\"/DS/product/edit/" + i + "\")'/>"+"<br/><br/>";
                                     })
                                 }
                                 });
@@ -113,7 +113,12 @@
                         var returnData = "<br/>";
                         $.post(prefix+"/getOrderSkuList", data, function (result) {
                             $.each(result, function (i, orderSku) {
-                                returnData = returnData + orderSku.skuCode+"/"+orderSku.size+"/"+orderSku.color+"<br/><br/><br/><br/><br/><br/><br/>"
+                                if(orderSku.released == "1"){
+                                    returnData = returnData + orderSku.skuCode+"/"+orderSku.size+"/"+orderSku.color+"<br/><span style='color: green'>已分配</span><br/><br/><br/><br/>"
+                                }
+                                else{
+                                    returnData = returnData + orderSku.skuCode+"/"+orderSku.size+"/"+orderSku.color+"<br/><span style='color: red'>未分配</span><br/><br/><br/><br/>"
+                                }
                             })
                         });
                         return  "<h5 title='SKU编码/规格/颜色'>"+returnData+"<h3/>";
