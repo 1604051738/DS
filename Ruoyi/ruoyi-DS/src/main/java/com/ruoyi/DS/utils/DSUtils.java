@@ -50,7 +50,7 @@ public final class DSUtils {
     /**
      * 更新库存加减操作
      */
-    public  static Inventory refreshInventory(Inventory inventory){
+    public   static Inventory refreshInventory(Inventory inventory){
         if (inventory.getQuantity() - inventory.getAllocated() < 0){
             inventory.setOosq(inventory.getAllocated() - inventory.getQuantity());
             inventory.setAvailable((long) 0);

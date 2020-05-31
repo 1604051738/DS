@@ -687,17 +687,17 @@
             $("#address").append("<option value=\"\">请选择收货地址</option>");
             $.get(prefix + "/refresh",function (result) {
                 $.each(result,function (i, list) {
-                    if(i == 1){
+                    if(i == "warehouse"){
                         $.each(list,function (i,warehouse) {
                             $("#warehouse").append("<option value="+warehouse.id+">"+warehouse.chinesename+"</option>");
                         })
                     }
-                    if(i==2){
+                    if(i=="logisticsChannel"){
                         $.each(list,function (i,logisticsChannel) {
                             $("#logisticsChannel").append("<option value="+logisticsChannel.id+">"+logisticsChannel.logisticsName+"</option>");
                         })
                     }
-                    if (i==3){
+                    if (i=="shippingAddress"){
                         $.each(list,function (i,address) {
                             $("#address").append("<option title=id:"+address.id+" value="+address.id+">"+address.name+"</option>");
                         })

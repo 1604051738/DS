@@ -26,6 +26,7 @@ import com.ruoyi.common.core.controller.BaseController;
 import com.ruoyi.common.core.domain.AjaxResult;
 import com.ruoyi.common.utils.poi.ExcelUtil;
 import com.ruoyi.common.core.page.TableDataInfo;
+import org.springframework.web.client.RestTemplate;
 
 /**
  * 销售订单Controller
@@ -62,6 +63,7 @@ public class SalesOrderController extends BaseController
 
     @Autowired
     private IShippingAddressService shippingAddressService;
+
 
     @RequiresPermissions("DS:sales_order:view")
     @GetMapping()
@@ -192,7 +194,7 @@ public class SalesOrderController extends BaseController
         BigDecimal totalWeight = new BigDecimal(0);
         BigDecimal totalPurchase = new BigDecimal(0);
         BigDecimal totalCost = new BigDecimal(0);
-        //        order_sku信息保存
+        // order_sku信息保存
         if (orderSku != null) {
             for (int i = 1; i < orderSku.length; i++) {
                 OrderSku orderSku1 = JsonUtil.fromJson(orderSku[i], OrderSku.class);
@@ -201,9 +203,7 @@ public class SalesOrderController extends BaseController
                     orderSku1.setSalesOrderId(salesOrder1.getId());
                     orderSku1.setPlatformOrderItemId(salesOrder1.getSaleId());
                     orderSku1.setSalesOrderId(salesOrder1.getId());
-                    /**
-                     * 库存扣减
-                     */
+                    // 库存扣减
                     if (salesOrder1.getOrderStatus() == 3 ){
                         Inventory inventory = inventoryService.selectInventoryBySKU(orderSku1.getProductSkuId());
                         inventory.setAllocated(inventory.getAllocated() + orderSku1.getQuantity());
@@ -329,11 +329,11 @@ public class SalesOrderController extends BaseController
      */
     @GetMapping("/refresh")
     @ResponseBody
-    public Map<Integer, List> refreshWareHouse() {
-        Map<Integer, List> data = new HashMap<Integer, List>();
-        data.put(1, warehouseService.selectWarehouseList(new Warehouse()));
-        data.put(2,logisticsChannelService.selectLogisticsChannelList(new LogisticsChannel()));
-        data.put(3, shippingAddressService.selectShippingAddressList(new ShippingAddress()));
+    public Map<String, List> refreshWareHouse() {
+        Map<String, List> data = new HashMap<String, List>();
+        data.put("warehouse", warehouseService.selectWarehouseList(new Warehouse()));
+        data.put("logisticsChannel",logisticsChannelService.selectLogisticsChannelList(new LogisticsChannel()));
+        data.put("shippingAddress", shippingAddressService.selectShippingAddressList(new ShippingAddress()));
         return data;
     }
 
